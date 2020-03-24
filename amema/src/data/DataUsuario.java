@@ -43,8 +43,11 @@ public class DataUsuario {
 			stmt.setString(2, u.getPassword());
 			stmt.setString(3, u.getNombre());
 			stmt.setString(4, u.getMail());
-			
-			return stmt.execute();
+
+			if(stmt.executeUpdate() > 0){
+				return true;
+			}
+			else{ return false;}
 		}
 		catch( SQLException e){
 			e.printStackTrace();
@@ -66,7 +69,10 @@ public class DataUsuario {
 			
 			stmt.setString(1, id);
 			
-			return stmt.execute();
+			if(stmt.executeUpdate() > 0){
+				return true;
+			}
+			else{ return false;}
 		}
 		catch( SQLException e){
 			e.printStackTrace();
@@ -91,7 +97,12 @@ public class DataUsuario {
 			stmt.setString(3, u.getMail());
 			stmt.setString(4, u.getUser());
 			
-			return stmt.execute();
+			if(stmt.executeUpdate() > 0){
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
 		catch( SQLException e){
 			e.printStackTrace();
@@ -171,7 +182,10 @@ public class DataUsuario {
 			stmt.setString(1, pass);
 			stmt.setString(2, user);
 			
-			return stmt.execute();
+			if(stmt.executeUpdate() > 0){
+				return true;
+			}
+			else{ return false;}
 		}
 		catch( SQLException e){
 			e.printStackTrace();

@@ -2,39 +2,36 @@ package pruebas;
 
 import java.util.ArrayList;
 
-import controladores.CtrlUsuario;
-import util.ApplicationException;
-import entidades.Usuario;
+import controladores.CtrlFamilia;
+import entidades.Familia;
 
 public class Prueba {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		CtrlUsuario cu = new CtrlUsuario();
-		ArrayList<Usuario> lista = new ArrayList<>();
+		CtrlFamilia cf = new CtrlFamilia();
+		ArrayList<Familia> lista = new ArrayList<>();
 		
 		/*Metodos a probar*/
 		
-		if(cu.altaUsuario(u)== true){
-			System.out.println("El usuario se creo!!");
-		}
-		else{
-			System.out.println("El usuario no se creo!!!");
-		}
+		Familia flia = new Familia();
 		
+		flia=cf.consultaFamilia(3);
 		
+		System.out.println(flia.getCodigo());
+		System.out.println(flia.getDescripcion());
+		System.out.println(flia.getBonificacion());
 		
-		/*Listado de usuarios*/
-		lista = cu.listaUsuarios("user");
-		System.out.println("Usuarios");
+		/*Listado de familias*/
+		lista = cf.listaFamilias("codigo");
+		System.out.println("Familias");
 		System.out.println("----");
 		System.out.println();
-		for (Usuario u : lista) {
-			System.out.println("Usuario: "+u.getUser());
-			System.out.println("Password: "+u.getPassword());
-			System.out.println("Nombre y Apellido: "+u.getNombre() );
-			System.out.println("E-mail: "+u.getMail());
+		for (Familia fl : lista) {
+			System.out.println("Codigo: "+fl.getCodigo());
+			System.out.println("Descripcion: "+fl.getDescripcion());
+			System.out.println("Bonificacion: "+fl.getBonificacion() );
 			System.out.println();
 		}
 	}
