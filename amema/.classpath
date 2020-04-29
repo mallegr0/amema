@@ -13,5 +13,13 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="amema/WEB-INF/lib/hsqldb_6114.jar"/>
+	<classpathentry kind="lib" path="amema/WEB-INF/lib/jackcess-3.0.1.jar"/>
+	<classpathentry kind="lib" path="amema/WEB-INF/lib/sqltool_6114.jar"/>
+	<classpathentry kind="lib" path="amema/WEB-INF/lib/ucanaccess-5.0.0.jar"/>
+	<classpathentry kind="lib" path="amema/WEB-INF/lib/commons-lang3-3.8.1.jar"/>
+	<classpathentry kind="lib" path="amema/WEB-INF/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="amema/WEB-INF/lib/bcprov-ext-jdk15to18-165.jar"/>
+	<classpathentry kind="lib" path="amema/WEB-INF/lib/jackcess-encrypt-3.0.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
