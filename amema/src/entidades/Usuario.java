@@ -4,30 +4,26 @@ import java.io.Serializable;
 
 public class Usuario implements Serializable{
 	
-	/*VARIABLES*/
+	/* VARIABLES */
 	
 	private static final long serialVersionUID = 1L;
-	private String user, password, nombre, mail;
+	private String usuario, password, nombreyapellido;
 	
-	/*CONSTRUCTORES*/
 	
 	public Usuario() {}
 	
-	public Usuario(String u, String p, String n, String m){
-		this.user = u;
-		this.password = p;
-		this.nombre = n;
-		this.mail = m;
+	public Usuario(String usuario, String password, String nombreyapellido){
+		this.usuario = usuario;
+		this.password = password;
+		this.nombreyapellido = nombreyapellido;
 	}
 
-	/*METODOS*/
-	
-	public String getUser() {
-		return user;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getPassword() {
@@ -38,20 +34,16 @@ public class Usuario implements Serializable{
 		this.password = password;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getNombreyapellido() {
+		return nombreyapellido;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombreyapellido(String nombreyapellido) {
+		this.nombreyapellido = nombreyapellido;
 	}
-
-	public String getMail() {
-		return mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
+	
+	
+	
+	
 	
 }
