@@ -1,30 +1,33 @@
 package pruebas;
 
-import java.util.ArrayList;
-
-
+import controladores.ctrlUsuario;
+import entidades.Usuario;
 import util.ApplicationException;
-import data.Conector;
 
 public class Prueba {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
-		Conector conn = new Conector();
+		ctrlUsuario cu = new ctrlUsuario();
 		
-		conn.abrirConn();
-		System.out.println("Se abrio la conexion!!");
+		Usuario u = new Usuario();
+		
+		u.setUsuario("ame");
+		u.setPassword("ame");
+		u.setNombreyapellido("ame");
 		
 		try {
-			conn.cerrarConn();
+			if(cu.altaUsuario(u) == true) {
+				System.out.println("Usuario creado!!");
+			}
+			else {
+				System.out.println("El usuario no se creo!!");
+			}
 		} catch (ApplicationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.err.println("Hubo un problema al crear el usuario!!");
 		}
-		System.out.println("Se cerro la conexión!!");
-
 		
 	}
-
 }
