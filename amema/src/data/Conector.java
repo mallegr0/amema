@@ -7,9 +7,10 @@ import util.ApplicationException;
 
 public class Conector {
 	
-
-	
 	private static String driver = "net.ucanaccess.jdbc.UcanaccessDriver";
+	private static String db = "C:/AMEMA/prueba2.mdb";
+	private static String user = "sa";
+	private static String pass = "meriadoc";
 	private Connection conexion;
 	private int cantConn = 0; //cantidad de conexiones a la BBDD
 	
@@ -17,7 +18,7 @@ public class Conector {
 	public Conector(){
 		try{
 			Class.forName(driver);
-			conexion = DriverManager.getConnection("jdbc:ucanaccess://C:/AMEMA/AMEMA.mdb;jackessOpener=util.CryptCodecOpener","sa","meriadoc");
+			conexion = DriverManager.getConnection("jdbc:ucanaccess://"+db+";jackessOpener=util.CryptCodecOpener",user,pass);
 		}
 		catch(ClassNotFoundException | SQLException e){
 			System.out.println("--------");

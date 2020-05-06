@@ -34,14 +34,14 @@ public class dataUsuario {
 		String sql = "INSERT INTO usuarios (usuario, password, nombreyapellido) VALUES (?, ?, ?)";
 		
 		try {
-			
 			stmt = conn.abrirConn().prepareStatement(sql);
 			
 			stmt.setString(1, u.getUsuario());
 			stmt.setString(2, u.getPassword());
 			stmt.setString(3, u.getNombreyapellido());
 			
-			return stmt.execute();
+			if(stmt.executeUpdate() > 0) { return true; }
+			else {return false; }
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -62,7 +62,8 @@ public class dataUsuario {
 			
 			stmt.setString(1, user);
 			
-			return stmt.execute();
+			if(stmt.executeUpdate() > 0) { return true; }
+			else {return false; }
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -75,7 +76,7 @@ public class dataUsuario {
 
 	public boolean modificaUsuario(Usuario u) throws ApplicationException{
 		PreparedStatement stmt = null;
-		String sql = "UPDATE usuarios SET (password = ?, nombreyapellido = ? WHERE usuario = ?";
+		String sql = "UPDATE usuarios SET password = ?, nombreyapellido = ? WHERE usuario = ?";
 		
 		try {
 			
@@ -85,7 +86,8 @@ public class dataUsuario {
 			stmt.setString(2, u.getNombreyapellido());
 			stmt.setString(3, u.getUsuario());
 			
-			return stmt.execute();
+			if(stmt.executeUpdate() > 0) { return true; }
+			else {return false; }
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -113,9 +115,9 @@ public class dataUsuario {
 			if(rs != null) {
 				while(rs.next()) {
 					u= new Usuario();
-					u.setUsuario(rs.getString(1));
-					u.setPassword(rs.getString(2));
-					u.setNombreyapellido(rs.getString(3));
+					u.setUsuario(rs.getString("usuario"));
+					u.setPassword(rs.getString("password"));
+					u.setNombreyapellido(rs.getString("nombreyapellido"));
 				}
 			}
 		} catch (SQLException e) {
@@ -139,12 +141,11 @@ public class dataUsuario {
 			rs = stmt.executeQuery();
 			
 			if(rs != null) {
-				rs.beforeFirst();
 				while (rs.next()) {
 					u = new Usuario();
-					u.setUsuario(rs.getString(1));
-					u.setPassword(rs.getString(2));
-					u.setNombreyapellido(rs.getString(3));
+					u.setUsuario(rs.getString("usuario"));
+					u.setPassword(rs.getString("password"));
+					u.setNombreyapellido(rs.getString("nombreyapellido"));
 					lista.add(u);
 				}
 			}
@@ -156,5 +157,28 @@ public class dataUsuario {
 			cerrar(stmt,rs);
 		}
 		return lista;
+	}
+	
+	public boolean cambiaPassword(String user, String pass) throws ApplicationException{
+		PreparedStatement stmt = null;
+		String sql = "UPDATE usuarios SET password = ? WHERE usuario = ?";
+		
+		try {
+			
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			stmt.setString(1, pass);
+			stmt.setString(2, user);
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else {return false; }
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			cerrar(stmt,null);
+		}
 	}
 }

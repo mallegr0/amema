@@ -46,10 +46,8 @@ public class ctrlUsuario {
 		u = du.consultaUsuario(user);
 		
 		if(u != null) {
-			if(u.getUsuario()==user && u.getPassword()== pass) {
-				return true;
-			}
-			else {return false;}
+			if(u.getUsuario().compareTo(user) == 0 && u.getPassword().compareTo(pass)== 0) { return true; }
+			else { return false; }
 		}
 		else { return false;}
 	}

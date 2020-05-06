@@ -1,5 +1,7 @@
 package pruebas;
 
+import java.util.ArrayList;
+
 import controladores.ctrlUsuario;
 import entidades.Usuario;
 import util.ApplicationException;
@@ -9,24 +11,22 @@ public class Prueba {
 	public static void main(String[] args) {
 		
 		ctrlUsuario cu = new ctrlUsuario();
+		String user = "mallegr0";
+		String pass = "tute2021";
+		Usuario u = new Usuario(user,pass, "Matias Allegranza");
 		
-		Usuario u = new Usuario();
-		
-		u.setUsuario("ame");
-		u.setPassword("ame");
-		u.setNombreyapellido("ame");
 		
 		try {
-			if(cu.altaUsuario(u) == true) {
-				System.out.println("Usuario creado!!");
+			if(cu.cambiaPassword(u) == true) {
+				System.out.println("La contraseña modificada");
 			}
 			else {
-				System.out.println("El usuario no se creo!!");
+				System.out.println("La contraseña no se modifico!!");
 			}
 		} catch (ApplicationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.err.println("Hubo un problema al crear el usuario!!");
+			System.err.println("Hubo un problema al cambiar la contraseña!!");
 		}
 		
 	}
