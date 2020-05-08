@@ -1,6 +1,6 @@
 package pruebas;
 
-import java.util.ArrayList;
+
 
 import controladores.ctrlUsuario;
 import entidades.Usuario;

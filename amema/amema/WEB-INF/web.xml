@@ -9,4 +9,20 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <!-- Invoco a los servlets -->
+  <!-- <servlet>
+  	<description>Servlet de prueba de REST</description>
+  	<display-name>Usuario</display-name>
+  	<servlet-name>usuario</servlet-name>
+  	<servlet-class>com.amema.src.servlets.UsuarioServlet</servlet-class>
+  </servlet>
+  -->
+  
+  <!-- genero los mapeo de las URL's con los servlets -->
+  <!-- 
+  <servlet-mapping>
+  	<servlet-name>usuario</servlet-name>
+  	<url-pattern>/usuario</url-pattern>
+  </servlet-mapping>-->
 </web-app>
