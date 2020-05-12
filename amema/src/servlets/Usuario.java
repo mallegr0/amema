@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class UsuarioServlet
+ * Servlet implementation class Usuario
  */
-@WebServlet(description = "Servlet del manejo de usuario", urlPatterns = { "/UsuarioServlet" }, name ="UsuarioServlet")
-public class UsuarioServlet extends HttpServlet {
+@WebServlet("/Usuario")
+public class Usuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UsuarioServlet() {
+    public Usuario() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,10 +27,6 @@ public class UsuarioServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String method = request.getParameter("borrar");
-		if(method == "borrar") {
-			doDelete(request, response);
-		}
 		response.getWriter().append("GET Served at: ").append(request.getContextPath());
 	}
 
@@ -40,6 +36,12 @@ public class UsuarioServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+		if(request.getParameter("evento_modificar") != null){
+			doPut(request, response);
+		}
+		if(request.getParameter("evento_eliminar") != null){
+			doDelete(request, response);
+		}
 		
 		response.getWriter().append("POST Served at: ").append(request.getContextPath());
 	}
