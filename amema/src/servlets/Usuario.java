@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import util.ApplicationException;
+import controladores.ctrlUsuario;
+
 /**
  * Servlet implementation class Usuario
  */
@@ -27,7 +30,7 @@ public class Usuario extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("GET Served at: ").append(request.getContextPath());
+		doPost(request,response);
 	}
 
 	/**
@@ -36,6 +39,10 @@ public class Usuario extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+		if(request.getParameter("evento_alta") != null){
+			altaUsuario(request.getParameter("usuario"), request.getParameter("password"), request.getParameter("nombreyapellido"));
+			
+		}
 		if(request.getParameter("evento_modificar") != null){
 			doPut(request, response);
 		}
@@ -43,7 +50,7 @@ public class Usuario extends HttpServlet {
 			doDelete(request, response);
 		}
 		
-		response.getWriter().append("POST Served at: ").append(request.getContextPath());
+		
 	}
 
 	/**
@@ -60,6 +67,23 @@ public class Usuario extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("DELETE Served at: ").append(request.getContextPath());
+	}
+	
+	private void altaUsuario(String user, String pass, String nombre) {
+		entidades.Usuario u = new entidades.Usuario(user,pass,nombre);
+		ctrlUsuario cu = new ctrlUsuario();
+		
+		try {
+			if(cu.altaUsuario(u) == true) {
+				System.out.println("se cargo el usuario");
+			}
+			else {
+				System.out.println("no se cargo el usuario");
+			}
+		} catch (ApplicationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
