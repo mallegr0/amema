@@ -169,8 +169,9 @@ public class dataUsuario {
 			
 			stmt.setString(1, pass);
 			stmt.setString(2, user);
-			
-			if(stmt.executeUpdate() > 0) { return true; }
+			int c = stmt.executeUpdate();
+			System.out.println(c);
+			if(c > 0) { return true; }
 			else {return false; }
 		}
 		catch (SQLException e) {

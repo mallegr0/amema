@@ -1,21 +1,24 @@
 package pruebas;
 
-
-
-import controladores.ctrlUsuario;
-import data.Conector;
-import entidades.Usuario;
+import controladores.*;
 import util.ApplicationException;
+
+
+
 
 public class Prueba {
 
 	public static void main(String[] args) {
+		String user ="aaaaaaa";
+		String pass = "prueba21";
 		
-		Conector conn = new Conector();
+		ctrlUsuario cu = new ctrlUsuario();
 		
-		conn.abrirConn();
-		System.out.println("se abrio la conexion");
-		
-		
+		try {
+			System.out.println(cu.cambiaPassword(user, pass));
+		} catch (ApplicationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

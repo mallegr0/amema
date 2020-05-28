@@ -52,9 +52,9 @@ public class ctrlUsuario {
 		else { return false;}
 	}
 	
-	public boolean cambiaPassword(Usuario u) throws ApplicationException {
+	public boolean cambiaPassword(String user, String pass) throws ApplicationException {
 		dataUsuario du = new dataUsuario();
-		return du.modificaUsuario(u); 
+		return du.cambiaPassword(user, pass);
 	}
 	
 }

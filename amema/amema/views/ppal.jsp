@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="entidades.Usuario" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +8,8 @@
 </head>
 <body>
 	<%@ include file="menu.jsp" %>
+	
+
 
 	<%@ include file="footer.jsp" %>
 </body>

@@ -10,8 +10,7 @@
 		<%@ include file="../meta/metadata.jsp"%>
 	</head>
 	<body>
-		<!-- AREA DEL MENU -->
-		<% request.getSession().removeAttribute("error"); %>
+		
 		<!-- Navbar -->
 		<div class="w3-top">
 			<div class="w3-bar w3-theme-d2 w3-left-align">
@@ -24,11 +23,10 @@
 
 			<div class="w3-card w3-red">
 				<ol>
-					<li>Manejo de session</li>
-					<li>Bloquear el manejo de los botones</li>
-					<li>Testing Login</li>
+					<li>Manejo de session -- Falta invalidar en el index</li>
 				</ol>
 			</div>
+				
 			
 			<div class="w3-row">
 				<div class="w3-col w3-container" style="width: 25%"></div>
@@ -45,6 +43,7 @@
 	  								<p><%=msg  %></p>
 								</div>
 						<%} %>
+	
 						<!-- Form del Login -->
 						<%@ include file="../forms/loginForm.jsp" %>
 
@@ -54,11 +53,9 @@
 			</div>
 			
 		</div>
-		
-		
-		
 
-		<%@ include file="../views/footer.jsp"%>
+		<%@ include file="../views/footer.jsp" %>
+		
 	</body>
 </html>
 
