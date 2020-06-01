@@ -14,3 +14,32 @@ function openNav() {
   if (x.className.indexOf("w3-show") == -1) { x.className += " w3-show"; } 
   else { x.className = x.className.replace(" w3-show", ""); }
 }
+
+
+function abroModal(id, usuario){
+	if(id === 'id02'){
+		document.getElementById('id02').style.display='block'; 
+		document.getElementById("user").value = usuario;
+	}
+	if(id === 'id03'){
+		document.getElementById('id03').style.display='block'; 
+		document.getElementById("updateuser").value = usuario;
+	}
+	if(id === 'id04'){
+		document.getElementById('id04').style.display='block'; 
+		document.getElementById("deleteuser").value = usuario;
+	}
+}
+
+function comparaPass(){
+	var c1 = document.Usuario.password.value;
+	var c2 = document.Usuario.password2.value;
+	
+	if(c1 === c2 ){
+		return true;
+	}
+	else{
+		alert("Las contraseñas no son iguales!!!");
+		return false;
+	}
+}

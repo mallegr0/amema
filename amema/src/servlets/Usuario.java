@@ -62,16 +62,19 @@ public class Usuario extends HttpServlet {
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String msj = null;
 		if(request.getParameter("evento_CambiaPassword") != null) {
-			
-			String user = request.getParameter("usuario");
-			String pass = request.getParameter("password");
-			
-			System.out.println("usuario "+user+" - password "+pass);
-			
 			msj = cambiaPass(request.getParameter("usuario"), request.getParameter("password"));
 		}
 		else {
-			msj = modificaUsuario(request.getParameter("usuario"), request.getParameter("password"), request.getParameter("nombre"));
+			entidades.Usuario u = new entidades.Usuario();
+			ctrlUsuario cu = new ctrlUsuario();
+			try {
+				u = cu.consultaUsuario(request.getParameter("usuario"));
+			} catch (ApplicationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			msj = modificaUsuario(u.getUsuario(), u.getPassword(), request.getParameter("nombre"));
 		}
 		request.getSession().setAttribute("msj", msj);
 		response.sendRedirect("/amema/views/usuarios.jsp");
@@ -81,8 +84,24 @@ public class Usuario extends HttpServlet {
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("DELETE Served at: ").append(request.getContextPath());
+		
+		ctrlUsuario cu = new ctrlUsuario();
+		String msj=null;
+		
+		try {
+			if(cu.bajaUsuario(request.getParameter("usuario")) == true ) {
+				msj = "El usuario a sido Eliminado satisfactoriamente";
+			}
+			else {
+				msj = "El usuario no ha podido ser eliminado";
+			}
+		} catch (ApplicationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		request.getSession().setAttribute("msj", msj);
+		response.sendRedirect("/amema/views/usuarios.jsp");
+		
 	}
 	
 	private String altaUsuario(String user, String pass, String nombre) {
@@ -102,8 +121,7 @@ public class Usuario extends HttpServlet {
 		try {
 			boolean r = cu.cambiaPassword(user, pass);
 			System.out.println(r);
-			if(r == true) { msj ="Cambio de contraseña satisfactorio";
-							System.out.println(msj);	}
+			if(r == true) { msj ="Cambio de contraseña satisfactorio";}
 			else {msj = "No se pudo cambiar la contraseña";}
 		}catch(ApplicationException e) { e.printStackTrace();}
 		return msj;
