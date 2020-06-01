@@ -7,6 +7,6 @@
 	        	<h2 class="w3-center"> Eliminar Usuario </h2>
 	      	</header>
 	      	
-	      	<%@include file="../forms/usuario/eliminaUsuarioForm.jsp" %>
+	      	<%@include file="/forms/usuario/eliminaUsuarioForm.jsp" %>
 		</div>
 	</div>

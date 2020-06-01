@@ -5,6 +5,6 @@
 			<span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright w3-round-xlarge">&times;</span>
 			<h2 class="w3-center"> Alta de Usuario </h2>
 		</header>
-		<%@ include file="../forms/usuario/altaUsuarioForm.jsp"%>
+		<%@ include file="/forms/usuario/altaUsuarioForm.jsp"%>
 	</div>
 </div>

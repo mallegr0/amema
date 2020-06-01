@@ -6,6 +6,6 @@
 		       	<span onclick="document.getElementById('id03').style.display='none'" class="w3-button w3-display-topright">&times;</span>
 	        	<h2 class="w3-center"> Modificar Usuario </h2>
 	      	</header>
-	      	<%@include file="../forms/usuario/modificaUsuarioForm.jsp" %>
+	      	<%@include file="/forms/usuario/modificaUsuarioForm.jsp" %>
 		</div>
 	</div>

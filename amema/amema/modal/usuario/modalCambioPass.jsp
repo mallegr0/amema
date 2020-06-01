@@ -8,7 +8,7 @@
 			        	<h2 class="w3-center"> Cambio de Password </h2>
 			      	</header>
 			      	
-			      	<%@include file="../forms/usuario/cambiaPassForm.jsp" %>
+			      	<%@include file="/forms/usuario/cambiaPassForm.jsp" %>
 			      	
 				</div>
 			</div>
