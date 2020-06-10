@@ -23,11 +23,7 @@
 		%>
 
 		<div class="w3-container w3-padding-64">			
-			<div class="w3-card w3-red">
-				<ol>
-					<li>manejar devolucion de errores generales</li>
-					</ol>
-			</div>
+	
 			
 			
 			<!-- FORMULARIOS PARA EL ABM DE USUARIOS CON MODALES -->
@@ -39,7 +35,7 @@
 			
 			<%@include file="../modal/usuario/modalAltaUsuario.jsp" %>
 			
-			<%@ include file="../errores/errAltaUsuario.jsp" %>
+			<%@ include file="../errores/errUsuario.jsp" %>
 
 			<!-- FIN MODAL ALTA USUARIO -->
 				
@@ -51,7 +47,6 @@
 						<tr class="w3-indigo">
 							<th>Usuario</th>
 							<th>Nombre y Apellido</th>
-							<th>Contraseña</th>
 							<th colspan="3" class="w3-center">Acciones</th>
 						</tr>
 					</thead>
@@ -60,10 +55,9 @@
 							<tr class="w3-hover-light-green">
 								<td><%=u.getUsuario() %></td>
 								<td><%=u.getNombreyapellido() %></td>
-								<td><%=u.getPassword() %></td>
-								<td><button class="w3-xlarge fas fa-unlock w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModal('id02','<%=u.getUsuario()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" onclick="abroModal('id03','<%=u.getUsuario()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModal('id04','<%=u.getUsuario()%>')"></button></td>
+								<td><button class="w3-xlarge fas fa-unlock w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModalUsuario('id02','<%=u.getUsuario()%>')"></button></td>
+								<td><button class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" onclick="abroModalUsuario('id03','<%=u.getUsuario()%>')"></button></td>
+								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalUsuario('id04','<%=u.getUsuario()%>')"></button></td>
 							</tr>
 						<%}%>
 					</tbody>

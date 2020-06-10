@@ -19,6 +19,7 @@ import controladores.ctrlUsuario;
 @WebServlet(urlPatterns = {"/Usuario"})
 public class Usuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static String urlUser = "/amema/views/usuarios.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -34,7 +35,7 @@ public class Usuario extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("DELETE Served at: ").append(request.getContextPath());
+		doPost(request,response);
 	}
 
 	/**
@@ -46,7 +47,7 @@ public class Usuario extends HttpServlet {
 		if(request.getParameter("evento_alta") != null){
 			String msj = altaUsuario(request.getParameter("usuario"), request.getParameter("password"), request.getParameter("nombreyapellido"));
 			request.getSession().setAttribute("msj", msj);
-			response.sendRedirect("/amema/views/usuarios.jsp");
+			response.sendRedirect(urlUser);
 		}
 		
 		if(request.getParameter("evento_CambiaPassword") != null) { doPut(request, response); }
@@ -63,6 +64,8 @@ public class Usuario extends HttpServlet {
 		String msj = null;
 		if(request.getParameter("evento_CambiaPassword") != null) {
 			msj = cambiaPass(request.getParameter("usuario"), request.getParameter("password"));
+			request.getSession().setAttribute("msj", msj);
+			response.sendRedirect(urlUser);
 		}
 		else {
 			entidades.Usuario u = new entidades.Usuario();
@@ -75,9 +78,10 @@ public class Usuario extends HttpServlet {
 			}
 			
 			msj = modificaUsuario(u.getUsuario(), u.getPassword(), request.getParameter("nombre"));
+			request.getSession().setAttribute("msj", msj);
+			response.sendRedirect(urlUser);
 		}
-		request.getSession().setAttribute("msj", msj);
-		response.sendRedirect("/amema/views/usuarios.jsp");
+
 	}
 
 	/**
@@ -90,17 +94,17 @@ public class Usuario extends HttpServlet {
 		
 		try {
 			if(cu.bajaUsuario(request.getParameter("usuario")) == true ) {
-				msj = "El usuario a sido Eliminado satisfactoriamente";
+				msj = "siBaja";
 			}
 			else {
-				msj = "El usuario no ha podido ser eliminado";
+				msj = "noBaja";
 			}
 		} catch (ApplicationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		request.getSession().setAttribute("msj", msj);
-		response.sendRedirect("/amema/views/usuarios.jsp");
+		response.sendRedirect(urlUser);
 		
 	}
 	
@@ -109,8 +113,8 @@ public class Usuario extends HttpServlet {
 		ctrlUsuario cu = new ctrlUsuario();
 		String msj = null;
 		try {
-			if(cu.altaUsuario(u) == true) { msj = "OK"; }
-			else { msj = "NO"; }
+			if(cu.altaUsuario(u) == true) { msj = "siAlta"; }
+			else { msj = "noAlta"; }
 		} catch (ApplicationException e) { e.printStackTrace(); }
 		return msj;
 	}
@@ -120,9 +124,8 @@ public class Usuario extends HttpServlet {
 		String msj = null;
 		try {
 			boolean r = cu.cambiaPassword(user, pass);
-			System.out.println(r);
-			if(r == true) { msj ="Cambio de contraseña satisfactorio";}
-			else {msj = "No se pudo cambiar la contraseña";}
+			if(r == true) { msj ="siPass";}
+			else {msj = "noPass";}
 		}catch(ApplicationException e) { e.printStackTrace();}
 		return msj;
 	}
@@ -132,8 +135,8 @@ public class Usuario extends HttpServlet {
 		ctrlUsuario cu = new ctrlUsuario();
 		String msj = null;
 		try {
-			if(cu.modificaUsuario(u) == true) { msj ="El usuario a sido modificado satisfactoriamente";}
-			else {msj = "No se pudo actualizar los datos del usuario";}
+			if(cu.modificaUsuario(u) == true) { msj ="siModifica";}
+			else {msj = "noModifica";}
 		}catch(ApplicationException e) { e.printStackTrace();}
 		return msj;
 	}

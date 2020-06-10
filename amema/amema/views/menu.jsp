@@ -4,6 +4,9 @@
 <% if(session.getAttribute("usuarioActivo") == null){ response.sendRedirect("../"); }	%>
 <% Usuario user = (Usuario) session.getAttribute("usuarioActivo"); %>
 
+
+
+
 <!-- Sidebar on click -->
 <!-- Es el menu lateral cuando la pantalla se achica -->
 
@@ -22,49 +25,58 @@
 <div class="w3-top">
 	<div class="w3-bar w3-theme-d2 w3-left-align">
 		<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fas fa-bars"></i></a>
-		<div class="w3-dropdown-hover w3-hide-small">
-			<button class="w3-button" title="Familia">Familias <i class="fas fa-angle-down"></i></button>     
-			<div class="w3-dropdown-content w3-card-4 w3-bar-block">
-				<a href="#" class="w3-bar-item w3-button">Link</a>
-				<a href="#" class="w3-bar-item w3-button">Link</a>
-				<a href="#" class="w3-bar-item w3-button">Link</a>
+		
+
+		<div class="w3-dropdown-click w3-hide-small">
+			<button class="w3-button" title="Productos">Productos <i class="fas fa-angle-down"></i></button>     
+			<div id="menu" class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide">
+				<a href="/amema/views/productos.jsp" class="w3-bar-item w3-button">Gestión de Familias</a>
 			</div>
 		</div>
-		<div class="w3-dropdown-hover w3-hide-small">
-			<button class="w3-button" title="Menu 2">Menu 2 <i class="fas fa-angle-down"></i></button>     
-			<div class="w3-dropdown-content w3-card-4 w3-bar-block">
-				<a href="#" class="w3-bar-item w3-button">Link</a>
-				<a href="#" class="w3-bar-item w3-button">Link</a>
-				<a href="#" class="w3-bar-item w3-button">Link</a>
+
+
+		<div class="w3-dropdown-click w3-hide-small">
+			<button class="w3-button" title="Administracion">Administración <i class="fas fa-angle-down"></i></button>
+			<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="left: 100px;">
+				<div class="w3-dropdown-click w3-hide-small">
+					<button class="w3-button" title="socios">socios <i class="fas fa-angle-down"></i></button>
+					<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="left: 100px;">
+						<a href="/amema/views/socios.jsp" class="w3-bar-item w3-button">Gestión de Socios</a>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="w3-dropdown-hover w3-hide-small">
+		<!--
+		<div class="w3-dropdown-click">
 			<button class="w3-button" title="Menu 3">Menu 3 <i class="fas fa-angle-down"></i></button>     
-			<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+			<div id="menu" class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide">
 				<a href="#" class="w3-bar-item w3-button">Link</a>
 				<a href="#" class="w3-bar-item w3-button">Link</a>
 				<a href="#" class="w3-bar-item w3-button">Link</a>
 			</div>
 		</div>
-		<div class="w3-dropdown-hover w3-hide-small">
-			<button class="w3-button" title="Menu 4">Menu 4 <i class="fas fa-angle-down"></i></button>     
-			<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+
+		<div class="w3-dropdown-click w3-hide-small">
+			<button class="w3-button" title="Menu 4">Menu 4 <i class="fas fa-angle-down"></i></button>
+			<div id="menu" class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide">
 				<a href="#" class="w3-bar-item w3-button">Link</a>
 				<a href="#" class="w3-bar-item w3-button">Link</a>
 				<a href="#" class="w3-bar-item w3-button">Link</a>
 			</div>
 		</div>
-		<div class="w3-dropdown-hover w3-hide-small">
+		-->
+		<div class="w3-dropdown-click w3-hide-small">
 			<button class="w3-button" title="usuarios">Usuarios <i class="fas fa-angle-down"></i></button>     
-			<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+			<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide">
 				<a href="/amema/views/usuarios.jsp" class="w3-bar-item w3-button">Gestión de Usuarios</a>
 			</div>
 		</div>
-		<div class="w3-dropdown-hover w3-hide-small w3-right">
+
+		<div class="w3-dropdown-click w3-hide-small w3-right">
 			<button class="w3-button" title="Perfil"><i class="fas fa-user fa-lg"></i></button>     
-			<div class="w3-dropdown-content w3-card-4 w3-bar-block" style="right: 0">
+			<div id="menu" class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="right: 0">
 				<p class="w3-bar-item"><%= user.getNombreyapellido()%></p>
-				<a href="#" class="w3-bar-item w3-button">Cambiar Contraseña</a>
+				<button class="w3-bar-item w3-button" onclick="abroModal('id02','<%=user.getUsuario()%>')">Cambiar Contraseña</button>
 				<a href="/amema/Logout" name="Logout" class="w3-bar-item w3-button">Salir <i class="fas fa-sign-out-alt"></i></a>
 			</div>
 		</div>
@@ -81,3 +93,5 @@
 		<a href="#" class="w3-bar-item w3-button">Search</a>
 	</div>
 </div>
+
+

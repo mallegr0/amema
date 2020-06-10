@@ -21,7 +21,7 @@
 		<!-- ACA VA EL CUERPO DE LAS ACCIONES -->
 		<div class="w3-container w3-padding-64">	
 
-			<div class="w3-card w3-red">
+			<div class="w3-card w3-red w3-hide">
 				<ol>
 					<li>Manejo de session -- Falta invalidar en el index</li>
 				</ol>

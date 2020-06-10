@@ -1,3 +1,15 @@
+// Seccion para manejar el menu
+
+var toggler = document.getElementsByClassName("w3-button");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".w3-hide").classList.toggle("w3-show");
+  });
+}
+
+// Fin seccion menu
 function w3_open() {
 	var x = document.getElementById("mySidebar");
 	x.style.width = "300px";
@@ -16,7 +28,7 @@ function openNav() {
 }
 
 
-function abroModal(id, usuario){
+function abroModalUsuario(id, usuario){
 	if(id === 'id02'){
 		document.getElementById('id02').style.display='block'; 
 		document.getElementById("user").value = usuario;
@@ -31,15 +43,15 @@ function abroModal(id, usuario){
 	}
 }
 
-function comparaPass(){
-	var c1 = document.Usuario.password.value;
-	var c2 = document.Usuario.password2.value;
-	
-	if(c1 === c2 ){
-		return true;
+function abroModalProducto(id, producto){
+	if(id === 'id02'){
+		document.getElementById('id02').style.display='block'; 
+		document.getElementById("updateprod").value = producto;
 	}
-	else{
-		alert("Las contraseñas no son iguales!!!");
-		return false;
+	if(id === 'id03'){
+		document.getElementById('id03').style.display='block'; 
+		document.getElementById("deleteprod").value = producto;
 	}
 }
+
+

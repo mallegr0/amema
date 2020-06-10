@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <form action="../Usuario" name ="Usuario" method="post">
 	<div class="w3-container">
 		<div class="w3-row w3-section">
