@@ -1,95 +1,86 @@
 package controladores;
 
-import java.util.ArrayList;
-
-import data.DataUsuario;
 import entidades.Usuario;
 import util.ApplicationException;
 
+import java.util.ArrayList;
+
+import data.DataUsuario;
+
+
 public class CtrlUsuario {
 	
-	/*CONSTRUCTOR*/
-	
+	/* CONSTRUCTORES */
 	public CtrlUsuario() {}
 	
-	/*VARIABLES*/
+	/* METODOS */
 	
-	DataUsuario du = new DataUsuario();
-	
-	/*METODOS*/
-	
-	public boolean altaUsuario(Usuario u){
-		try {
-			return du.altaUsuario(u);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-			return false;
-		}
+	public boolean altaUsuario(Usuario u) throws ApplicationException{
+		DataUsuario du = new DataUsuario();
+		return du.altaUsuario(u);
 	}
 	
-	public boolean bajaUsuario(String user){
-		try {
-			return du.bajaUsuario(user);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-			return false;
-		}
+	public boolean bajaUsuario(String user) throws ApplicationException{
+		DataUsuario du = new DataUsuario();
+		return du.bajaUsuario(user);
 	}
 	
-	public boolean modificaUsuario(Usuario u){
-		try {
-			return du.modificaUsuario(u);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-			return false;
-		}
+	public boolean modificaUsuario(Usuario u) throws ApplicationException{
+		DataUsuario du = new DataUsuario();
+		return du.modificaUsuario(u);
 	}
 	
-	public Usuario consultaUsuario(Usuario u){
-		try {
-			return du.consultaUsuario(u);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-			return null;
-		}
+	public Usuario consultaUsuario(String user) throws ApplicationException{
+		DataUsuario du = new DataUsuario();
+		return du.consultaUsuario(user);
 	}
 	
-	public ArrayList<Usuario> listaUsuarios(String orden){
-		try {
-			return du.listarUsuarios(orden);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-			return  null;
-		}
+	public ArrayList<Usuario> listarUsuarios() throws ApplicationException{
+		DataUsuario du = new DataUsuario();
+		return du.listarUsuarios();
 	}
 	
-	public boolean cambiaPassword(String user, String pass){
-		try {
-			return du.cambiaPassword(user, pass);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-	
-	public boolean validaUsuario(String user, String pass){
+	public boolean validaUsuario(String user, String pass) throws ApplicationException{
+		Usuario u = new Usuario();
+		DataUsuario du = new DataUsuario();
+		u = du.consultaUsuario(user);
 		
-		try {
-			Usuario u = new Usuario();
-			u.setUser(user);
-			u = du.consultaUsuario(u);
-			if(u.getUser() == user && u.getPassword() == pass){
-				return true;
-			}
-			else{
-				return false;
-			}
-		} catch (ApplicationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+		if(u != null) {
+			if(u.getLogIn().compareTo(user) == 0 && u.getPassWord().compareTo(pass)== 0) { return true; }
+			else { return false; }
 		}
+		else { return false;}
 	}
 	
+	public boolean cambiaPassword(String user, String pass) throws ApplicationException {
+		DataUsuario du = new DataUsuario();
+		return du.cambiaPassword(user, pass);
+		
+	}
 	
+	public String UltimoID() throws ApplicationException {
+		DataUsuario du = new DataUsuario();
+		String id = du.ultimoID();
+		int lID = Integer.parseInt(id);
+		lID += 1;
+		if(lID < 10) {
+			id = "00"+Integer.toString(lID);
+		}
+		if(lID < 100) {
+			id = "0"+Integer.toString(lID);
+		}
+		else{
+			id = Integer.toString(lID);
+		}
+		return id;
+		
+	}
+
+	public String consultaPerfil(String nro) throws ApplicationException {
+		DataUsuario du = new DataUsuario();
+		return du.consultaPerfil(nro);
+	}
+
 }
+
+

@@ -4,48 +4,48 @@ import java.io.Serializable;
 
 public class Familia implements Serializable{
 	
-	/*VARIABLES*/
+	/* VARIABLES */
 	
 	private static final long serialVersionUID = 1L;
-	private int codigo, bonificacion;
-	private String descripcion;
+	private  String CFAMI, NFAMI;
+	private  float BFAMI;
 	
-	/*CONSTRUCTORES*/
+	/* CONSTRUCTORES */
 	
 	public Familia() {}
 	
-	public Familia(int c, String d, int b){
-		this.codigo = c;
-		this.descripcion = d;
-		this.bonificacion = b;
+	public Familia(String id, String nombre, float bonif) {
+		this.CFAMI = id;
+		this.NFAMI = nombre;
+		this.BFAMI = bonif;
 	}
 	
-	/*METODOS*/
-
-	public int getCodigo() {
-		return codigo;
+	
+	/* METODOS */
+	
+	public String getCFAMI() {
+		return CFAMI;
 	}
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public void setCFAMI(String cFAMI) {
+		CFAMI = cFAMI;
 	}
 
-	public int getBonificacion() {
-		return bonificacion;
+	public String getNFAMI() {
+		return NFAMI;
 	}
 
-	public void setBonificacion(int bonificacion) {
-		this.bonificacion = bonificacion;
+	public void setNFAMI(String nFAMI) {
+		NFAMI = nFAMI;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
+	public float getBFAMI() {
+		return BFAMI;
 	}
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setBFAMI(float bFAMI) {
+		BFAMI = bFAMI;
 	}
 	
-
-	
+		
 }

@@ -1,6 +1,9 @@
 package pruebas;
 
+import java.util.ArrayList;
+
 import controladores.*;
+import entidades.Usuario;
 import util.ApplicationException;
 
 
@@ -9,16 +12,22 @@ import util.ApplicationException;
 public class Prueba {
 
 	public static void main(String[] args) {
-		String user ="aaaaaaa";
-		String pass = "prueba21";
+		CtrlUsuario cu = new CtrlUsuario();
 		
-		ctrlUsuario cu = new ctrlUsuario();
+		Usuario u = new Usuario();
+		
+		
 		
 		try {
-			System.out.println(cu.cambiaPassword(user, pass));
+			u = cu.consultaUsuario("mallegr0");
+			System.out.println("usuario "+u.getLogIn());
+			System.out.println("perfil "+cu.consultaPerfil(u.getCperfil()));
 		} catch (ApplicationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	
+
 	}
 }

@@ -5,194 +5,252 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import data.Conector;
-import util.ApplicationException;
+
 import entidades.Usuario;
+import util.ApplicationException;
+
 
 public class DataUsuario {
 	
-	/*CONSTRUCTOR*/
+	/*	CONSTRUCTOR	*/
+	public DataUsuario(){}
 	
-	public DataUsuario() {}
+	/*  variables  */
+	ConectorSeguridad conn = new ConectorSeguridad();
 	
-	/*VARIABLES*/
-	
-	Conector conn = new Conector();
-	
-	/*METODOS*/
+	/*  METODOS  */
 	
 	private void cerrar(PreparedStatement stmt, ResultSet rs){
-		try{
+		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
 			conn.cerrarConn();
-		}
-		catch(ApplicationException | SQLException e){ e.printStackTrace();	}
+		} catch (Exception e) { e.printStackTrace(); }
+		
 	}
-
+	
 	public boolean altaUsuario(Usuario u) throws ApplicationException{
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String sql ="INSERT INTO usuarios SET user = ?, password = ?, nombre = ?, mail = ?";
+		String sql = "INSERT INTO Usuarios (NroUsuario, NomUs, LogIn, PassWord, DescOficina, DescFunc, Cperfil, Hab) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		
-		try{
-			
+		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
 			
-			stmt.setString(1, u.getUser());
-			stmt.setString(2, u.getPassword());
-			stmt.setString(3, u.getNombre());
-			stmt.setString(4, u.getMail());
-
-			if(stmt.executeUpdate() > 0){
-				return true;
-			}
-			else{ return false;}
+			stmt.setString(1, u.getNroUsuario());
+			stmt.setString(2, u.getNomUs());
+			stmt.setString(3, u.getLogIn());
+			stmt.setString(4, u.getPassWord());
+			stmt.setString(5, u.getDescOficina());
+			stmt.setString(6, u.getDescFunc());
+			stmt.setString(7, u.getCperfil());
+			stmt.setString(8, u.getHab());
+			
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else {return false; }
 		}
-		catch( SQLException e){
+		catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
-		finally{
-			cerrar(stmt, rs);
-		}
-	}
-
-	public boolean bajaUsuario(String id) throws ApplicationException{
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String sql ="DELETE FROM usuarios WHERE user = ?";
-		
-		try{
-			
-			stmt = conn.abrirConn().prepareStatement(sql);
-			
-			stmt.setString(1, id);
-			
-			if(stmt.executeUpdate() > 0){
-				return true;
-			}
-			else{ return false;}
-		}
-		catch( SQLException e){
-			e.printStackTrace();
-			return false;
-		}
-		finally{
-			cerrar(stmt, rs);
+		finally {
+			cerrar(stmt,null);
 		}
 	}
 	
+	public boolean bajaUsuario(String user) throws ApplicationException{
+		PreparedStatement stmt = null;
+		String sql = "DELETE FROM Usuarios WHERE LogIn = ?";
+		
+		try {
+			
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			stmt.setString(1, user);
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else {return false; }
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			cerrar(stmt,null);
+		}
+	}
+
 	public boolean modificaUsuario(Usuario u) throws ApplicationException{
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String sql ="UPDATE usuarios SET password = ?, nombre = ?, mail = ? WHERE user = ?";
+		String sql = "UPDATE Usuarios SET NroUsuario = ?, NomUs = ?, PassWord = ?, DescOficina = ?, DescFunc = ?, cPerfil = ?, hab = ?"
+				+ "WHERE LogIn = ?";
 		
-		try{
+		try {
 			
 			stmt = conn.abrirConn().prepareStatement(sql);
 			
-			stmt.setString(1, u.getPassword());
-			stmt.setString(2, u.getNombre());
-			stmt.setString(3, u.getMail());
-			stmt.setString(4, u.getUser());
+			stmt.setString(1, u.getNroUsuario());
+			stmt.setString(2, u.getNomUs());
+			stmt.setString(3, u.getPassWord());
+			stmt.setString(4, u.getDescOficina());
+			stmt.setString(5, u.getDescFunc());
+			stmt.setString(6, u.getCperfil());
+			stmt.setString(7, u.getHab());
+			stmt.setString(8, u.getLogIn());
 			
-			if(stmt.executeUpdate() > 0){
-				return true;
-			}
-			else{
-				return false;
-			}
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else {return false; }
 		}
-		catch( SQLException e){
+		catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
-		finally{
-			cerrar(stmt, rs);
+		finally {
+			cerrar(stmt,null);
 		}
 	}
-	
-	public Usuario consultaUsuario(Usuario u) throws ApplicationException{
+
+	public Usuario consultaUsuario(String user) throws ApplicationException {
+		Usuario u = null;
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String sql ="SELECT * FROM usuarios WHERE user = ?";
-		Usuario users = null;
+		ResultSet rs = null; 
+		String sql = "SELECT * FROM Usuarios WHERE LogIn = ?";
 		
-		try{
+		try {
 			
 			stmt = conn.abrirConn().prepareStatement(sql);
 			
-			stmt.setString(1, u.getUser());
+			stmt.setString(1, user);
 			
 			rs = stmt.executeQuery();
 			
-			if(rs != null && rs.next()){
-				users = new Usuario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+			if(rs != null) {
+				while(rs.next()) {
+					u= new Usuario();
+					u.setNroUsuario(rs.getString("NroUsuario"));
+					u.setNomUs(rs.getString("nomUs"));
+					u.setLogIn(rs.getString("LogIn"));
+					u.setPassWord(rs.getString("PassWord"));
+					u.setDescOficina(rs.getString("descOficina"));
+					u.setDescFunc(rs.getString("descFunc"));
+					u.setCperfil(rs.getString("cPerfil"));
+					u.setHab(rs.getString("Hab"));	
+				}
 			}
-		}
-		catch( SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		finally{
-			cerrar(stmt, rs);
-		}
-		return users;
+		finally { cerrar(stmt,rs);}
+		return u;
 	}
-	
-	public ArrayList<Usuario> listarUsuarios(String orden) throws ApplicationException{
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String sql ="SELECT * FROM usuarios ORDER BY ?";
-		Usuario users = null;
+
+	public ArrayList<Usuario> listarUsuarios() throws ApplicationException{
+		Usuario u = null;
 		ArrayList<Usuario> lista = new ArrayList<>();
+		PreparedStatement stmt = null; 
+		ResultSet rs = null;
+		String sql = "SELECT * FROM Usuarios ORDER BY NroUsuario";
 		
-		try{
+		try {
 			
 			stmt = conn.abrirConn().prepareStatement(sql);
 			
-			stmt.setString(1, orden);
-			
 			rs = stmt.executeQuery();
 			
-			if(rs != null && rs.next()){
-				rs.beforeFirst();
-				while(rs.next()){
-					users = new Usuario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
-					lista.add(users);
+			if(rs != null) {
+				while (rs.next()) {
+					u= new Usuario();
+					u.setNroUsuario(rs.getString("NroUsuario"));
+					u.setNomUs(rs.getString("nomUs"));
+					u.setLogIn(rs.getString("LogIn"));
+					u.setPassWord(rs.getString("PassWord"));
+					u.setDescOficina(rs.getString("descOficina"));
+					u.setDescFunc(rs.getString("descFunc"));
+					u.setCperfil(rs.getString("cPerfil"));
+					u.setHab(rs.getString("Hab"));	
+					lista.add(u);
 				}
 			}
 		}
-		catch( SQLException e){	e.printStackTrace(); }
-		finally{
-			cerrar(stmt, rs);
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			cerrar(stmt,rs);
 		}
 		return lista;
 	}
 	
 	public boolean cambiaPassword(String user, String pass) throws ApplicationException{
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String sql ="UPDATE usuarios SET password = ? WHERE user = ?";
+		String sql = "UPDATE Usuarios SET PassWord = ? WHERE LogIn = ?";
 		
-		try{
+		try {
 			
 			stmt = conn.abrirConn().prepareStatement(sql);
 			
 			stmt.setString(1, pass);
 			stmt.setString(2, user);
 			
-			if(stmt.executeUpdate() > 0){
-				return true;
-			}
-			else{ return false;}
+			if(stmt.executeUpdate() > 0) { return true; }
+			else {return false; }
 		}
-		catch( SQLException e){
+		catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
-		finally{
-			cerrar(stmt, rs);
+		finally {
+			cerrar(stmt,null);
 		}
 	}
+	
+	public String ultimoID() {
+		String id = "";
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT TOP 1 NroUsuario FROM Usuarios ORDER BY NroUsuario DESC ";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					id = rs.getString("NroUsuario");
+					return id;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally { cerrar(stmt, rs);	}
+		return id;
+	}
+
+	public String consultaPerfil(String nro) {
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		String r = "";
+		String sql = "SELECT DescPerfil FROM PerfilUs WHERE cPerfil = ?";
+		
+		try {
+			
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setString(1, nro);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while (rs.next()) {
+					r = rs.getString("DescPerfil"); 
+				}
+			}
+		} catch (SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return r;
+	}
+
 }

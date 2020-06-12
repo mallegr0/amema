@@ -1,7 +1,7 @@
 <%@page import="java.util.List"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="entidades.Usuario" %>
-<%@page import="controladores.ctrlUsuario" %>
+<%@page import="controladores.CtrlUsuario" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -17,8 +17,8 @@
 		<%@ include file="menu.jsp" %>
 
 		<!-- ACA VA EL CUERPO DE LAS ACCIONES -->
-		<% 
-			ctrlUsuario cu = new ctrlUsuario();
+		<%
+			CtrlUsuario cu = new CtrlUsuario();
 			List<Usuario> listaUsers = cu.listarUsuarios();
 		%>
 
@@ -47,17 +47,19 @@
 						<tr class="w3-indigo">
 							<th>Usuario</th>
 							<th>Nombre y Apellido</th>
+							<th>Perfil</th>
 							<th colspan="3" class="w3-center">Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
 						<% for(Usuario u : listaUsers){%>
 							<tr class="w3-hover-light-green">
-								<td><%=u.getUsuario() %></td>
-								<td><%=u.getNombreyapellido() %></td>
-								<td><button class="w3-xlarge fas fa-unlock w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModalUsuario('id02','<%=u.getUsuario()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" onclick="abroModalUsuario('id03','<%=u.getUsuario()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalUsuario('id04','<%=u.getUsuario()%>')"></button></td>
+								<td><%=u.getLogIn() %></td>
+								<td><%=u.getNomUs() %></td>
+								<td><%=cu.consultaPerfil(u.getCperfil()) %></td>
+								<td><button class="w3-xlarge fas fa-unlock w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModalUsuario('id02','<%=u.getLogIn()%>')"></button></td>
+								<td><button class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" onclick="abroModalUsuario('id03','<%=u.getLogIn()%>')"></button></td>
+								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalUsuario('id04','<%=u.getLogIn()%>')"></button></td>
 							</tr>
 						<%}%>
 					</tbody>

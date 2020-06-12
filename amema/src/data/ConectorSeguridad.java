@@ -5,17 +5,17 @@ import util.ApplicationException;
 
 
 
-public class Conector {
+public class ConectorSeguridad {
 	
 	private static String driver = "net.ucanaccess.jdbc.UcanaccessDriver";
-	private static String db = "C:/AMEMA/AMEMA.mdb";
+	private static String db = "C:/AMEMA/Seguridad.mdb";
 	private static String user = "sa";
 	private static String pass = "meriadoc";
 	private Connection conexion;
 	private int cantConn = 0; //cantidad de conexiones a la BBDD
 	
 	
-	public Conector(){
+	public ConectorSeguridad(){
 		try{
 			Class.forName(driver);
 			conexion = DriverManager.getConnection("jdbc:ucanaccess://"+db+";jackessOpener=util.CryptCodecOpener",user,pass);

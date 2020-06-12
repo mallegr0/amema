@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import controladores.ctrlUsuario;
+import controladores.CtrlUsuario;
 import entidades.Usuario;
 import util.ApplicationException;
 
@@ -41,7 +41,7 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ctrlUsuario cu = new ctrlUsuario();
+		CtrlUsuario cu = new CtrlUsuario();
 		String msg = "";
 		HttpSession session = request.getSession();
 		String user,pass;

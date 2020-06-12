@@ -7,43 +7,84 @@ public class Usuario implements Serializable{
 	/* VARIABLES */
 	
 	private static final long serialVersionUID = 1L;
-	private String usuario, password, nombreyapellido;
+	private String NroUsuario, NomUs, LogIn, PassWord, DescOficina, DescFunc, Cperfil, Hab;
 	
 	
 	public Usuario() {}
 	
-	public Usuario(String usuario, String password, String nombreyapellido){
-		this.usuario = usuario;
-		this.password = password;
-		this.nombreyapellido = nombreyapellido;
+	public Usuario(String id, String nombre, String user, String pass, String oficina, String funcion, String perfil, String habilitado){
+		this.NroUsuario = id;
+		this.NomUs = nombre;
+		this.LogIn = user;
+		this.PassWord = pass;
+		this.DescOficina = oficina;
+		this.DescFunc = funcion;
+		this.Cperfil = perfil;
+		this.Hab = habilitado;
+		}
+
+	public String getNroUsuario() {
+		return NroUsuario;
 	}
 
-	public String getUsuario() {
-		return usuario;
+	public void setNroUsuario(String nroUsuario) {
+		NroUsuario = nroUsuario;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public String getNomUs() {
+		return NomUs;
 	}
 
-	public String getPassword() {
-		return password;
+	public void setNomUs(String nomUS) {
+		NomUs = nomUS;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public String getLogIn() {
+		return LogIn;
 	}
 
-	public String getNombreyapellido() {
-		return nombreyapellido;
+	public void setLogIn(String logIn) {
+		LogIn = logIn;
 	}
 
-	public void setNombreyapellido(String nombreyapellido) {
-		this.nombreyapellido = nombreyapellido;
+	public String getPassWord() {
+		return PassWord;
 	}
-	
-	
-	
-	
+
+	public void setPassWord(String passWord) {
+		PassWord = passWord;
+	}
+
+	public String getDescOficina() {
+		return DescOficina;
+	}
+
+	public void setDescOficina(String descOficina) {
+		DescOficina = descOficina;
+	}
+
+	public String getDescFunc() {
+		return DescFunc;
+	}
+
+	public void setDescFunc(String descFunc) {
+		DescFunc = descFunc;
+	}
+
+	public String getCperfil() {
+		return Cperfil;
+	}
+
+	public void setCperfil(String cperfil) {
+		Cperfil = cperfil;
+	}
+
+	public String getHab() {
+		return Hab;
+	}
+
+	public void setHab(String hab) {
+		Hab = hab;
+	}
 	
 }

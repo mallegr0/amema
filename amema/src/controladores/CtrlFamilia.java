@@ -1,66 +1,52 @@
 package controladores;
 
+
+/* imports */
+import util.ApplicationException;
+import entidades.Familia;
+import data.DataFamilia;
+
+
 import java.util.ArrayList;
 
-import data.DataFamilia;
-import entidades.Familia;
-import util.ApplicationException;
 
 public class CtrlFamilia {
 	
-/*CONSTRUCTOR*/
+
+	
+	/* CONSTRUCTORES */
 	
 	public CtrlFamilia() {}
 	
-	/*VARIABLES*/
+	/* VARIABLES */
 	
-	DataFamilia df = new DataFamilia();
+	DataFamilia df = null;
+
+
+	/* METODOS */
 	
-	/*METODOS*/
-	
-	public boolean altaFamilia(Familia f){
-		try {
-			return df.altaFamilia(f);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-			return false;
-		}
+	public boolean altaFamilia(Familia f) throws ApplicationException{
+		df = new  DataFamilia();
+		return df.altaFamilia(f);
 	}
 	
-	public boolean bajaFamilia(int codigo){
-		try {
-			return df.bajaFamilia(codigo);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-			return false;
-		}
+	public boolean bajaFamilia(String id) throws ApplicationException{
+		df = new  DataFamilia();
+		return df.bajaFamilia(id);
 	}
 	
-	public boolean modificaFamilia(Familia f){
-		try {
-			return df.modificaFamilia(f);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-			return false;
-		}
+	public boolean modificaFamilia(Familia f) throws ApplicationException{
+		df = new  DataFamilia();
+		return df.modificaFamilia(f);
 	}
 	
-	public Familia consultaFamilia(int id){
-		try {
-			return df.consultaFamilia(id);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-			return null;
-		}
+	public Familia consultaFamilia(String id) throws ApplicationException{
+		df = new  DataFamilia();
+		return df.consultaFamilia(id);
 	}
 	
-	public ArrayList<Familia> listaFamilias(String orden){
-		try {
-			return df.listarFamilias(orden);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-			return  null;
-		}
+	public ArrayList<Familia> listarFamilia() throws ApplicationException{
+		df = new  DataFamilia();
+		return df.listarFamilia();
 	}
-	
 }
