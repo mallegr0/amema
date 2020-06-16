@@ -31,7 +31,7 @@ public class DataFamilia {
 	
 	public boolean altaFamilia(Familia f) throws ApplicationException {
 		PreparedStatement stmt = null;
-		String sql = "INSERT INTO FAMILIAS (CFAMI, NFAMI, BFAMI) VALUES(?, ?, ?)";
+		String sql = "INSERT INTO FAMILIAS (CFAMI, NFAMI, BFAMI) VALUES (?, ?, ?)";
 		
 		try {
 			
