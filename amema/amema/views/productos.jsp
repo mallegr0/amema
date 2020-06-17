@@ -1,4 +1,6 @@
 <%@page import="java.util.List"%>
+<%@page import="entidades.Familia" %>
+<%@page import="controladores.CtrlFamilia" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -15,13 +17,15 @@
 		<%@ include file="menu.jsp" %>
 
 		<!-- ACA VA EL CUERPO DE LAS ACCIONES -->
-		
+		<%
+			CtrlFamilia cf = new CtrlFamilia();
+			List<Familia> listaFlias = cf.listarFamilia();
+		%>
 
 		<div class="w3-container w3-padding-64">			
-			<div class="3-container w3-red w3-card-4 w3-hide">
+			<div class="3-container w3-red w3-card-4 ">
 				<ol>
-					<li>Acomodar errProducto.jsp</li>
-					<li>testear</li>
+					<li>Pasar todos los datos para el modal de mosificar</li>
 				</ol>
 			</div>
 			
@@ -50,24 +54,15 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>01</td>
-							<td>AYUDA ECONOMICA</td>
-							<td>0</td>
-							<td><button class="w3-xlarge fas fa-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" onclick="abroModalProducto('id02','Aca iria el nro de prodcuto')"></button></td>
-								<td><button class="w3-xlarge fas fa-times-circle w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalProducto('id03','aca iria el nro de producto')"></button></td>
-							</tr>
-						</tr>
-						<%--<% for(Usuario u : listaUsers){%>
+						<% for(Familia f : listaFlias){%>
 							<tr class="w3-hover-light-green">
-								<td><%=u.getUsuario() %></td>
-								<td><%=u.getNombreyapellido() %></td>
-								<td><%=u.getPassword() %></td>
-								<td><button class="w3-xlarge fas fa-unlock w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModal('id02','<%=u.getUsuario()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" onclick="abroModal('id03','<%=u.getUsuario()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModal('id04','<%=u.getUsuario()%>')"></button></td>
+								<td><%=f.getCFAMI() %></td>
+								<td><%=f.getNFAMI() %></td>
+								<td><%=f.getBFAMI() %></td>
+								<td><button class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" onclick="abroModalProducto('id02','<%=f.getCFAMI()%>')"></button></td>
+								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalProducto('id03','<%=f.getCFAMI()%>')"></button></td>
 							</tr>
-						<%}%>--%>
+						<%}%>
 					</tbody>
 				</table>
 			</div>

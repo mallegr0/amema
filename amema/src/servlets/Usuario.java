@@ -43,7 +43,6 @@ public class Usuario extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
 		if(request.getParameter("evento_alta") != null){
 			String msj = "";
 			try {

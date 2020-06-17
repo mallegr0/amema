@@ -1,12 +1,10 @@
 package controladores;
 
+import data.DataUsuario;
 import entidades.Usuario;
 import util.ApplicationException;
 
 import java.util.ArrayList;
-
-import data.DataUsuario;
-
 
 public class CtrlUsuario {
 	
@@ -81,6 +79,5 @@ public class CtrlUsuario {
 		return du.consultaPerfil(nro);
 	}
 
+
 }
-
-

@@ -40,7 +40,7 @@
 			case "noPass": clase = "w3-pale-red";
             			   titulo = "Fracaso";
                            msg = "La contraseña no se cambio";
-            break;
+            			   break;
 			}%>
 		<div class="w3-panel <%=clase %> w3-display-container w3-round-xlarge">
 			<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
@@ -48,24 +48,6 @@
 			<p><%=msg %></p>
 		</div>
 		
-		
-		
-		
-		<%--if(msj == "OK"){%>
-			<div class="w3-panel w3-pale-green w3-display-container w3-round-xlarge">
-  				<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
-  				<h3>Éxito!</h3>
-  				<p>El usuario ha sido creado correctamente</p>
-			</div>
-	<%}
-		else
-		{%>
-			<div class="w3-panel w3-pale-red w3-display-container w3-round-xlarge">
-  				<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
-  				<h3>Error!</h3>
-  				<p>El usuario no ha sido creado correctamente</p>
-			</div>
-	<%}--%>
 	<%}
 	request.getSession().removeAttribute("msj");
 	%>

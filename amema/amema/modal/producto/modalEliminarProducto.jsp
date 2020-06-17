@@ -6,7 +6,6 @@
 		       	<span onclick="document.getElementById('id03').style.display='none'" class="w3-button w3-display-topright">&times;</span>
 	        	<h2 class="w3-center"> Eliminar Producto </h2>
 	      	</header>
-	      	
 	      	<%@include file="/forms/producto/eliminaProductoForm.jsp" %>
 		</div>
 	</div>

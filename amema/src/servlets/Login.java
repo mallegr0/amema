@@ -52,6 +52,7 @@ public class Login extends HttpServlet {
 		try {
 			if(session.getAttribute("usuarioActivo") == null) {				
 				if(cu.validaUsuario(user,pass) == true) {
+					
 					//ESTABLECER LA SESION
 					Usuario u = cu.consultaUsuario(request.getParameter("usuario"));
 					session.setAttribute("usuarioActivo", u);

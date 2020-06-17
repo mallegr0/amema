@@ -8,11 +8,11 @@
 		</div>
 		<div class="w3-row w3-section">
 	  		<div class="w3-col" style="width:120px"><label>Denominación: </label></div>
-	    	<div class="w3-rest"><input class="w3-input w3-border" name="denominacion" type="text" required></div>
+	    	<div class="w3-rest"><input class="w3-input w3-border" name="nombre" type="text" required></div>
 		</div>
 		<div class="w3-row w3-section">
 	  		<div class="w3-col" style="width:120px"><label>Bonificación: </label></div>
-	    	<div class="w3-rest"><input class="w3-input w3-border" name="nombreyapellido" type="text" required></div>
+	    	<div class="w3-rest"><input class="w3-input w3-border" name="bonificacion" type="number" required></div>
 		</div>
 		<div class="w3-row w3-section">
 			<div class="w3-half w3-center"><button class="w3-button w3-green w3-round-large" name="evento_alta">Agregar</button></div>

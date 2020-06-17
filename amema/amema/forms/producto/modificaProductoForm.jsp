@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="controladores.CtrlFamilia" %>
+<%@page import="entidades.Familia" %>
 	
 	<form action="../Producto" name="Producto" method="post">
 		<div class="w3-container">
@@ -8,16 +10,17 @@
 		    		<input id="updateprod" class="w3-input w3-border" name="codigo" type="text" readonly="readonly">
 		    	</div>
 			</div>
+			
 			<div class="w3-row w3-section">
-		  		<div class="w3-col" style="width:120px"><label>Denominación de familias: </label></div>
+		  		<div class="w3-col" style="width:120px"><label>Denominación: </label></div>
 		    	<div class="w3-rest">
-		    		<input class="w3-input w3-border" name="denominacion" type="text" required>
+		    		<input class="w3-input w3-border" name="nombre" type="text" required>
 		    	</div>
 			</div>
 			<div class="w3-row w3-section">
 				<div class="w3-col" style="width: 120px"><label>Bonificación: </label></div>
 				<div class="w3-rest">
-					<input class="w3-input w3-border"  name="bonificacion" type="text" required>
+					<input class="w3-input w3-border"  name="bonificacion" type="number" required>
 				</div>
 			</div>
 			<div class="w3-row w3-section">
