@@ -20,6 +20,7 @@
 		<%
 			CtrlFamilia cf = new CtrlFamilia();
 			List<Familia> listaFlias = cf.listarFamilia();
+			session.setAttribute("lf", listaFlias);
 		%>
 
 		<div class="w3-container w3-padding-64">			
@@ -59,8 +60,8 @@
 								<td><%=f.getCFAMI() %></td>
 								<td><%=f.getNFAMI() %></td>
 								<td><%=f.getBFAMI() %></td>
-								<td><button class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" onclick="abroModalProducto('id02','<%=f.getCFAMI()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalProducto('id03','<%=f.getCFAMI()%>')"></button></td>
+								<td><button class="w3-xlarge fas fa-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" onclick="abroModalProducto('id02', '<%=f.getCFAMI()%>')"></button></td>
+								<td><button class="w3-xlarge fas fa-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalProducto('id03','<%=f.getCFAMI()%>')"></button></td>
 							</tr>
 						<%}%>
 					</tbody>
@@ -82,6 +83,12 @@
 
 		<!-- Footer -->
 		<%@ include file="footer.jsp" %>
+		
+		
+
+		
+		
+
 
 	</body>
 </html>

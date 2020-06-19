@@ -76,7 +76,7 @@
 			<button class="w3-button" title="Perfil"><i class="fas fa-user fa-lg"></i></button>     
 			<div id="menu" class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="right: 0">
 				<p class="w3-bar-item"><%= user.getNomUs()%></p>
-				<button class="w3-bar-item w3-button" onclick="abroModal('id02','<%=user.getLogIn()%>')">Cambiar Contraseña</button>
+				<button class="w3-bar-item w3-button" onclick="abroModalUsuario('id02','<%=user.getLogIn()%>')">Cambiar Contraseña</button>
 				<a href="/amema/Logout" class="w3-bar-item w3-button">Salir <i class="fas fa-sign-out-alt"></i></a>
 			</div>
 		</div>
