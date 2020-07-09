@@ -24,11 +24,6 @@
 		%>
 
 		<div class="w3-container w3-padding-64">			
-			<div class="3-container w3-red w3-card-4 ">
-				<ol>
-					<li>Pasar todos los datos para el modal de mosificar</li>
-				</ol>
-			</div>
 			
 			<!-- FORMULARIOS PARA EL ABM DE PRODUCTOS CON MODALES -->
 			<div class="w3-container w3-center w3-card-4">
@@ -60,19 +55,14 @@
 								<td><%=f.getCFAMI() %></td>
 								<td><%=f.getNFAMI() %></td>
 								<td><%=f.getBFAMI() %></td>
-								<td><button class="w3-xlarge fas fa-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" onclick="abroModalProducto('id02', '<%=f.getCFAMI()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalProducto('id03','<%=f.getCFAMI()%>')"></button></td>
+								<td><a href="../forms/producto/modificaProductoForm.jsp?id=<%=f.getCFAMI()%>" class="w3-xlarge fas fa-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" ></a></td>
+								<td><button class="w3-xlarge fas fa-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalProducto('id02','<%=f.getCFAMI()%>')"></button></td>
 							</tr>
 						<%}%>
 					</tbody>
 				</table>
 			</div>
 			<!-- FIN TABLA DE PRODUCTOS-->
-
-			
-			<!-- MODAL PARA MODIFICAR PRODUCTOS -->
-			<%@ include file="../modal/producto/modalModificaProducto.jsp" %>
-
 
 			<!-- MODAL PARA ELIMINAR PRODUCTOS -->
 			<%@ include file="../modal/producto/modalEliminarProducto.jsp" %>

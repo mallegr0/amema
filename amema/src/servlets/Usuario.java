@@ -46,8 +46,6 @@ public class Usuario extends HttpServlet {
 		if(request.getParameter("evento_alta") != null){
 			String msj = "";
 			try {
-				System.out.println("password "+request.getParameter("password"));
-				
 				msj = altaUsuario(request.getParameter("usuario"), request.getParameter("password"), request.getParameter("nombre"));
 			} catch (ApplicationException e) {
 				// TODO Auto-generated catch block
@@ -116,7 +114,7 @@ public class Usuario extends HttpServlet {
 		
 	}
 	
-	private String altaUsuario(String nombre, String user, String pass) throws ApplicationException {
+	private String altaUsuario(String user, String pass, String nombre) throws ApplicationException {
 		CtrlUsuario cu = new CtrlUsuario();	
 		String id = cu.UltimoID();
 		entidades.Usuario u = new entidades.Usuario(id, nombre, user, pass ,"-", "ADMINISTRADOR", "001", "1");

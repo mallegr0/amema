@@ -4,8 +4,9 @@
 		<div class="w3-modal-content w3-animate-zoom w3-card-4">
 		   	<header class="w3-container w3-indigo"> 
 		       	<span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-	        	<h2 class="w3-center"> Eliminar Producto </h2>
+	        	<h2 class="w3-center"> Eliminar Socio </h2>
 	      	</header>
-	      	<%@include file="/forms/producto/eliminaProductoForm.jsp" %>
+	      	
+	      	<%@include file="../../forms/socio/eliminaSocioForm.jsp" %>
 		</div>
 	</div>

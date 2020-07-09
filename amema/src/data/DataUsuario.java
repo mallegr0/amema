@@ -36,7 +36,6 @@ public class DataUsuario {
 		
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
-			
 			stmt.setString(1, u.getNroUsuario());
 			stmt.setString(2, u.getNomUs());
 			stmt.setString(3, u.getLogIn());

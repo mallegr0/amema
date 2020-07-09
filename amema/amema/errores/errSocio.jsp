@@ -10,40 +10,32 @@
 		switch(msj){
 			case "siAlta": clase = "w3-pale-green";
 						   titulo = "Éxito";
-						   msg = "El usuario ha sido creado correctamente";
+						   msg = "El Socio ha sido creado correctamente";
 						   break;
 			case "noAlta": clase = "w3-pale-red";
 		   				   titulo = "Fracaso";
-		   				   msg = "El usuario no se ha podido crear";
+		   				   msg = "El Socio no se ha podido crear";
 		   				   break;
 		   
 		    case "siBaja": clase = "w3-pale-green";
 		                   titulo = "Éxito";
-		                   msg = "El usuario ha sido eliminado correctamente";
+		                   msg = "El Socio ha sido eliminado correctamente";
 		                   break;
 		    case "noBaja": clase = "w3-pale-red";
 			    	       titulo = "Fracaso";	
-			               msg = "El usuario no se ha podido eliminar";
+			               msg = "El Socio no se ha podido eliminar";
 						   break;
 			case "siModifica": clase = "w3-pale-green";
 						       titulo = "Éxito";
-							   msg = "El usuario ha sido modificado correctamente";
+							   msg = "El Socio ha sido modificado correctamente";
 						       break;
 			case "noModifica": clase = "w3-pale-red";
 			                   titulo = "Fracaso";
-			                   msg = "El usuario no se ha podido modificar";
+			                   msg = "El Socio no se ha podido modificar";
 			                   break;
-			case "siPass": clase = "w3-pale-green";
-		                   titulo = "Éxito";
-			               msg = "La contraseña se cambio correctamente";
-			               break;
-			case "noPass": clase = "w3-pale-red";
-            			   titulo = "Fracaso";
-                           msg = "La contraseña no se cambio";
-            		       break;
 			}%>
 		<div class="w3-panel <%=clase %> w3-display-container w3-round-xlarge">
-			<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright w3-round-xlarge">&times;</span>
 			<h3><%=titulo %></h3>
 			<p><%=msg %></p>
 		</div>

@@ -35,10 +35,6 @@ function abroModalUsuario(id, usuario){
 	}
 	if(id === 'id03'){
 		document.getElementById('id03').style.display='block'; 
-		document.getElementById("updateuser").value = usuario;
-	}
-	if(id === 'id04'){
-		document.getElementById('id04').style.display='block'; 
 		document.getElementById("deleteuser").value = usuario;
 	}
 }
@@ -46,15 +42,18 @@ function abroModalUsuario(id, usuario){
 function abroModalProducto(id, producto){
 	console.log("codigo pasado como parametro: "+producto.codigo);
 	if(id === 'id02'){
-		document.getElementById('id02').style.display='block';
-		document.getElementById("updateprod").value = producto;
-		document.getElementById("updateNombre").value = producto;
-		document.getElementById("updateBonificacion").value = producto;
-	}
-	if(id === 'id03'){
-		document.getElementById('id03').style.display='block'; 
+		document.getElementById('id02').style.display='block'; 
 		document.getElementById("deleteprod").value = producto;
 	}
 }
 
-
+function abroModalSocio(id, socio){
+	if(id === 'id02'){
+		document.getElementById('id02').style.display='block'; 
+		document.getElementById("deletesocio").value = socio;
+	}
+	if(id === 'id03'){
+		document.getElementById('id03').style.display='block'; 
+		document.getElementById("printsocio").value = socio;
+	}
+}

@@ -42,7 +42,14 @@ public class CtrlCliente {
 	
 	public String ultimoID() throws ApplicationException{
 		dc = new DataCliente();
-		return dc.ultimoID();
+		int nro = Integer.parseInt(dc.ultimoID());
+		nro += 1;
+		return Integer.toString(nro);
+	}
+	
+	public String localidad(Integer codpos) throws ApplicationException{
+		dc = new DataCliente();
+		return dc.localidad(codpos);
 	}
 	
 }

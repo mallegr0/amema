@@ -58,8 +58,8 @@
 								<td><%=u.getNomUs() %></td>
 								<td><%=cu.consultaPerfil(u.getCperfil()) %></td>
 								<td><button class="w3-xlarge fas fa-unlock w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModalUsuario('id02','<%=u.getLogIn()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge" onclick="abroModalUsuario('id03','<%=u.getLogIn()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalUsuario('id04','<%=u.getLogIn()%>')"></button></td>
+								<td><a href="../forms/usuario/modificaUsuarioForm.jsp?id=<%=u.getLogIn()%>" class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge"></a></td>
+								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalUsuario('id03','<%=u.getLogIn()%>')"></button></td>
 							</tr>
 						<%}%>
 					</tbody>
@@ -71,11 +71,6 @@
 			<!-- MODAL PARA CAMBIO DE PASS -->
 			<%@ include file="../modal/usuario/modalCambioPass.jsp" %>
 			
-			
-			<!-- MODAL PARA MODIFICAR USUARIO -->
-			<%@ include file="../modal/usuario/modalModificaUsuario.jsp" %>
-
-
 			<!-- MODAL PARA ELIMINAR USUARIO -->
 			<%@ include file="../modal/usuario/modalEliminarUsuario.jsp" %>
 			

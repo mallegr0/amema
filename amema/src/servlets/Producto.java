@@ -14,7 +14,7 @@ import util.ApplicationException;
 /**
  * Servlet implementation class Producto
  */
-@WebServlet("/Producto")
+@WebServlet(urlPatterns = {"/Producto"})
 public class Producto extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static String urlFlia = "/amema/views/productos.jsp";

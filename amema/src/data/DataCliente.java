@@ -31,14 +31,14 @@ public class DataCliente {
 		String sql = "INSERT INTO CLIENTES (MARCA, CODCLI, NOMCLI, DOMCLI, CODPOS, LOCCLI, TELCLI_1, TELCLI_2, FAX, CVTO,"
 				+ "CCOND, ZONCLI, NVIAJ, PROVCLI, CUITCLI, IVACLI, REGCLI, PRETEN, DNRP, SALCLI_1, SALCLID_1, FSALCLI_1,"
 				+ "SALCLI_2, SALCLID_2, FSALCLI_2, A_CTA_1, A_CTA_2, A_CTAD_1, A_CTAD_2, CTRANSP, COM_IND, CREDITO, CRED_MAX, "
-				+ "CONTACTO, CONTACTO2, LISTAPRE, E_MAIL, MAKITA, COMISION, COMI_DIFE, TIPO_DOC, FECHA_NAC, FECHA_ING, CPCCP) "
+				+ "CONTACTO, CONTACTO2, LISTAPRE, E_MAIL, MAKITA, COMISION, COMI_DIFE, TIPO_DOC, FECHA_NAC, FECHA_ING, CPCCP, OBSCLI) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-				+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			
 			stmt = conn.abrirConn().prepareStatement(sql);
-			
+				
 			stmt.setString(1, c.getMARCA());
 			stmt.setString(2, c.getCODCLI());
 			stmt.setString(3, c.getNOMCLI());
@@ -49,39 +49,41 @@ public class DataCliente {
 			stmt.setString(8, c.getTELCLI_2());
 			stmt.setString(9, c.getFAX());
 			stmt.setString(10, c.getCVTO());
-			stmt.setString(11, c.getZONCLI());
-			stmt.setString(12, c.getNVIAJ());
-			stmt.setString(13, c.getPROVCLI());
-			stmt.setString(14, c.getCUITCLI());
-			stmt.setString(15, c.getIVACLI());
-			stmt.setString(16, c.getREGCLI());
-			stmt.setDouble(17, c.getPRETEN());
-			stmt.setString(18, c.getDNRP());
-			stmt.setDouble(19, c.getSALCLI_1());
-			stmt.setDouble(20, c.getSALCLID_1());
-			stmt.setTimestamp(21, c.getFSALCLI_1());
-			stmt.setDouble(22, c.getSALCLI_2());
-			stmt.setDouble(23, c.getSALCLID_2());
-			stmt.setTimestamp(24, c.getFSALCLI_2());
-			stmt.setDouble(25, c.getA_CTA_1());
-			stmt.setDouble(26, c.getA_CTA_2());
-			stmt.setDouble(27, c.getA_CTAD_1());
-			stmt.setDouble(28, c.getA_CTAD_2());
-			stmt.setString(29, c.getCTRANSP());
-			stmt.setString(30, c.getCOM_IND());
-			stmt.setString(31, c.getCREDITO());
-			stmt.setDouble(32, c.getCRED_MAX());
-			stmt.setString(33, c.getCONTACTO());
-			stmt.setString(34, c.getCONTACTO2());
-			stmt.setInt(35, c.getLISTAPRE());
-			stmt.setString(36, c.getE_MAIL());
-			stmt.setString(37, c.getMAKITA());
-			stmt.setString(38, c.getCOMISION());
-			stmt.setString(39, c.getCOMI_DIFE());
-			stmt.setString(40, c.getTIPO_DOC());
-			stmt.setTimestamp(41, c.getFECHA_NAC());
-			stmt.setTimestamp(42, c.getFECHA_ING());
-			stmt.setString(43, c.getCPCCP());
+			stmt.setString(11, c.getCCOND());
+			stmt.setString(12, c.getZONCLI());
+			stmt.setString(13, c.getNVIAJ());
+			stmt.setString(14, c.getPROVCLI());
+			stmt.setString(15, c.getCUITCLI());
+			stmt.setString(16, c.getIVACLI());
+			stmt.setString(17, c.getREGCLI());
+			stmt.setDouble(18, c.getPRETEN());
+			stmt.setString(19, c.getDNRP());
+			stmt.setDouble(20, c.getSALCLI_1());
+			stmt.setDouble(21, c.getSALCLID_1());
+			stmt.setDate(22, c.getFSALCLI_1());
+			stmt.setDouble(23, c.getSALCLI_2());
+			stmt.setDouble(24, c.getSALCLID_2());
+			stmt.setDate(25, c.getFSALCLI_2());
+			stmt.setDouble(26, c.getA_CTA_1());
+			stmt.setDouble(27, c.getA_CTA_2());
+			stmt.setDouble(28, c.getA_CTAD_1());
+			stmt.setDouble(29, c.getA_CTAD_2());
+			stmt.setString(30, c.getCTRANSP());
+			stmt.setString(31, c.getCOM_IND());
+			stmt.setString(32, c.getCREDITO());
+			stmt.setDouble(33, c.getCRED_MAX());
+			stmt.setString(34, c.getCONTACTO());
+			stmt.setString(35, c.getCONTACTO2());
+			stmt.setInt(36, c.getLISTAPRE());
+			stmt.setString(37, c.getE_MAIL());
+			stmt.setString(38, c.getMAKITA());
+			stmt.setString(39, c.getCOMISION());
+			stmt.setString(40, c.getCOMI_DIFE());
+			stmt.setString(41, c.getTIPO_DOC());
+			stmt.setDate(42, c.getFECHA_NAC());
+			stmt.setDate(43, c.getFECHA_ING());
+			stmt.setString(44, c.getCPCCP());
+			stmt.setString(45, c.getOBSCLI());
 			
 			if(stmt.executeUpdate() >0 ) { return true;}
 			else { return false;}
@@ -119,7 +121,7 @@ public class DataCliente {
 		String sql = "UPDATE CLIENTES SET MARCA = ?, NOMCLI = ?, DOMCLI = ?, CODPOS = ?, LOCCLI = ?, TELCLI_1 = ?, TELCLI_2 = ?, FAX = ?, CVTO = ?,"
 				+ "CCOND = ?, ZONCLI = ?, NVIAJ = ?, PROVCLI = ?, CUITCLI = ?, IVACLI = ?, REGCLI = ?, PRETEN = ?, DNRP = ?, SALCLI_1 = ?, SALCLID_1 = ?, FSALCLI_1 = ?,"
 				+ "SALCLI_2 = ?, SALCLID_2 = ?, FSALCLI_2 = ?, A_CTA_1 = ?, A_CTA_2 = ?, A_CTAD_1 = ?, A_CTAD_2 = ?, CTRANSP = ?, COM_IND = ?, CREDITO = ?, CRED_MAX = ?, "
-				+ "CONTACTO = ?, CONTACTO2 = ?, LISTAPRE = ?, E_MAIL = ?, MAKITA = ?, COMISION = ?, COMI_DIFE = ?, TIPO_DOC = ?, FECHA_NAC = ?, FECHA_ING = ?, CPCCP = ? "
+				+ "CONTACTO = ?, CONTACTO2 = ?, LISTAPRE = ?, E_MAIL = ?, MAKITA = ?, COMISION = ?, COMI_DIFE = ?, TIPO_DOC = ?, FECHA_NAC = ?, FECHA_ING = ?, CPCCP = ?, OBSCLI = ? "
 				+ "WHERE CODCLI = ?";
 		
 		try {
@@ -135,40 +137,42 @@ public class DataCliente {
 			stmt.setString(7, c.getTELCLI_2());
 			stmt.setString(8, c.getFAX());
 			stmt.setString(9, c.getCVTO());
-			stmt.setString(10, c.getZONCLI());
-			stmt.setString(11, c.getNVIAJ());
-			stmt.setString(12, c.getPROVCLI());
-			stmt.setString(13, c.getCUITCLI());
-			stmt.setString(14, c.getIVACLI());
-			stmt.setString(15, c.getREGCLI());
-			stmt.setDouble(16, c.getPRETEN());
-			stmt.setString(17, c.getDNRP());
-			stmt.setDouble(18, c.getSALCLI_1());
-			stmt.setDouble(19, c.getSALCLID_1());
-			stmt.setTimestamp(20, c.getFSALCLI_1());
-			stmt.setDouble(21, c.getSALCLI_2());
-			stmt.setDouble(22, c.getSALCLID_2());
-			stmt.setTimestamp(23, c.getFSALCLI_2());
-			stmt.setDouble(24, c.getA_CTA_1());
-			stmt.setDouble(25, c.getA_CTA_2());
-			stmt.setDouble(26, c.getA_CTAD_1());
-			stmt.setDouble(27, c.getA_CTAD_2());
-			stmt.setString(28, c.getCTRANSP());
-			stmt.setString(29, c.getCOM_IND());
-			stmt.setString(30, c.getCREDITO());
-			stmt.setDouble(31, c.getCRED_MAX());
-			stmt.setString(32, c.getCONTACTO());
-			stmt.setString(33, c.getCONTACTO2());
-			stmt.setInt(34, c.getLISTAPRE());
-			stmt.setString(35, c.getE_MAIL());
-			stmt.setString(36, c.getMAKITA());
-			stmt.setString(37, c.getCOMISION());
-			stmt.setString(38, c.getCOMI_DIFE());
-			stmt.setString(39, c.getTIPO_DOC());
-			stmt.setTimestamp(40, c.getFECHA_NAC());
-			stmt.setTimestamp(41, c.getFECHA_ING());
-			stmt.setString(42, c.getCPCCP());
-			stmt.setString(43, c.getCODCLI());
+			stmt.setString(10, c.getCCOND());
+			stmt.setString(11, c.getZONCLI());
+			stmt.setString(12, c.getNVIAJ());
+			stmt.setString(13, c.getPROVCLI());
+			stmt.setString(14, c.getCUITCLI());
+			stmt.setString(15, c.getIVACLI());
+			stmt.setString(16, c.getREGCLI());
+			stmt.setDouble(17, c.getPRETEN());
+			stmt.setString(18, c.getDNRP());
+			stmt.setDouble(19, c.getSALCLI_1());
+			stmt.setDouble(20, c.getSALCLID_1());
+			stmt.setDate(21, c.getFSALCLI_1());
+			stmt.setDouble(22, c.getSALCLI_2());
+			stmt.setDouble(23, c.getSALCLID_2());
+			stmt.setDate(24, c.getFSALCLI_2());
+			stmt.setDouble(25, c.getA_CTA_1());
+			stmt.setDouble(26, c.getA_CTA_2());
+			stmt.setDouble(27, c.getA_CTAD_1());
+			stmt.setDouble(28, c.getA_CTAD_2());
+			stmt.setString(29, c.getCTRANSP());
+			stmt.setString(30, c.getCOM_IND());
+			stmt.setString(31, c.getCREDITO());
+			stmt.setDouble(32, c.getCRED_MAX());
+			stmt.setString(33, c.getCONTACTO());
+			stmt.setString(34, c.getCONTACTO2());
+			stmt.setInt(35, c.getLISTAPRE());
+			stmt.setString(36, c.getE_MAIL());
+			stmt.setString(37, c.getMAKITA());
+			stmt.setString(38, c.getCOMISION());
+			stmt.setString(39, c.getCOMI_DIFE());
+			stmt.setString(40, c.getTIPO_DOC());
+			stmt.setDate(41, c.getFECHA_NAC());
+			stmt.setDate(42, c.getFECHA_ING());
+			stmt.setString(43, c.getCPCCP());
+			stmt.setString(44, c.getOBSCLI());
+			stmt.setString(45, c.getCODCLI());
 			
 			if(stmt.executeUpdate() >0 ) { return true;}
 			else { return false;}
@@ -204,7 +208,7 @@ public class DataCliente {
 					c.setCODPOS(rs.getInt("CODPOS"));
 					c.setLOCCLI(rs.getString("LOCCLI"));
 					c.setTELCLI_1(rs.getString("TELCLI_1"));
-					c.setTELCLI_2(rs.getString("TECCLI_2"));
+					c.setTELCLI_2(rs.getString("TELCLI_2"));
 					c.setFAX(rs.getString("FAX"));
 					c.setCVTO(rs.getString("CVTO"));
 					c.setCCOND(rs.getString("CCOND"));
@@ -218,10 +222,10 @@ public class DataCliente {
 					c.setDNRP(rs.getString("DNRP"));
 					c.setSALCLI_1(rs.getDouble("SALCLI_1"));
 					c.setSALCLID_1(rs.getDouble("SALCLID_1"));
-					c.setFSALCLI_1(rs.getTimestamp("FSALCLI_1"));
+					c.setFSALCLI_1(rs.getDate("FSALCLI_1"));
 					c.setSALCLI_2(rs.getDouble("SALCLI_2"));
 					c.setSALCLID_2(rs.getDouble("SALCLID_2"));
-					c.setFSALCLI_2(rs.getTimestamp("FSALCLI_2"));
+					c.setFSALCLI_2(rs.getDate("FSALCLI_2"));
 					c.setA_CTA_1(rs.getDouble("A_CTA_1"));
 					c.setA_CTA_2(rs.getDouble("A_CTA_2"));
 					c.setA_CTAD_1(rs.getDouble("A_CTAD_1"));
@@ -238,9 +242,10 @@ public class DataCliente {
 					c.setCOMISION(rs.getString("COMISION"));
 					c.setCOMI_DIFE(rs.getString("COMI_DIFE"));
 					c.setTIPO_DOC(rs.getString("TIPO_DOC"));
-					c.setFECHA_NAC(rs.getTimestamp("FECHA_NAC"));
-					c.setFECHA_ING(rs.getTimestamp("FECHA_ING"));
+					c.setFECHA_NAC(rs.getDate("FECHA_NAC"));
+					c.setFECHA_ING(rs.getDate("FECHA_ING"));
 					c.setCPCCP(rs.getString("CPCCP"));
+					c.setOBSCLI(rs.getString("OBSCLI"));
 				}
 			}
 		}
@@ -272,7 +277,7 @@ public class DataCliente {
 					c.setCODPOS(rs.getInt("CODPOS"));
 					c.setLOCCLI(rs.getString("LOCCLI"));
 					c.setTELCLI_1(rs.getString("TELCLI_1"));
-					c.setTELCLI_2(rs.getString("TECCLI_2"));
+					c.setTELCLI_2(rs.getString("TELCLI_2"));
 					c.setFAX(rs.getString("FAX"));
 					c.setCVTO(rs.getString("CVTO"));
 					c.setCCOND(rs.getString("CCOND"));
@@ -286,10 +291,10 @@ public class DataCliente {
 					c.setDNRP(rs.getString("DNRP"));
 					c.setSALCLI_1(rs.getDouble("SALCLI_1"));
 					c.setSALCLID_1(rs.getDouble("SALCLID_1"));
-					c.setFSALCLI_1(rs.getTimestamp("FSALCLI_1"));
+					c.setFSALCLI_1(rs.getDate("FSALCLI_1"));
 					c.setSALCLI_2(rs.getDouble("SALCLI_2"));
 					c.setSALCLID_2(rs.getDouble("SALCLID_2"));
-					c.setFSALCLI_2(rs.getTimestamp("FSALCLI_2"));
+					c.setFSALCLI_2(rs.getDate("FSALCLI_2"));
 					c.setA_CTA_1(rs.getDouble("A_CTA_1"));
 					c.setA_CTA_2(rs.getDouble("A_CTA_2"));
 					c.setA_CTAD_1(rs.getDouble("A_CTAD_1"));
@@ -306,9 +311,10 @@ public class DataCliente {
 					c.setCOMISION(rs.getString("COMISION"));
 					c.setCOMI_DIFE(rs.getString("COMI_DIFE"));
 					c.setTIPO_DOC(rs.getString("TIPO_DOC"));
-					c.setFECHA_NAC(rs.getTimestamp("FECHA_NAC"));
-					c.setFECHA_ING(rs.getTimestamp("FECHA_ING"));
+					c.setFECHA_NAC(rs.getDate("FECHA_NAC"));
+					c.setFECHA_ING(rs.getDate("FECHA_ING"));
 					c.setCPCCP(rs.getString("CPCCP"));
+					c.setOBSCLI(rs.getString("OBSCLI"));
 					lista.add(c);
 				}
 			}
@@ -344,4 +350,24 @@ public class DataCliente {
 		return id;
 	}
 	
+	public String localidad(Integer id) throws ApplicationException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String r = null;
+		String sql = "SELECT LOCALIDAD FROM LOCALIDADES WHERE CODPOS = ?";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			stmt.setInt(1, id);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) { while(rs.next()) {  r = rs.getString("LOCALIDAD"); } }
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return r;
+	}
 }

@@ -1,7 +1,7 @@
 package entidades;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 public class Cliente implements Serializable{
 	
@@ -12,7 +12,7 @@ public class Cliente implements Serializable{
 	private String COMI_DIFE, TIPO_DOC, CPCCP;
 	private Integer CODPOS, LISTAPRE;
 	private Double PRETEN, SALCLI_1, SALCLID_1, SALCLI_2, SALCLID_2,A_CTA_1,A_CTA_2, A_CTAD_1, A_CTAD_2,CRED_MAX;
-	private Timestamp FSALCLI_1, FSALCLI_2, FECHA_NAC, FECHA_ING;
+	private Date FSALCLI_1, FSALCLI_2, FECHA_NAC, FECHA_ING;
 	
 	
 	/* CONSTRUCTORES */
@@ -21,10 +21,10 @@ public class Cliente implements Serializable{
 	
 	public Cliente(String MARCA, String CODCLI, String NOMCLI, String DOMCLI, Integer CODPOS, String LOCCLI, String TELCLI_1,
 			String TELCLI_2, String FAX, String CVTO, String CCOND, String ZONCLI, String NVIAJ, String PROVCLI, String CUITCLI,
-			String IVACLI, String REGCLI, Double PRETEN, String DNRP, Double SALCLI_1, Double SALCLID_1, Timestamp FSALCLI_1, Double SALCLI_2, 
-			Double SALCLID_2, Timestamp FSALCLI_2, Double A_CTA_1, Double A_CTA_2, Double A_CTAD_1, Double A_CTAD_2, String CTRANSP, String COM_IND, String CREDITO, Double CRED_MAX,
+			String IVACLI, String REGCLI, Double PRETEN, String DNRP, Double SALCLI_1, Double SALCLID_1, Date FSALCLI_1, Double SALCLI_2, 
+			Double SALCLID_2, Date FSALCLI_2, Double A_CTA_1, Double A_CTA_2, Double A_CTAD_1, Double A_CTAD_2, String CTRANSP, String COM_IND, String CREDITO, Double CRED_MAX,
 			String CONTACTO, String CONTACTO2, Integer LISTAPRE, String E_MAIL, String MAKITA, String COMISION, String COMI_DIFE, String TIPO_DOC, 
-			Timestamp FECHA_NAC, Timestamp FECHA_ING, String CPCCP, String OBSCLI) {
+			Date FECHA_NAC, Date FECHA_ING, String CPCCP, String OBSCLI) {
 		this.MARCA = MARCA;
 		this.CODCLI = CODCLI;
 		this.NOMCLI = NOMCLI;
@@ -395,35 +395,35 @@ public class Cliente implements Serializable{
 		CRED_MAX = cRED_MAX;
 	}
 
-	public Timestamp getFSALCLI_1() {
+	public Date getFSALCLI_1() {
 		return FSALCLI_1;
 	}
 
-	public void setFSALCLI_1(Timestamp fSALCLI_1) {
+	public void setFSALCLI_1(Date fSALCLI_1) {
 		FSALCLI_1 = fSALCLI_1;
 	}
 
-	public Timestamp getFSALCLI_2() {
+	public Date getFSALCLI_2() {
 		return FSALCLI_2;
 	}
 
-	public void setFSALCLI_2(Timestamp fSALCLI_2) {
+	public void setFSALCLI_2(Date fSALCLI_2) {
 		FSALCLI_2 = fSALCLI_2;
 	}
 
-	public Timestamp getFECHA_NAC() {
+	public Date getFECHA_NAC() {
 		return FECHA_NAC;
 	}
 
-	public void setFECHA_NAC(Timestamp fECHA_NAC) {
+	public void setFECHA_NAC(Date fECHA_NAC) {
 		FECHA_NAC = fECHA_NAC;
 	}
 
-	public Timestamp getFECHA_ING() {
+	public Date getFECHA_ING() {
 		return FECHA_ING;
 	}
 
-	public void setFECHA_ING(Timestamp fECHA_ING) {
+	public void setFECHA_ING(Date fECHA_ING) {
 		FECHA_ING = fECHA_ING;
 	}
 	
