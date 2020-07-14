@@ -26,12 +26,6 @@
 		%>
 
 		<div class="w3-container w3-padding-64">			
-			<div class="3-container w3-red w3-card-4">
-				<ol>
-					<li>Hacer imprimir ficha</li>
-					<li>testear</li>
-				</ol>
-			</div>
 			
 			<!-- FORMULARIOS PARA EL ABM DE PRODUCTOS CON MODALES -->
 			<div class="w3-container w3-center w3-card-4">
@@ -44,11 +38,18 @@
 			
 			<%@ include file="../errores/errSocio.jsp" %>
 
-				
+			<br><br>
+
+			<div class="w3-container w3-card-4 w3-center">
+				<!--<input class="w3-input" type="text" id="search" onkeyup="buscar()" placeholder="Buscar a socio">-->
+				<input class="w3-input" type="text" i="search" onkeyup="buscar()" placeholder="Buscar Socio..." >
+			</div>
+
+
 			<!-- EMPIEZA LA TABLA DE SOCIOS CON LOS BOTONES MODIFICAR , ELIMINAR E IMPRIMIR-->
 			<h1 class="w3-center"> Socios </h1>
 			<div class="w3-responsive w3-card-4 w3-round-xlarge">
-				<table class="w3-table-all w3-round-xlarge">
+				<table class="w3-table-all w3-round-xlarge" id="tabla">
 					<thead>
 						<tr class="w3-indigo">
 							<th>Legajo</th>
@@ -99,6 +100,26 @@
 
 		<!-- Footer -->
 		<%@ include file="footer.jsp" %>
-
+	<script>
+	function buscar() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tabla");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+	</script>
+	
 	</body>
 </html>

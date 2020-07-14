@@ -57,3 +57,4 @@ function abroModalSocio(id, socio){
 		document.getElementById("printsocio").value = socio;
 	}
 }
+

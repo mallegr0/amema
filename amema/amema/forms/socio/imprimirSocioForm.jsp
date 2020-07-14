@@ -5,7 +5,7 @@
 			<div class="w3-row w3-section">
 				<div class="w3-col" style="width:35%"><p>Desea imprimir los datos del Socio: </p></div>
 		    	<div class="w3-rest">
-		    		<input id="printsocio" class="w3-input w3-border" name="socio" type="text" readonly>
+		    		<input id="printsocio" class="w3-input w3-border" name="idSocio" type="text" readonly>
 		    	</div>
 			</div>
 			<div class="w3-row w3-section">
