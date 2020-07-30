@@ -349,8 +349,8 @@ public class Socio extends HttpServlet {
 		
 		c.setMARCA("N");
 		c.setCODCLI(nrosocio);
-		c.setNOMCLI(nombre);
-		c.setDOMCLI(domicilio);
+		c.setNOMCLI(nombre.toUpperCase());
+		c.setDOMCLI(domicilio.toUpperCase());
 		c.setCODPOS(Integer.parseInt(codpos));
 		c.setLOCCLI(ctc.localidad(Integer.parseInt(codpos)));
 		c.setTELCLI_1(telefono1);
@@ -380,10 +380,10 @@ public class Socio extends HttpServlet {
 		c.setCOM_IND(estado);
 		c.setCREDITO("N");
 		c.setCRED_MAX(0.0);
-		c.setCONTACTO(cc);
-		c.setCONTACTO2(descc);
+		c.setCONTACTO(cc.toUpperCase());
+		c.setCONTACTO2(descc.toUpperCase());
 		c.setLISTAPRE(1);
-		c.setE_MAIL(mail);
+		c.setE_MAIL(mail.toUpperCase());
 		c.setMAKITA("N");
 		c.setCOMISION("N");
 		c.setCOMI_DIFE("N");
@@ -391,7 +391,7 @@ public class Socio extends HttpServlet {
 		c.setFECHA_NAC(fecha(fecnac));
 		c.setFECHA_ING(fecha(fecing));
 		c.setCPCCP(empresa);
-		c.setOBSCLI(obs);
+		c.setOBSCLI(obs.toUpperCase());
 		
 		try {
 			if(ctc.altaCliente(c) == true) { msj = "siAlta"; }
@@ -413,8 +413,8 @@ public class Socio extends HttpServlet {
 		
 		c.setMARCA("N");
 		c.setCODCLI(nrosocio);
-		c.setNOMCLI(nombre);
-		c.setDOMCLI(domicilio);
+		c.setNOMCLI(nombre.toUpperCase());
+		c.setDOMCLI(domicilio.toUpperCase());
 		c.setCODPOS(Integer.parseInt(codpos));
 		c.setLOCCLI(ctc.localidad(Integer.parseInt(codpos)));
 		c.setTELCLI_1(telefono1);
@@ -444,10 +444,10 @@ public class Socio extends HttpServlet {
 		c.setCOM_IND(estado);
 		c.setCREDITO("N");
 		c.setCRED_MAX(0.0);
-		c.setCONTACTO(cc);
-		c.setCONTACTO2(descc);
+		c.setCONTACTO(cc.toUpperCase());
+		c.setCONTACTO2(descc.toUpperCase());
 		c.setLISTAPRE(1);
-		c.setE_MAIL(mail);
+		c.setE_MAIL(mail.toUpperCase());
 		c.setMAKITA("N");
 		c.setCOMISION("N");
 		c.setCOMI_DIFE("N");
@@ -455,7 +455,7 @@ public class Socio extends HttpServlet {
 		c.setFECHA_NAC(fecha(fecnac));
 		c.setFECHA_ING(fecha(fecing));
 		c.setCPCCP(empresa);
-		c.setOBSCLI(obs);
+		c.setOBSCLI(obs.toUpperCase());
 		
 		try {
 			if(ctc.modificaCliente(c) == true) { msj = "siModifica"; }

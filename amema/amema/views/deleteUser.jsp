@@ -23,7 +23,7 @@
 			      	<form action="Usuario" method="post">
 				      	<div class="w3-container">
 					      	<div class="w3-row w3-section">
-		  						<p>Desea eliminar al usuario: IRIA EÑ USUARIO</p>
+		  						<p>Desea eliminar al usuario: IRIA EL USUARIO</p>
 							</div>
 							<div class="w3-row w3-section">
 								<div class="w3-half w3-center">

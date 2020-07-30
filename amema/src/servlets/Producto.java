@@ -66,7 +66,7 @@ public class Producto extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Familia f = new Familia(request.getParameter("codigo"), request.getParameter("nombre"), Float.parseFloat(request.getParameter("bonificacion")));
+		Familia f = new Familia(request.getParameter("codigo"), request.getParameter("nombre").toUpperCase(), Float.parseFloat(request.getParameter("bonificacion")));
 		CtrlFamilia cf = new CtrlFamilia();
 		String msj = null;
 		try {
@@ -102,7 +102,7 @@ public class Producto extends HttpServlet {
 	 */
 	private String altaFamilia(String codigo, String nombre, float bonif) throws ApplicationException {
 		CtrlFamilia cf = new CtrlFamilia();
-		Familia f = new Familia(codigo, nombre,(float) bonif);
+		Familia f = new Familia(codigo, nombre.toUpperCase(),(float) bonif);
 		String msj = null;
 		try {
 			if(cf.altaFamilia(f) == true) { msj = "siAlta"; }

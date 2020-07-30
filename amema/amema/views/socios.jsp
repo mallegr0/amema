@@ -41,10 +41,16 @@
 			<br><br>
 
 			<div class="w3-container w3-card-4 w3-center">
-				<!--<input class="w3-input" type="text" id="search" onkeyup="buscar()" placeholder="Buscar a socio">-->
-				<input class="w3-input" type="text" i="search" onkeyup="buscar()" placeholder="Buscar Socio..." >
+				<form action="/amema/Socio" method="post">
+					<div class="w3-half w3-container"> 
+						<input class="w3-input" type="text" name="buscarSocio" placeholder="Buscar Socio">
+					</div>
+					<div class="w3-rest w3-contariner">
+						<button class="w3-button fas fa-search w3-green w3-hover-indigo" name="evento_buscar"></button>
+					</div> 
+				</form>
 			</div>
-
+			
 
 			<!-- EMPIEZA LA TABLA DE SOCIOS CON LOS BOTONES MODIFICAR , ELIMINAR E IMPRIMIR-->
 			<h1 class="w3-center"> Socios </h1>
@@ -100,26 +106,6 @@
 
 		<!-- Footer -->
 		<%@ include file="footer.jsp" %>
-	<script>
-	function buscar() {
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("search");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("tabla");
-    tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[1];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }       
-    }
-  }
-	</script>
 	
 	</body>
 </html>

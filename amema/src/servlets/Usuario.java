@@ -46,7 +46,7 @@ public class Usuario extends HttpServlet {
 		if(request.getParameter("evento_alta") != null){
 			String msj = "";
 			try {
-				msj = altaUsuario(request.getParameter("usuario"), request.getParameter("password"), request.getParameter("nombre"));
+				msj = altaUsuario(request.getParameter("usuario").toUpperCase(), request.getParameter("password"), request.getParameter("nombre").toUpperCase());
 			} catch (ApplicationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -82,7 +82,7 @@ public class Usuario extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-			msj = modificaUsuario(u.getNroUsuario(), request.getParameter("nombre"), u.getLogIn(), u.getPassWord(), u.getDescOficina(),
+			msj = modificaUsuario(u.getNroUsuario(), request.getParameter("nombre").toUpperCase(), u.getLogIn(), u.getPassWord(), u.getDescOficina(),
 					u.getDescFunc(), u.getCperfil(), u.getHab());
 			request.getSession().setAttribute("msj", msj);
 			response.sendRedirect(urlUser);

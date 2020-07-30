@@ -12,7 +12,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 	private PdfTemplate tmp;
 	private Image img;
 	private String user;
-	private String url = "C:\\Users\\tute\\git\\amema\\amema\\amema\\static\\imgenes\\escudo_AMEMA.png";
+	private String url = "C:\\Lenguajes\\Java\\git\\amema\\amema\\static\\imgenes\\escudo_AMEMA.png";
 	
 	
 	public HeaderFooterPageEvent(String nombre) {
