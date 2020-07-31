@@ -1,6 +1,6 @@
 
 
-<form action="Login" method="post">
+<form action="/amema/Login" method="post">
 	<div class="w3-container">
 		<div class="w3-row w3-section">
 			<div class="w3-col" style="width: 50px"><span class="w3-text-indigo fas fa-user fa-lg"></span></div>

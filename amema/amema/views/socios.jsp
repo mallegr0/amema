@@ -22,7 +22,6 @@
 			CtrlCliente cc = new CtrlCliente();
 			List<Cliente> listaSocios = cc.listarCliente();
 			request.getSession().setAttribute("id", cc.ultimoID());
-			List<Cliente> ids = new ArrayList<Cliente>();
 		%>
 
 		<div class="w3-container w3-padding-64">			
@@ -40,22 +39,45 @@
 
 			<br><br>
 
-			<div class="w3-container w3-card-4 w3-center">
-				<form action="/amema/Socio" method="post">
-					<div class="w3-half w3-container"> 
-						<input class="w3-input" type="text" name="buscarSocio" placeholder="Buscar Socio">
-					</div>
-					<div class="w3-rest w3-contariner">
-						<button class="w3-button fas fa-search w3-green w3-hover-indigo" name="evento_buscar"></button>
-					</div> 
-				</form>
-			</div>
-			
 
+			<h1 class="w3-center"> Filtrado de Socios </h1>
+			<!--Formulario de busqueda de Socio-->
+			<form class="w3-container w3-card-4">
+				<div class="w3-quarter w3-container">
+					<p>
+						<input class="w3-check" id="todos" type="checkbox" name="todos" onclick="habilitar('todos')">
+					    <label>Listar Todos los Socios</label>
+					</p>
+					<p>
+						<input class="w3-check" id="nombre" type="checkbox" name="nombre" onclick="habilitar('nombre')">
+						<label>Buscar por Nombre y Apellido</label>
+					</p>
+					<p>
+						<input class="w3-check" id="doc" type="checkbox" name="doc" onclick="habilitar('doc')">
+						<label>Buscar por Documento</label>
+					</p>
+				</div>
+				<div class="w3-half w3-container">
+					<p></p>
+					<p>
+						<input class="w3-input" id="dato" type="text" name="dato" placeholder="Ingrese el dato a buscar" disabled="true">
+					</p>
+					<p></p>
+				</div>
+				<div class="w3-quarter w3-container">
+					<p></p>
+					<p>
+						<button class="w3-button w3-green w3-hover-indigo fas fa-search w3-round-xxlarge fa-3x"></button>
+					</p>
+					<p></p>
+				</div>
+ 			</form>
+			
+			<br><br>
 			<!-- EMPIEZA LA TABLA DE SOCIOS CON LOS BOTONES MODIFICAR , ELIMINAR E IMPRIMIR-->
 			<h1 class="w3-center"> Socios </h1>
 			<div class="w3-responsive w3-card-4 w3-round-xlarge">
-				<table class="w3-table-all w3-round-xlarge" id="tabla">
+				<table class="w3-table-all w3-round-xlarge">
 					<thead>
 						<tr class="w3-indigo">
 							<th>Legajo</th>
@@ -68,7 +90,6 @@
 					</thead>
 					<tbody>
 						<% for(Cliente c : listaSocios){
-						   	 ids.add(c);	
 						%>	
 							<tr class="w3-hover-pale-green">
 								<td><%=c.getDNRP() %></td>
@@ -106,6 +127,28 @@
 
 		<!-- Footer -->
 		<%@ include file="footer.jsp" %>
-	
+		
+		<script type="text/javascript">
+			function habilitar(dato){
+				if (dato == "nombre") {
+					document.getElementById("todos").checked = false;
+					document.getElementById("doc").checked = false;
+					document.getElementById("dato").disabled = false;
+				}
+				else if (dato == "doc"){
+					document.getElementById("todos").checked = false;
+					document.getElementById("nombre").checked = false;
+					document.getElementById("dato").disabled = false;
+				}
+				else{
+					document.getElementById("nombre").checked = false;
+					document.getElementById("doc").checked = false;
+				}
+				
+			}
+
+		</script>
+
+
 	</body>
 </html>
