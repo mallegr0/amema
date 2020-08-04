@@ -209,9 +209,7 @@
 					document.getElementById("nombre").checked = false;
 					document.getElementById("doc").checked = false;
 				}
-				
 			}
-
 		</script>
 
 

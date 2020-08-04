@@ -19,14 +19,12 @@ public class UsuarioServlet extends HttpServlet {
      */
     public UsuarioServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String method = request.getParameter("borrar");
 		if(method == "borrar") {
 			doDelete(request, response);
@@ -38,7 +36,6 @@ public class UsuarioServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
 		
 		response.getWriter().append("POST Served at: ").append(request.getContextPath());
@@ -56,7 +53,6 @@ public class UsuarioServlet extends HttpServlet {
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("DELETE Served at: ").append(request.getContextPath());
 	}
 

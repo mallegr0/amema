@@ -61,4 +61,21 @@ public class CtrlCliente {
 		dc = new DataCliente();
 		return dc.buscarClientePorNombre(nombre);
 	}
+	
+	public ArrayList<Cliente> listarClienteActivoConvenio(String estado, String conv) throws ApplicationException {
+		dc = new DataCliente();
+		return dc.listarClienteActivoConvenio(estado, conv);
+	}
+	
+	public ArrayList<Cliente> listarClienteConvenio(String conv) throws ApplicationException {
+		dc = new DataCliente();
+		return dc.listarClienteConvenio(conv);
+	}
+	
+	public ArrayList<Cliente> listarClienteEstado(String estado) throws ApplicationException {
+		dc = new DataCliente();
+		return dc.listarClienteEstado(estado);
+	}
+	
+	
 }
