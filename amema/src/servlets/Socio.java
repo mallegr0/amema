@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -296,6 +297,10 @@ public class Socio extends HttpServlet {
 		if(request.getParameter("evento_modificar") != null) { doPut(request, response); }
 		
 		if(request.getParameter("evento_eliminar") != null){ doDelete(request, response); }
+		
+		if(request.getParameter("evento_buscar") != null) {
+			System.out.println("entra al servlet");
+			buscar(request, response); }
 	}
 
 
@@ -486,5 +491,28 @@ public class Socio extends HttpServlet {
 			r = "S/D";
 		}
 		return r;
+	}
+	
+	private void buscar(HttpServletRequest req, HttpServletResponse res) {
+		CtrlCliente cc = new CtrlCliente();
+		Cliente c = null;
+		ArrayList<Cliente> lista = new ArrayList<>();
+		
+		try {
+			if(req.getParameter("todos") != null) {
+				lista = cc.listarCliente();
+				req.getSession().setAttribute("todos", lista);
+			}
+			if(req.getParameter("nombre") != null) {
+				lista = cc.listarClientePorNombre(req.getParameter("dato").toUpperCase());
+				req.getSession().setAttribute("nombre", lista);
+			}
+			if(req.getParameter("doc") != null) {
+				c = cc.consultaClientePorDNI(req.getParameter("dato"));
+				req.getSession().setAttribute("doc", c);
+			}
+			res.sendRedirect(urlSocio);
+		}
+		catch (ApplicationException | IOException e) { e.printStackTrace();}
 	}
 }

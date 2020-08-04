@@ -254,6 +254,77 @@ public class DataCliente {
 		return c;
 	}
 	
+	public Cliente consultaClientePorDNI(String doc) throws ApplicationException{
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql ="SELECT * FROM CLIENTES WHERE CUITCLI = ?";
+		Cliente c = null;
+		
+		try {
+			
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			stmt.setString(1, doc);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					c = new Cliente();
+					c.setMARCA(rs.getString("MARCA"));
+					c.setCODCLI(rs.getString("CODCLI"));
+					c.setNOMCLI(rs.getString("NOMCLI"));
+					c.setDOMCLI(rs.getString("DOMCLI"));
+					c.setCODPOS(rs.getInt("CODPOS"));
+					c.setLOCCLI(rs.getString("LOCCLI"));
+					c.setTELCLI_1(rs.getString("TELCLI_1"));
+					c.setTELCLI_2(rs.getString("TELCLI_2"));
+					c.setFAX(rs.getString("FAX"));
+					c.setCVTO(rs.getString("CVTO"));
+					c.setCCOND(rs.getString("CCOND"));
+					c.setZONCLI(rs.getString("ZONCLI"));
+					c.setNVIAJ(rs.getString("NVIAJ"));
+					c.setPROVCLI(rs.getString("PROVCLI"));
+					c.setCUITCLI(rs.getString("CUITCLI"));
+					c.setIVACLI(rs.getString("IVACLI"));
+					c.setREGCLI(rs.getString("REGCLI"));
+					c.setPRETEN(rs.getDouble("PRETEN"));
+					c.setDNRP(rs.getString("DNRP"));
+					c.setSALCLI_1(rs.getDouble("SALCLI_1"));
+					c.setSALCLID_1(rs.getDouble("SALCLID_1"));
+					c.setFSALCLI_1(rs.getDate("FSALCLI_1"));
+					c.setSALCLI_2(rs.getDouble("SALCLI_2"));
+					c.setSALCLID_2(rs.getDouble("SALCLID_2"));
+					c.setFSALCLI_2(rs.getDate("FSALCLI_2"));
+					c.setA_CTA_1(rs.getDouble("A_CTA_1"));
+					c.setA_CTA_2(rs.getDouble("A_CTA_2"));
+					c.setA_CTAD_1(rs.getDouble("A_CTAD_1"));
+					c.setA_CTAD_2(rs.getDouble("A_CTAD_2"));
+					c.setCTRANSP(rs.getString("CTRANSP"));
+					c.setCOM_IND(rs.getString("COM_IND"));
+					c.setCREDITO(rs.getString("CREDITO"));
+					c.setCRED_MAX(rs.getDouble("CRED_MAX"));
+					c.setCONTACTO(rs.getString("CONTACTO"));
+					c.setCONTACTO2(rs.getString("CONTACTO2"));
+					c.setLISTAPRE(rs.getInt("LISTAPRE"));
+					c.setE_MAIL(rs.getString("E_MAIL"));
+					c.setMAKITA(rs.getString("MAKITA"));
+					c.setCOMISION(rs.getString("COMISION"));
+					c.setCOMI_DIFE(rs.getString("COMI_DIFE"));
+					c.setTIPO_DOC(rs.getString("TIPO_DOC"));
+					c.setFECHA_NAC(rs.getDate("FECHA_NAC"));
+					c.setFECHA_ING(rs.getDate("FECHA_ING"));
+					c.setCPCCP(rs.getString("CPCCP"));
+					c.setOBSCLI(rs.getString("OBSCLI"));
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace();}
+		finally { cerrar(stmt, rs); }
+		return c;
+	}
+	
+	
 	public ArrayList<Cliente> listarCliente() throws ApplicationException{
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -325,6 +396,80 @@ public class DataCliente {
 			return null;}
 		finally { cerrar(stmt, rs); }
 	}
+	
+	public ArrayList<Cliente> buscarClientePorNombre(String nombre) throws ApplicationException{
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql ="SELECT * FROM CLIENTES WHERE NOMCLI LIKE CONCAT('%',?,'%') ORDER BY CODCLI";
+		Cliente c = null;
+		ArrayList<Cliente> lista = new ArrayList<>();
+		
+		try {
+			
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setString(1, nombre);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					c = new Cliente();
+					c.setMARCA(rs.getString("MARCA"));
+					c.setCODCLI(rs.getString("CODCLI"));
+					c.setNOMCLI(rs.getString("NOMCLI"));
+					c.setDOMCLI(rs.getString("DOMCLI"));
+					c.setCODPOS(rs.getInt("CODPOS"));
+					c.setLOCCLI(rs.getString("LOCCLI"));
+					c.setTELCLI_1(rs.getString("TELCLI_1"));
+					c.setTELCLI_2(rs.getString("TELCLI_2"));
+					c.setFAX(rs.getString("FAX"));
+					c.setCVTO(rs.getString("CVTO"));
+					c.setCCOND(rs.getString("CCOND"));
+					c.setZONCLI(rs.getString("ZONCLI"));
+					c.setNVIAJ(rs.getString("NVIAJ"));
+					c.setPROVCLI(rs.getString("PROVCLI"));
+					c.setCUITCLI(rs.getString("CUITCLI"));
+					c.setIVACLI(rs.getString("IVACLI"));
+					c.setREGCLI(rs.getString("REGCLI"));
+					c.setPRETEN(rs.getDouble("PRETEN"));
+					c.setDNRP(rs.getString("DNRP"));
+					c.setSALCLI_1(rs.getDouble("SALCLI_1"));
+					c.setSALCLID_1(rs.getDouble("SALCLID_1"));
+					c.setFSALCLI_1(rs.getDate("FSALCLI_1"));
+					c.setSALCLI_2(rs.getDouble("SALCLI_2"));
+					c.setSALCLID_2(rs.getDouble("SALCLID_2"));
+					c.setFSALCLI_2(rs.getDate("FSALCLI_2"));
+					c.setA_CTA_1(rs.getDouble("A_CTA_1"));
+					c.setA_CTA_2(rs.getDouble("A_CTA_2"));
+					c.setA_CTAD_1(rs.getDouble("A_CTAD_1"));
+					c.setA_CTAD_2(rs.getDouble("A_CTAD_2"));
+					c.setCTRANSP(rs.getString("CTRANSP"));
+					c.setCOM_IND(rs.getString("COM_IND"));
+					c.setCREDITO(rs.getString("CREDITO"));
+					c.setCRED_MAX(rs.getDouble("CRED_MAX"));
+					c.setCONTACTO(rs.getString("CONTACTO"));
+					c.setCONTACTO2(rs.getString("CONTACTO2"));
+					c.setLISTAPRE(rs.getInt("LISTAPRE"));
+					c.setE_MAIL(rs.getString("E_MAIL"));
+					c.setMAKITA(rs.getString("MAKITA"));
+					c.setCOMISION(rs.getString("COMISION"));
+					c.setCOMI_DIFE(rs.getString("COMI_DIFE"));
+					c.setTIPO_DOC(rs.getString("TIPO_DOC"));
+					c.setFECHA_NAC(rs.getDate("FECHA_NAC"));
+					c.setFECHA_ING(rs.getDate("FECHA_ING"));
+					c.setCPCCP(rs.getString("CPCCP"));
+					c.setOBSCLI(rs.getString("OBSCLI"));
+					lista.add(c);
+				}
+			}
+			return lista;
+		}
+		catch(SQLException e) { 
+			e.printStackTrace();
+			return null;}
+		finally { cerrar(stmt, rs); }
+	}
+	
 	
 	public String ultimoID() {
 		String id = "";

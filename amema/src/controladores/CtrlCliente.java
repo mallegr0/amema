@@ -52,4 +52,13 @@ public class CtrlCliente {
 		return dc.localidad(codpos);
 	}
 	
+	public Cliente consultaClientePorDNI(String doc) throws ApplicationException{
+		dc = new DataCliente();
+		return dc.consultaClientePorDNI(doc);
+	}
+	
+	public ArrayList<Cliente> listarClientePorNombre(String nombre) throws ApplicationException {
+		dc = new DataCliente();
+		return dc.buscarClientePorNombre(nombre);
+	}
 }
