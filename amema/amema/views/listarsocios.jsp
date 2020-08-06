@@ -22,6 +22,16 @@
 	<%@ include file="../views/menu.jsp" %>
 	<br>
 	<div class="w3-container w3-padding-64 w3-card-4">
+	
+		<!-- Error -->
+		<% String msg = (String) request.getSession().getAttribute("msj"); %>
+		<% if(msg != null){ %>
+			<div class="w3-panel w3-green w3-display-container w3-rounded">
+	  			<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+	  			<p class="w3-center"><Strong><%=msg  %></Strong></p>
+			</div>
+		<%} %>
+	
 		<form method="post" action="/amema/ListarSocio"> 
 			<div class="w3-container w3-padding-64 w3-card-4">
 				<div class="w3-half w3-container">
@@ -55,18 +65,22 @@
 				<button class="w3-button w3-green w3-round-large">Listar</button>
 			</div>
 		</form> 
-
+		<% request.getSession().removeAttribute("msj"); %>
 	</div>
 
 	<%@ include file="footer.jsp" %>
 	<script type="text/javascript">
 			function habilitar(dato){
-				if (dato == "activos") {
+				if (dato == "activos" && dato <> "todos") {
 					document.getElementById("todos").checked = false;
 				}
-				else if(dato == "todos") {
+				else if(dato == "todos" && dato <> "activos") {
 					document.getElementById("activos").checked = false;
 				} 
+				else{
+					document.ggetElementById("activos").checked = true;
+					document.getElementById("todos").checked = false;
+				}
 				if (dato == "check") {
 					document.getElementById("selector").disabled = false;
 					document.getElementById("todosconv").checked = false;

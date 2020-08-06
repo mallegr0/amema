@@ -299,7 +299,6 @@ public class Socio extends HttpServlet {
 		if(request.getParameter("evento_eliminar") != null){ doDelete(request, response); }
 		
 		if(request.getParameter("evento_buscar") != null) {
-			System.out.println("entra al servlet");
 			buscar(request, response); }
 	}
 
