@@ -36,10 +36,7 @@ public class Socio extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Socio() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    public Socio() { super(); }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -286,10 +283,7 @@ public class Socio extends HttpServlet {
 						request.getParameter("estado"), request.getParameter("cc"), request.getParameter("descc"),
 						request.getParameter("mail"), request.getParameter("tpodoc"), request.getParameter("fecnac"),
 						request.getParameter("fecing"), request.getParameter("empresa"), request.getParameter("obs"));
-			} catch (ApplicationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (ApplicationException e) { e.printStackTrace(); }
 			request.getSession().setAttribute("msj", msj);
 			response.sendRedirect(urlSocio);
 		}
@@ -315,10 +309,7 @@ public class Socio extends HttpServlet {
 					request.getParameter("estado"), request.getParameter("cc"), request.getParameter("descc"),
 					request.getParameter("mail"), request.getParameter("tpodoc"), request.getParameter("fecnac"),
 					request.getParameter("fecing"), request.getParameter("empresa"), request.getParameter("obs"));
-		} catch (ApplicationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (ApplicationException e) { e.printStackTrace(); }
 		request.getSession().setAttribute("msj", msj);
 		response.sendRedirect(urlSocio);
 	}

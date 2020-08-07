@@ -22,10 +22,7 @@ public class Producto extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Producto() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    public Producto() { super(); }
     
     /*
      * Métodos básicos de manejo de httpServletsRequest
@@ -49,10 +46,7 @@ public class Producto extends HttpServlet {
 			String msj = "";
 			try {
 				msj = altaFamilia(request.getParameter("codigo"), request.getParameter("nombre"), Float.parseFloat(request.getParameter("bonificacion")));
-			} catch (ApplicationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (ApplicationException e) { e.printStackTrace(); }
 			request.getSession().setAttribute("msj", msj);
 			response.sendRedirect(urlFlia);
 		}

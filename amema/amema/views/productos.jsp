@@ -32,7 +32,7 @@
 				
 			<!-- MODAL DEL ALTA DE PRODUCTO -->
 			
-			<%@include file="../modal/producto/modalAltaProducto.jsp" %>
+			<%@ include file="../modal/producto/modalAltaProducto.jsp" %>
 			
 			<%@ include file="../errores/errProducto.jsp" %>
 

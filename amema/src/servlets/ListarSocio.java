@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,16 +36,12 @@ public class ListarSocio extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListarSocio() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    public ListarSocio() { super(); }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doPost(request, response);
 	}
 

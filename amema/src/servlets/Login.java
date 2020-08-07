@@ -24,16 +24,12 @@ public class Login extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Login() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    public Login() { super(); }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
 		doPost(request,response);
 	}
 
@@ -70,10 +66,7 @@ public class Login extends HttpServlet {
 				session.setAttribute("usuarioActivo", null);
 				request.getRequestDispatcher("/").forward(request, response);
 			}
-		} catch (ApplicationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (ApplicationException e) { e.printStackTrace(); }
 		
 	}
 

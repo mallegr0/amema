@@ -23,6 +23,11 @@ public class CtrlConvenio {
 	
 	//consulta
 	
+	public String buscaDescripcion(String cod) throws ApplicationException{
+		dc = new DataConvenio();
+		return dc.buscaDescripcion(cod);
+	}
+	
 	public ArrayList<Convenio> listarConvenio() throws ApplicationException {
 		dc = new DataConvenio();
 		return dc.listarConvenio();

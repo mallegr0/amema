@@ -36,6 +36,30 @@ public class DataConvenio {
 	
 	//consulta
 	
+	public String buscaDescripcion(String cod) throws ApplicationException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT DESCOND FROM CONVTA WHERE CCOND = ?";
+		String r = "";
+		
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setString(1, cod);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					r = rs.getString("DESCOND");
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace();}
+		finally { cerrar(stmt, rs); }
+		return r;
+	}
+	
 	public ArrayList<Convenio> listarConvenio() throws ApplicationException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

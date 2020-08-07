@@ -24,17 +24,13 @@ public class Usuario extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Usuario() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    public Usuario() { super(); }
 
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doPost(request,response);
 	}
 
@@ -47,10 +43,7 @@ public class Usuario extends HttpServlet {
 			String msj = "";
 			try {
 				msj = altaUsuario(request.getParameter("usuario").toUpperCase(), request.getParameter("password"), request.getParameter("nombre").toUpperCase());
-			} catch (ApplicationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (ApplicationException e) { e.printStackTrace(); }
 			request.getSession().setAttribute("msj", msj);
 			response.sendRedirect(urlUser);
 		}
@@ -77,10 +70,7 @@ public class Usuario extends HttpServlet {
 			CtrlUsuario cu = new CtrlUsuario();
 			try {
 				u = cu.consultaUsuario(request.getParameter("usuario"));
-			} catch (ApplicationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (ApplicationException e) { e.printStackTrace(); }
 			
 			msj = modificaUsuario(u.getNroUsuario(), request.getParameter("nombre").toUpperCase(), u.getLogIn(), u.getPassWord(), u.getDescOficina(),
 					u.getDescFunc(), u.getCperfil(), u.getHab());
@@ -105,10 +95,7 @@ public class Usuario extends HttpServlet {
 			else {
 				msj = "noBaja";
 			}
-		} catch (ApplicationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (ApplicationException e) { e.printStackTrace(); }
 		request.getSession().setAttribute("msj", msj);
 		response.sendRedirect(urlUser);
 		
