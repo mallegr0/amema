@@ -1,5 +1,6 @@
 package servlets;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -105,7 +106,7 @@ public class ListarSocio extends HttpServlet {
 		int cont = 12;
 		
 		/* CREO EL EXCEL */
-	 
+		
 		Workbook libro = new HSSFWorkbook(); //CREO EL LIBRO DE EXCEL 
 		Sheet hoja = libro.createSheet("Listado de Socios"); //CREO LA HOJA CON EL NOMBRE QUE QUIERO
 		
@@ -228,9 +229,12 @@ public class ListarSocio extends HttpServlet {
 		cemp.setCellStyle(estilo);
 		try  {
 
-			OutputStream fileOut = new FileOutputStream("C://Users//Usuario//Desktop//ListadoSociosAMEMA"+fl.format(fecLibro)+".xls");
-		    libro.write(fileOut);
-		    libro.close();
+			OutputStream fileOut = new FileOutputStream(new File("C://AMEMA//ListadoSociosAMEMA"+fl.format(fecLibro)+".xls"));
+			libro.write(fileOut);
+
+		    fileOut.close();
+		    fileOut.flush();
+			libro.close();
 
 		}
 		catch(IOException e) {e.printStackTrace();}

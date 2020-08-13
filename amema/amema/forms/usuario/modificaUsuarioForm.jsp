@@ -38,10 +38,10 @@
 						</div>
 						<div class="w3-row w3-section">
 							<div class="w3-half w3-center">
-								<button class="w3-button w3-green w3-round-large" name="evento_modificar">Modificar</button>
+								<button class="w3-button w3-green w3-hover-indigo" name="evento_modificar">Modificar</button>
 							</div>
 							<div class="w3-rest w3-center">
-								<a href="../../views/usuarios.jsp" class="w3-button w3-red w3-round-large">Volver</a>
+								<a href="../../views/usuarios.jsp" class="w3-button w3-red">Volver</a>
 							</div>
 						</div>
 					</div>

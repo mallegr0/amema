@@ -3,17 +3,22 @@
 <%@page import="java.util.ArrayList" %>
 	<h4 class="w3-center w3-text-indigo"> Selección de Socio</h4>
 	<br>
-	<% ArrayList<Cliente> lista = (ArrayList<Cliente>) request.getSession().getAttribute("lista"); %>
-	<form action="/amema/Adherente" method="post">
+	<% 
+		ArrayList<Cliente> lista = (ArrayList<Cliente>) request.getSession().getAttribute("socios");
+		Cliente doc = (Cliente) request.getSession().getAttribute("doc");
+	%>
+	<form action="/amema/Cuenta" method="post">
 		<div class="w3-container">
-			<div class="w3-container w3-quarter"></div>
-			<div class="w3-container w3-half">
+			<div class="w3-quearter w3-container"></div>
+			<div class="w3-threequarter w3-container">
+				<%if (lista != null) {%>
 				<select class="w3-select" name="socio">
-					<option value="" disabled></option>
-					<% for(Cliente c : lista){%>
+					<option value="" disabled>...</option>
+					<% for (Cliente c : lista){%>
 						<option value="<%=c.getCODCLI()%>"><%=c.getCODCLI()%> - <%=c.getNOMCLI()%></option>
-				<%}%>
+					<%}%>
 				</select>
+				<%}%>
 			</div>
 			<div class="w3-container w3-rest">
 				<button class="fas fa-search fa-2x w3-button w3-green w3-hover-indigo" name="evento_buscar2"></button>

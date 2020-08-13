@@ -1,7 +1,7 @@
 package entidades;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 public class Adherente implements Serializable {
 	

@@ -26,7 +26,7 @@
 		<!-- Error -->
 		<% String msg = (String) request.getSession().getAttribute("msj"); %>
 		<% if(msg != null){ %>
-			<div class="w3-panel w3-green w3-display-container w3-rounded">
+			<div class="w3-panel w3-green w3-display-container">
 	  			<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
 	  			<p class="w3-center"><Strong><%=msg  %></Strong></p>
 			</div>
@@ -38,7 +38,7 @@
 					<input type="checkbox" name="activos" class="w3-check" onclick="habilitar('activos')" id="activos"> <label> Listar todos los socios Activos</label>
 				</div>
 				<div class="w3-half w3-container">
-					<input type="checkbox" name="todos" class="w3-check" onclick="habilitar('todos')" id="todos	"> <label> Listar todos los socios</label>
+					<input type="checkbox" name="todos" class="w3-check" onclick="habilitar('todos')" id="todos"> <label> Listar todos los socios</label>
 				</div>
 			</div>
 			<br>
@@ -57,38 +57,52 @@
 					</div>
 				</div>
 				<div class="w3-half w3-container">
-					<input type="checkbox" name="todosconv" class="w3-check" onclick="habilitar('todosconv')" id="todosconv	"> <label> Listar todos los convenios</label>
+					<input type="checkbox" name="todosconv" class="w3-check" onclick="habilitar('todosconv')" id="todosconv"> <label> Listar todos los convenios</label>
 				</div>
 			</div>
 			<br>
 			<div class="w3-container w3-center">
-				<button class="w3-button w3-green w3-round-large">Listar</button>
+				<button class="w3-button w3-green w3-hover-indigo">Listar</button>
 			</div>
 		</form> 
 		<% request.getSession().removeAttribute("msj"); %>
 	</div>
 
 	<%@ include file="footer.jsp" %>
+
+	
 	<script type="text/javascript">
 			function habilitar(dato){
-				if (dato == "activos" && dato <> "todos") {
-					document.getElementById("todos").checked = false;
+				var activos = document.getElementById("activos");
+				var todos = document.getElementById("todos");
+				var check = document.getElementById("check");
+				var todosconv = document.getElementById("todosconv");
+				var selector = document.getElementById("selector");
+
+				if(dato == "activos"){
+					todos.checked = false;
 				}
-				else if(dato == "todos" && dato <> "activos") {
-					document.getElementById("activos").checked = false;
-				} 
-				else{
-					document.ggetElementById("activos").checked = true;
-					document.getElementById("todos").checked = false;
+				if(dato == "todos"){
+					activos.checked = false;
 				}
-				if (dato == "check") {
-					document.getElementById("selector").disabled = false;
-					document.getElementById("todosconv").checked = false;
+				if(todos.checked == true && activos.checked == true){
+					activos.checked = false;
+					todos.checked = false;
 				}
-				else if(dato == "todosconv") {
-					document.getElementById("check").checked = false;
-					document.getElementById("selector").disabled = true;
+				if(check.checked == true && todosconv.checked == true){
+					check.checked = false;
+					selector.disabled = true;
+					todosconv.checked = false;
 				}
+				if(dato == "check"){
+					selector.disabled = false;
+					todosconv.checked = false;
+				}
+				if(dato == "todosconv"){
+					selector.disabled = true;
+					check.checked = false;
+				}
+				
 			}
 		</script>
 </body>

@@ -40,9 +40,9 @@
 			<!-- FIN MODAL ALTA USUARIO -->
 				
 			<!-- EMPIEZA LA TABLA DE USUARIOS CON LOS BOTONES CAMBIAR PASS, MODIFICAR Y ELIMINAR-->
-			<h1 class="w3-center"> Usuarios </h1>
-			<div class="w3-responsive w3-card-4 w3-round-xlarge">
-				<table class="w3-table-all w3-round-xlarge">
+			<h1 class="w3-center  w3-text-indigo"> Usuarios </h1>
+			<div class="w3-responsive w3-card-4">
+				<table class="w3-table-all">
 					<thead>
 						<tr class="w3-indigo">
 							<th>Usuario</th>

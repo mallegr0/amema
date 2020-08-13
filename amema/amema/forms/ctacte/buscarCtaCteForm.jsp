@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 	<h4 class="w3-center w3-text-indigo"> Búsqueda de Socio</h4>
-	<form action="/amema/Adherente" method="post">
+	<form action="/amema/Cuenta" method="post">
 		<div class="w3-container">
 			<div class="w3-container w3-quarter">
 				<p><input class="w3-check" type="checkbox" name="socio" id="socio" onclick="habilitar('socio')"><label> Buscar por nombre y apellido</label></p>

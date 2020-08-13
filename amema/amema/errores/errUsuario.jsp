@@ -42,8 +42,8 @@
                            msg = "La contraseña no se cambio";
             			   break;
 			}%>
-		<div class="w3-panel <%=clase %> w3-display-container w3-round-xlarge">
-			<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright w3-round-xlarge">&times;</span>
+		<div class="w3-panel <%=clase %> w3-display-container">
+			<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
 			<h3><%=titulo %></h3>
 			<p><%=msg %></p>
 		</div>

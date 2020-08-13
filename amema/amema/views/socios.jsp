@@ -39,7 +39,7 @@
 			<br><br>
 
 
-			<h1 class="w3-center"> Filtrado de Socios </h1>
+			<h1 class="w3-center  w3-text-indigo"> Filtrado de Socios </h1>
 			<!--Formulario de busqueda de Socio-->
 			<form action="/amema/Socio" name="Socio" method="post" class="w3-container w3-card-4">
 				<div class="w3-quarter w3-container">
@@ -66,7 +66,7 @@
 				<div class="w3-quarter w3-container">
 					<p></p>
 					<p>
-						<button class="w3-button w3-green w3-hover-indigo fas fa-search w3-round-xxlarge fa-3x" name="evento_buscar"></button>
+						<button class="w3-button w3-green w3-hover-indigo fas fa-search fa-3x" name="evento_buscar"></button>
 					</p>
 					<p></p>
 				</div>
@@ -74,9 +74,10 @@
 			
 			<br><br>
 			<!-- EMPIEZA LA TABLA DE SOCIOS CON LOS BOTONES MODIFICAR , ELIMINAR E IMPRIMIR-->
-			<h1 class="w3-center"> Socios </h1>
-			<div class="w3-responsive w3-card-4 w3-round-xlarge">
-				<table class="w3-table-all w3-round-xlarge">
+
+			<h1 class="w3-center  w3-text-indigo"> Socios </h1>
+			<div class="w3-responsive w3-card-4">
+				<table class="w3-table-all">
 					<thead>
 						<tr class="w3-indigo">
 							<th>Legajo</th>
@@ -88,87 +89,76 @@
 						</tr>
 					</thead>
 					<tbody>
-					<!-- TODOS LOS SOCIOS -->
-						<% 
-							ArrayList<Cliente> listaSocios = (ArrayList<Cliente>) request.getSession().getAttribute("todos");
-							if(listaSocios != null) {
-								for(Cliente tmp : listaSocios){
-						%>	
-							<tr class="w3-hover-pale-green">
-								<td><%=tmp.getDNRP() %></td>
-								<td><%=tmp.getNOMCLI() %></td>
-								<td><%=tmp.getDOMCLI() %></td>
-								<td><%=tmp.getTIPO_DOC()%>: <%=tmp.getCUITCLI()%></td>
-								<td>
-									<%if (tmp.getTELCLI_1() == null){%> --
-									<%}
-									else{%> <%=tmp.getTELCLI_1()%> <%}%>
-									/ 
-									<%if (tmp.getTELCLI_2() == null) {%> --
-									<%}else{ %> <%=tmp.getTELCLI_2() %> <%} %>
-									
-								</td>
-								<td><a href="../forms/socio/modificaSocioForm.jsp?id=<%=tmp.getCODCLI()%>" class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge"></a></td>
-								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalSocio('id02','<%=tmp.getCODCLI()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-print w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModalSocio('id03','<%=tmp.getCODCLI()%>')"></button></td>
-							</tr>
-						<%}%>
-						<%}else{%>
-						 	<tr class="w3-hover-indigo">
-						 		<td colspan="8"><h1 class="w3-center">No se ha realizado una busqueda</h1></td>
-						 	</tr> 
-						<%}%>
-						<!-- TODOS LOS SOCIOS BUSCADOS POR NOMBRE -->
-						<% 
-							ArrayList<Cliente> Socios = (ArrayList<Cliente>) request.getSession().getAttribute("nombre");
-							if(Socios != null) {
-								for(Cliente tmp : Socios){
-						%>	
-							<tr class="w3-hover-pale-green">
-								<td><%=tmp.getDNRP() %></td>
-								<td><%=tmp.getNOMCLI() %></td>
-								<td><%=tmp.getDOMCLI() %></td>
-								<td><%=tmp.getTIPO_DOC()%>: <%=tmp.getCUITCLI()%></td>
-								<td>
-									<%if (tmp.getTELCLI_1() == null){%> --
-									<%}
-									else{%> <%=tmp.getTELCLI_1()%> <%}%>
-									/ 
-									<%if (tmp.getTELCLI_2() == null) {%> --
-									<%}else{ %> <%=tmp.getTELCLI_2() %> <%} %>
-									
-								</td>
-								<td><a href="../forms/socio/modificaSocioForm.jsp?id=<%=tmp.getCODCLI()%>" class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge"></a></td>
-								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalSocio('id02','<%=tmp.getCODCLI()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-print w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModalSocio('id03','<%=tmp.getCODCLI()%>')"></button></td>
-							</tr>
-						<%}%>
-						<%} %>
-						
-						<!-- SOCIO BUSCADO POR DNI -->
-						<% 
-							Cliente Socio = (Cliente) request.getSession().getAttribute("doc");
-							if(Socio != null) {
-						%>	
-							<tr class="w3-hover-pale-green">
-								<td><%=Socio.getDNRP() %></td>
-								<td><%=Socio.getNOMCLI() %></td>
-								<td><%=Socio.getDOMCLI() %></td>
-								<td><%=Socio.getTIPO_DOC()%>: <%=Socio.getCUITCLI()%></td>
-								<td>
-									<%if (Socio.getTELCLI_1() == null){%> --
-									<%}
-									else{%> <%=Socio.getTELCLI_1()%> <%}%>
-									/ 
-									<%if (Socio.getTELCLI_2() == null) {%> --
-									<%}else{ %> <%=Socio.getTELCLI_2() %> <%} %>
-									
-								</td>
-								<td><a href="../forms/socio/modificaSocioForm.jsp?id=<%=Socio.getCODCLI()%>" class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge"></a></td>
-								<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalSocio('id02','<%=Socio.getCODCLI()%>')"></button></td>
-								<td><button class="w3-xlarge fas fa-print w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModalSocio('id03','<%=Socio.getCODCLI()%>')"></button></td>
-							</tr>
-						<%}%>
+						<!-- TABLA DE TODOS LOS SOCIOS CON SUS OPCIONES -->
+						<!-- PRIMERA OPCION-->
+						<%
+							ArrayList<Cliente> todos = (ArrayList<Cliente>) request.getSession().getAttribute("todos");
+							if(todos != null){
+								for(Cliente c : todos){%>
+								<tr class="w3-hover-pale-green">
+									<td><%=c.getDNRP()%></td>
+									<td><%=c.getNOMCLI()%></td>
+									<td><%=c.getDOMCLI()%></td>
+									<td><%=c.getTIPO_DOC()%> <%=c.getCUITCLI()%></td>
+									<td>
+										<%if(c.getTELCLI_1() == null){ %> -- <%} else {%><%=c.getTELCLI_1()%><%}%> /
+										<%if(c.getTELCLI_2() == null){ %> -- <%} else {%><%=c.getTELCLI_2()%><%}%>
+									</td>
+									<td><a href="../forms/socio/modificaSocioForm.jsp?id=<%=c.getCODCLI()%>" class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge"></a></td>
+									<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalSocio('id02','<%=c.getCODCLI()%>')"></button></td>
+									<td><button class="w3-xlarge fas fa-print w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModalSocio('id03','<%=c.getCODCLI()%>')"></button></td>
+								</tr>
+							<%}
+						}%>
+						<!-- FIN PRIMERA OPCION -->
+
+						<!-- SEGUNDA OPCION -->
+							<%
+								ArrayList<Cliente> nombres = (ArrayList<Cliente>) request.getSession().getAttribute("nombre");
+								if(nombres != null){
+									for(Cliente c : nombres){%>
+									<tr class="w3-hover-pale-green">
+										<td><%=c.getDNRP()%></td>
+										<td><%=c.getNOMCLI()%></td>
+										<td><%=c.getDOMCLI()%></td>
+										<td><%=c.getTIPO_DOC()%> <%=c.getCUITCLI()%></td>
+										<td>
+											<%if(c.getTELCLI_1() == null){ %> -- <%} else {%><%=c.getTELCLI_1()%><%}%> /
+											<%if(c.getTELCLI_2() == null){ %> -- <%} else {%><%=c.getTELCLI_2()%><%}%>
+										</td>
+										<td><a href="../forms/socio/modificaSocioForm.jsp?id=<%=c.getCODCLI()%>" class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge"></a></td>
+										<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalSocio('id02','<%=c.getCODCLI()%>')"></button></td>
+										<td><button class="w3-xlarge fas fa-print w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModalSocio('id03','<%=c.getCODCLI()%>')"></button></td>
+									</tr>
+								<%}
+							}%>
+							<!-- FIN SEGUNDA OPCION -->
+
+							<!-- TERCERA OPCION -->
+							<%
+								Cliente c = (Cliente) request.getSession().getAttribute("doc");
+								if(c != null){%>
+									<tr class="w3-hover-pale-green">
+										<td><%=c.getDNRP()%></td>
+										<td><%=c.getNOMCLI()%></td>
+										<td><%=c.getDOMCLI()%></td>
+										<td><%=c.getTIPO_DOC()%> <%=c.getCUITCLI()%></td>
+										<td>
+											<%if(c.getTELCLI_1() == null){ %> -- <%} else {%><%=c.getTELCLI_1()%><%}%> /
+											<%if(c.getTELCLI_2() == null){ %> -- <%} else {%><%=c.getTELCLI_2()%><%}%>
+										</td>
+										<td><a href="../forms/socio/modificaSocioForm.jsp?id=<%=c.getCODCLI()%>" class="w3-xlarge fas fa-user-edit w3-button w3-hover-indigo w3-text-blue w3-round-xxlarge"></a></td>
+										<td><button class="w3-xlarge fas fa-user-times w3-button w3-hover-indigo w3-text-red w3-round-xxlarge" onclick="abroModalSocio('id02','<%=c.getCODCLI()%>')"></button></td>
+										<td><button class="w3-xlarge fas fa-print w3-button w3-hover-indigo w3-text-yellow w3-round-xxlarge" onclick="abroModalSocio('id03','<%=c.getCODCLI()%>')"></button></td>
+									</tr>
+								<%}%>
+							<!-- FIN TERCERA OPCION -->
+							<% if(request.getSession().getAttribute("todos") == null && request.getSession().getAttribute("nombre") == null && request.getSession().getAttribute("doc") == null) {%>
+								<tr>
+									<td colspan="9" class="w3-center"><h2>No hay datos para mostrar.</h2></td>
+								</tr>
+							<%}%>
+							<!-- FIN TABLA DE SOCIOS CON LAS OPCIONES-->
 					</tbody>
 				</table>
 			</div>
@@ -186,7 +176,7 @@
 			request.getSession().removeAttribute("todos");
 			request.getSession().removeAttribute("nombre");
 			request.getSession().removeAttribute("doc");
-			%>
+		%>
 
 		<!-- FIN CUERPO -->
 
@@ -195,19 +185,25 @@
 		
 		<script type="text/javascript">
 			function habilitar(dato){
+				var nombre = document.getElementById("nombre");
+				var doc = document.getElementById("doc");
+				var todos = document.getElementById("todos");
+				var input = document.getElementById("dato");
+
 				if (dato == "nombre") {
-					document.getElementById("todos").checked = false;
-					document.getElementById("doc").checked = false;
-					document.getElementById("dato").disabled = false;
+					todos.checked = false;
+					doc.checked = false;
+					input.disabled = false;
 				}
 				else if (dato == "doc"){
-					document.getElementById("todos").checked = false;
-					document.getElementById("nombre").checked = false;
-					document.getElementById("dato").disabled = false;
+					todos.checked = false;
+					nombre.checked = false;
+					input.disabled = false;
 				}
 				else{
-					document.getElementById("nombre").checked = false;
-					document.getElementById("doc").checked = false;
+					nombre.checked = false;
+					doc.checked = false;
+					input.disabled = true;
 				}
 			}
 		</script>

@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -9,9 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controladores.CtrlArticulo;
 import controladores.CtrlCliente;
 import controladores.CtrlConvenio;
+import controladores.CtrlVenta;
+import entidades.AdherentesGral;
+import entidades.Articulo;
 import entidades.Cliente;
+import entidades.Venta;
 import util.ApplicationException;
 
 /**
@@ -45,12 +51,18 @@ public class Adherente extends HttpServlet {
 				catch(ApplicationException e) { e.printStackTrace(); }
 				}
 			if(request.getParameter("doc") != null) { 
-				try { request.getSession().setAttribute("socio", buscarPorDocumento(request.getParameter("dato"))); }
+				try { 
+					request.getSession().setAttribute("socio", buscarPorDocumento(request.getParameter("dato")));
+					request.getSession().setAttribute("Movimientos", listarMovimientos(buscarPorDocumento(request.getParameter("dato"))));
+					}
 				catch(ApplicationException e) { e.printStackTrace(); }
 			}
 		}
 		if(request.getParameter("evento_buscar2") != null) {
-			try { request.getSession().setAttribute("socio", buscarSocio(request.getParameter("socio"))); }
+			try { 
+				request.getSession().setAttribute("socio", buscarSocio(request.getParameter("socio")));
+				request.getSession().setAttribute("movimientos", listarMovimientos(buscarSocio(request.getParameter("socio"))));
+				}
 			catch(ApplicationException e) { e.printStackTrace(); }
 		}
 		
@@ -76,6 +88,37 @@ public class Adherente extends HttpServlet {
 	private Cliente buscarSocio(String dato) throws ApplicationException {
 		cc = new CtrlCliente();
 		return limpiarDatos(cc.consultaCliente(dato));
+	}
+	
+	private ArrayList<AdherentesGral> listarMovimientos(Cliente c) throws ApplicationException{
+		// Declaro las variables que voy a usar para devolver los movimientos del socio.
+		CtrlVenta cv = new CtrlVenta();
+		ArrayList<Venta> lventas = new ArrayList<>();
+		String cgrupo, csubf, nroart, codart;
+		AdherentesGral rta = null;
+		ArrayList<AdherentesGral>lrta = new ArrayList<>();
+		CtrlArticulo ca = new CtrlArticulo();
+		Articulo a = null;
+		
+		lventas = cv.listarVentaPorSocio(c.getCODCLI());
+
+		for(Venta lv : lventas) {
+			SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+			codart = lv.getCODART();
+			cgrupo = codart.substring(0,2);
+			csubf = codart.substring(2,3);
+			nroart = codart.substring(3,6);
+			a = new Articulo();
+			a = ca.consultarArticulo(cgrupo, csubf, nroart);
+			String fecDesde = f.format(lv.getFEC_DESDE());
+			String fecHasta = f.format(lv.getFVTO());
+			rta = new AdherentesGral(lv.getNROMOV(), fecDesde, fecHasta, lv.getANALISIS(), lv.getCODART(), lv.getREFERENCIA(),
+					a.getDESART(), lv.getPRECIO(), (int) Math.round(a.getUNIDAD()), a.getENVASE(), lv.getINNCTACTE(), lv.getVA_DTO());
+			lrta.add(rta);
+		}
+		
+		return lrta;
+		
 	}
 	
 	private Cliente limpiarDatos(Cliente c) throws ApplicationException {
