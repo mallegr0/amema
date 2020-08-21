@@ -4,3 +4,6 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-indigo.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/amema/static/w3.css">
+<link rel="stylesheet" type="text/css" href="/amema/static/w3-indigo.css">
+<link rel="stylesheet" type="text/css" href="/amema/static/fontawesome.css">

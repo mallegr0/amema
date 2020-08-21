@@ -1,7 +1,7 @@
 package controladores;
 
 import java.util.ArrayList;
-import java.sql.Date;
+import java.util.Date;
 
 import data.DataCtactecliente;
 import entidades.Ctactecliente;

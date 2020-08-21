@@ -21,3 +21,4 @@
 			<br>
 		</div>	
 	</form>
+	<% request.getSession().removeAttribute("lista");%>

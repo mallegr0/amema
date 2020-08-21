@@ -43,7 +43,7 @@
 					<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="left: 100px;">
 						<a href="/amema/views/socios.jsp" class="w3-bar-item w3-button">Gestión de Socios</a>
 						<a href="/amema/views/listarsocios.jsp" class="w3-bar-item w3-button">Listado de Socios</a>
-						<a href="/amema/views/adherentes.jsp" class="w3-bar-item w3-button">Gestión de Adherentes</a>
+						<a href="/amema/views/buscaadherentes.jsp" class="w3-bar-item w3-button">Gestión de Adherentes</a>
 					</div>
 				</div>
 			</div>

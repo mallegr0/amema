@@ -1,3 +1,6 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="controladores.CtrlConvenio"%>
+<%@page import="entidades.Convenio" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <form action="/amema/Socio" name ="Socio" method="post">
@@ -53,9 +56,16 @@
 				<label>Cód. Postal: </label><input class="w3-input" type="text" name="codpos" required>
 			</div>
 		</div>
-
+		<% CtrlConvenio cconv = new CtrlConvenio();
+			ArrayList<Convenio> lista = cconv.listarConvenio();%>
 		<div class="w3-row-padding w3-section">
-			<label>Convenio: </label><input class="w3-input" type="text" name="convenio" required maxlength="2">
+			<label>Convenio: </label>
+			<select class="w3-select" name="convenio">
+				<option value="" disabled selected>...</option>
+				<%for(Convenio conv: lista){ %>
+				<option value="<%=conv.getCCOND() %>"><%=conv.getCCOND()%> - <%=conv.getDESCOND()%></option>
+				<%} %>
+			</select>
 		</div>
 		
 		<div class="w3-row-padding w3-section">
@@ -106,3 +116,5 @@
 		</div>
 	</div>
 </form>
+
+<% cconv = null; %>

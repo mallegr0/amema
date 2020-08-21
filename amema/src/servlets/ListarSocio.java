@@ -138,7 +138,7 @@ public class ListarSocio extends HttpServlet {
 		
 		
 		/* INGRESO LA IMAGEN */
-		InputStream is = new FileInputStream("C://Lenguajes//Java//git//amema//amema//static//imgenes//escudo_AMEMA.png");
+		InputStream is = new FileInputStream("C:\\AMEMA\\recursos//escudo_AMEMA.png");
 		byte[] bytes = IOUtils.toByteArray(is);
 		int pictureIdx = libro.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
 		is.close();

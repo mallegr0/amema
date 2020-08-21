@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>AMEMA web - Gestion DE Productos</title>
+		<title>AMEMA web - Gestion de Productos</title>
 		<%@include file="../../meta/metadata.jsp" %>
 	</head>
 	<body>

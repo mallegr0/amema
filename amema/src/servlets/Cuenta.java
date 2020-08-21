@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import controladores.CtrlCliente;
 import controladores.CtrlConvenio;
 import controladores.CtrlCtactecliente;
+import controladores.CtrlTpoComprobante;
 import entidades.Cliente;
-import entidades.Convenio;
+import entidades.CtacteGral;
+import entidades.Ctactecliente;
+import entidades.TpoComprobante;
 import util.ApplicationException;
 
 /**
@@ -29,6 +32,7 @@ public class Cuenta extends HttpServlet {
 	private CtrlCliente cCliente = null;
 	private CtrlConvenio cConvenio = null;
 	private CtrlCtactecliente cCuentas = null;
+	private CtrlTpoComprobante cTComprobante = null;
 
 	
     /**
@@ -47,56 +51,51 @@ public class Cuenta extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
 		if(request.getParameter("evento_buscar1") != null) {
-			if(request.getParameter("socio") != null) {
-				try { request.getSession().setAttribute("socios", listarSocios(request.getParameter("dato"))); }
-				catch(ApplicationException e) { e.printStackTrace(); }
-			}
-			if(request.getParameter("doc") != null) {
-				try { request.getSession().setAttribute("doc", buscarSocio(request.getParameter("dato"))); }
-				catch(ApplicationException e) { e.printStackTrace(); }
-			}
+			try { buscarSocio(request, response); }
+			catch (ApplicationException e) { e.printStackTrace(); }
 		}
-		if(request.getParameter("evento_buscar2") != null) {
-			try { request.getSession().setAttribute("doc", consultaSocio(request.getParameter("socio"))); }
-			catch(ApplicationException e) { e.printStackTrace(); }
-		}
-		if(request.getParameter("evento_buscar3") != null) {
-			try {
-				cCuentas = new CtrlCtactecliente();
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				Date fec = (java.sql.Date) format.parse(request.getParameter("fecha"));
-				System.out.println(fec);
-				String socio = request.getParameter("socio");
-				request.getSession().setAttribute("movimientos", cCuentas.listarCtaCtePorSocioYFecha(socio, fec));
-			}
-			catch (ApplicationException |ParseException e) { e.printStackTrace();}
-		}
-		
-		response.sendRedirect(urlCtacte);
 	}
 	
 	
-	private ArrayList<Cliente> listarSocios(String dato) throws ApplicationException {
-		cCliente = new CtrlCliente();
-		return cCliente.listarClientePorNombre(dato);
-	}
-	
-	private Cliente buscarSocio(String dato) throws ApplicationException {
+	private void buscarSocio(HttpServletRequest req, HttpServletResponse res) throws ApplicationException{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String socio = req.getParameter("socio");
+		Double saldo = 0.0;
 		cCliente = new CtrlCliente();
 		Cliente c = new Cliente();
-		c = cCliente.consultaClientePorDNI(dato);
-		if(c != null) {
-			return limpiarDatos(c);
+		c = cCliente.consultaCliente(socio);
+		req.getSession().setAttribute("persona", limpiarDatos(c));
+		
+		try {
+			Date fecha = (Date) format.parse(req.getParameter("fecha"));
+			ArrayList<Ctactecliente> lista = new ArrayList<>();
+			ArrayList<CtacteGral> mov = new ArrayList<>();
+			
+			cCuentas = new CtrlCtactecliente();
+			cTComprobante = new CtrlTpoComprobante();
+			lista = cCuentas.listarCtaCtePorSocioYFecha(socio, fecha);
+			for(Ctactecliente cta : lista) {
+				CtacteGral r = new CtacteGral();
+				TpoComprobante tc = cTComprobante.consultaTComprobante(cta.getTCOMP());
+				r.setCODCLI(cta.getCODCLI());
+				r.setFMOV(format.format(cta.getFMOV()));
+				r.setTMOV(tc.getDESCTIPO());
+				r.setNCOMP(cta.getNCOMP());
+				r.setHABER(cta.getHABER());
+				r.setDEBE(cta.getDEBE());
+				saldo = saldo +(cta.getHABER() - cta.getDEBE());
+				r.setSALDO(saldo);
+				mov.add(r);
+			}
+			
+			req.getSession().setAttribute("movimientos", mov);
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
-		else { return null; }
-	}
-	
-	private Cliente consultaSocio(String dato) throws ApplicationException {
-		cCliente = new CtrlCliente();
-		return limpiarDatos(cCliente.consultaCliente(dato));
+		
+		try { res.sendRedirect(urlCtacte); } 
+		catch (IOException e) { e.printStackTrace(); }
 	}
 	
 	private Cliente limpiarDatos(Cliente c) throws ApplicationException {

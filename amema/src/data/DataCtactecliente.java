@@ -1,6 +1,6 @@
 package data;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -59,14 +59,16 @@ public class DataCtactecliente {
 		finally { cerrar(stmt, null); }		
 	}
 
-	public Boolean bajaCtaCte(String cod, Date fec) throws ApplicationException {
+	public Boolean bajaCtaCte(String cod, java.util.Date fec) throws ApplicationException {
 		PreparedStatement stmt = null; 
 		String sql = "DELETE FROM CTACTECLI WHERE CODCLI = ? AND FMOV = ?";
 		
 		try {
+			
+			java.sql.Date fecha = new java.sql.Date(fec.getTime());
 			stmt = conn.abrirConn().prepareStatement(sql);
 			stmt.setString(1, cod);
-			stmt.setDate(2, (java.sql.Date) fec);
+			stmt.setDate(2, fecha);
 			
 			if(stmt.executeUpdate() > 0) { return true; }
 			else { return false; }
@@ -117,9 +119,10 @@ public class DataCtactecliente {
 		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ? AND FMOV = ?";
 		
 		try {
+			java.sql.Date fecha = new java.sql.Date(fec.getTime());
 			stmt = conn.abrirConn().prepareStatement(sql);
 			stmt.setString(1, cod);
-			stmt.setDate(2, (java.sql.Date) fec);
+			stmt.setDate(2, fecha);
 			
 			rs = stmt.executeQuery();
 			
@@ -155,12 +158,12 @@ public class DataCtactecliente {
 		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ? AND FMOV < ? ORDER BY FMOV";
 		
 		try {
+			java.sql.Date fecha = new java.sql.Date(fec.getTime());
 			stmt = conn.abrirConn().prepareStatement(sql);
 			stmt.setString(1, cod);
-			stmt.setDate(2, fec);
+			stmt.setDate(2, fecha);
 			
 			rs = stmt.executeQuery();
-			
 			if(rs != null) {
 				while(rs.next()) {
 					c = new Ctactecliente();

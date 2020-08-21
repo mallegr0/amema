@@ -17,3 +17,28 @@
 			</div>
 		</div>	
 	</form>
+
+
+
+	<script type="text/javascript">
+
+		function habilitar(dato){
+			var socio = document.getElementById("socio");
+			var doc = document.getElementById("doc");
+			var input = document.getElementById("input");
+
+			if(dato == "socio"){
+				doc.checked = false;
+				input.disabled = false;
+			}
+			if(dato == "doc"){
+				socio.checked = false;
+				input.disabled = false;
+			}
+			if(socio.checked == true && doc.checked == true){
+				socio.checked = false;
+				doc.checked = false;
+				input.disabled = true;
+			}
+		}
+	</script>

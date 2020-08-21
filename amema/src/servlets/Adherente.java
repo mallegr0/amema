@@ -27,6 +27,7 @@ import util.ApplicationException;
 public class Adherente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static String urlAdherente = "/amema/views/adherentes.jsp";
+	private static String urlBAdherente = "/amema/views/buscaadherentes.jsp";
 	private CtrlCliente cc = null;
        
     /**
@@ -47,13 +48,16 @@ public class Adherente extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("evento_buscar1") != null) {
 			if(request.getParameter("socio") != null) {
-				try { request.getSession().setAttribute("lista", buscarPorNombre(request.getParameter("dato"))); }
+				try { 
+					request.getSession().setAttribute("lista", buscarPorNombre(request.getParameter("dato")));
+					response.sendRedirect(urlBAdherente);}
 				catch(ApplicationException e) { e.printStackTrace(); }
 				}
 			if(request.getParameter("doc") != null) { 
 				try { 
 					request.getSession().setAttribute("socio", buscarPorDocumento(request.getParameter("dato")));
 					request.getSession().setAttribute("Movimientos", listarMovimientos(buscarPorDocumento(request.getParameter("dato"))));
+					response.sendRedirect(urlAdherente);
 					}
 				catch(ApplicationException e) { e.printStackTrace(); }
 			}
@@ -62,13 +66,10 @@ public class Adherente extends HttpServlet {
 			try { 
 				request.getSession().setAttribute("socio", buscarSocio(request.getParameter("socio")));
 				request.getSession().setAttribute("movimientos", listarMovimientos(buscarSocio(request.getParameter("socio"))));
+				response.sendRedirect(urlAdherente);
 				}
 			catch(ApplicationException e) { e.printStackTrace(); }
 		}
-		
-		
-		
-		response.sendRedirect(urlAdherente);
 	}
 	
 	
@@ -93,10 +94,10 @@ public class Adherente extends HttpServlet {
 	private ArrayList<AdherentesGral> listarMovimientos(Cliente c) throws ApplicationException{
 		// Declaro las variables que voy a usar para devolver los movimientos del socio.
 		CtrlVenta cv = new CtrlVenta();
-		ArrayList<Venta> lventas = new ArrayList<>();
+		ArrayList<Venta> lventas;
 		String cgrupo, csubf, nroart, codart;
 		AdherentesGral rta = null;
-		ArrayList<AdherentesGral>lrta = new ArrayList<>();
+		ArrayList<AdherentesGral> lrta = new ArrayList<>();
 		CtrlArticulo ca = new CtrlArticulo();
 		Articulo a = null;
 		
@@ -116,7 +117,9 @@ public class Adherente extends HttpServlet {
 					a.getDESART(), lv.getPRECIO(), (int) Math.round(a.getUNIDAD()), a.getENVASE(), lv.getINNCTACTE(), lv.getVA_DTO());
 			lrta.add(rta);
 		}
-		
+		cv = null;
+		rta = null; 
+		a = null; 
 		return lrta;
 		
 	}
