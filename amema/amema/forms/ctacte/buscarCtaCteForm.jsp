@@ -1,25 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="controladores.CtrlCliente" %>
-<%@page import="entidades.Cliente" %>
-<%@page import="java.util.ArrayList" %>
 	
 
-	<% 
-		CtrlCliente cc = new CtrlCliente();
-		ArrayList<Cliente> lista = cc.listarCliente();%>
-	<h4 class="w3-center w3-text-indigo"> Búsqueda de Cuenta</h4>
+	<h4 class="w3-center w3-text-indigo"> Búsqueda de Socio</h4>
 	<form action="/amema/Cuenta" method="post">
 		<div class="w3-container">
-			<div class="w3-container w3-half">
-				<select class="w3-select" name="socio">
-					<option value="" disabled>...</option>
-					<% for (Cliente c : lista) {%>
-					<option value="<%=c.getCODCLI()%>"><%=c.getCODCLI()%> - <%=c.getNOMCLI()%></option>
-					<%}%>
-				</select>
-			</div>
 			<div class="w3-container w3-quarter">
-				<input type="date" name="fecha" class="w3-input" >
+				<p><input class="w3-check" type="checkbox" name="socio" id="socio" onclick="habilitar('socio')"><label> Buscar por nombre y apellido</label></p>
+				<p><input class="w3-check" type="checkbox" name="doc" id="doc" onclick="habilitar('doc')"><label> Buscar por Nro de Documento</label></p>
+			</div>
+			<div class="w3-half w3-container">
+				<br>
+				<input class="w3-input" type="text" name="dato" id="input" disabled>
 			</div>
 			<div class="w3-container w3-quarter">
 				<br>
@@ -27,3 +18,28 @@
 			</div>
 		</div>	
 	</form>
+
+
+
+	<script type="text/javascript">
+
+		function habilitar(dato){
+			var socio = document.getElementById("socio");
+			var doc = document.getElementById("doc");
+			var input = document.getElementById("input");
+
+			if(dato == "socio"){
+				doc.checked = false;
+				input.disabled = false;
+			}
+			if(dato == "doc"){
+				socio.checked = false;
+				input.disabled = false;
+			}
+			if(socio.checked == true && doc.checked == true){
+				socio.checked = false;
+				doc.checked = false;
+				input.disabled = true;
+			}
+		}
+	</script>

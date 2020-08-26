@@ -10,8 +10,8 @@ public class Cliente implements Serializable{
 	private String MARCA, CODCLI, NOMCLI, DOMCLI, LOCCLI, TELCLI_1, TELCLI_2, FAX, CVTO, CCOND, ZONCLI, NVIAJ, PROVCLI;
 	private String CUITCLI, IVACLI, REGCLI, DNRP, CTRANSP, COM_IND, CREDITO, CONTACTO, CONTACTO2, E_MAIL, MAKITA, COMISION, OBSCLI;
 	private String COMI_DIFE, TIPO_DOC, CPCCP;
-	private Integer CODPOS, LISTAPRE;
-	private Double PRETEN, SALCLI_1, SALCLID_1, SALCLI_2, SALCLID_2,A_CTA_1,A_CTA_2, A_CTAD_1, A_CTAD_2,CRED_MAX;
+	private int CODPOS, LISTAPRE;
+	private double PRETEN, SALCLI_1, SALCLID_1, SALCLI_2, SALCLID_2,A_CTA_1,A_CTA_2, A_CTAD_1, A_CTAD_2,CRED_MAX;
 	private Date FSALCLI_1, FSALCLI_2, FECHA_NAC, FECHA_ING;
 	
 	
@@ -19,11 +19,11 @@ public class Cliente implements Serializable{
 	
 	public Cliente() {}
 	
-	public Cliente(String MARCA, String CODCLI, String NOMCLI, String DOMCLI, Integer CODPOS, String LOCCLI, String TELCLI_1,
+	public Cliente(String MARCA, String CODCLI, String NOMCLI, String DOMCLI, int CODPOS, String LOCCLI, String TELCLI_1,
 			String TELCLI_2, String FAX, String CVTO, String CCOND, String ZONCLI, String NVIAJ, String PROVCLI, String CUITCLI,
-			String IVACLI, String REGCLI, Double PRETEN, String DNRP, Double SALCLI_1, Double SALCLID_1, Date FSALCLI_1, Double SALCLI_2, 
-			Double SALCLID_2, Date FSALCLI_2, Double A_CTA_1, Double A_CTA_2, Double A_CTAD_1, Double A_CTAD_2, String CTRANSP, String COM_IND, String CREDITO, Double CRED_MAX,
-			String CONTACTO, String CONTACTO2, Integer LISTAPRE, String E_MAIL, String MAKITA, String COMISION, String COMI_DIFE, String TIPO_DOC, 
+			String IVACLI, String REGCLI, double PRETEN, String DNRP, double SALCLI_1, double SALCLID_1, Date FSALCLI_1, double SALCLI_2, 
+			double SALCLID_2, Date FSALCLI_2, double A_CTA_1, double A_CTA_2, double A_CTAD_1, double A_CTAD_2, String CTRANSP, String COM_IND, String CREDITO, double CRED_MAX,
+			String CONTACTO, String CONTACTO2, int LISTAPRE, String E_MAIL, String MAKITA, String COMISION, String COMI_DIFE, String TIPO_DOC, 
 			Date FECHA_NAC, Date FECHA_ING, String CPCCP, String OBSCLI) {
 		this.MARCA = MARCA;
 		this.CODCLI = CODCLI;
@@ -299,99 +299,99 @@ public class Cliente implements Serializable{
 		CPCCP = cPCCP;
 	}
 
-	public Integer getCODPOS() {
+	public int getCODPOS() {
 		return CODPOS;
 	}
 
-	public void setCODPOS(Integer cODPOS) {
+	public void setCODPOS(int cODPOS) {
 		CODPOS = cODPOS;
 	}
 
-	public Integer getLISTAPRE() {
+	public int getLISTAPRE() {
 		return LISTAPRE;
 	}
 
-	public void setLISTAPRE(Integer lISTAPRE) {
+	public void setLISTAPRE(int lISTAPRE) {
 		LISTAPRE = lISTAPRE;
 	}
 
-	public Double getPRETEN() {
+	public double getPRETEN() {
 		return PRETEN;
 	}
 
-	public void setPRETEN(Double pRETEN) {
+	public void setPRETEN(double pRETEN) {
 		PRETEN = pRETEN;
 	}
 
-	public Double getSALCLI_1() {
+	public double getSALCLI_1() {
 		return SALCLI_1;
 	}
 
-	public void setSALCLI_1(Double sALCLI_1) {
+	public void setSALCLI_1(double sALCLI_1) {
 		SALCLI_1 = sALCLI_1;
 	}
 
-	public Double getSALCLID_1() {
+	public double getSALCLID_1() {
 		return SALCLID_1;
 	}
 
-	public void setSALCLID_1(Double sALCLID_1) {
+	public void setSALCLID_1(double sALCLID_1) {
 		SALCLID_1 = sALCLID_1;
 	}
 
-	public Double getSALCLI_2() {
+	public double getSALCLI_2() {
 		return SALCLI_2;
 	}
 
-	public void setSALCLI_2(Double sALCLI_2) {
+	public void setSALCLI_2(double sALCLI_2) {
 		SALCLI_2 = sALCLI_2;
 	}
 
-	public Double getSALCLID_2() {
+	public double getSALCLID_2() {
 		return SALCLID_2;
 	}
 
-	public void setSALCLID_2(Double sALCLID_2) {
+	public void setSALCLID_2(double sALCLID_2) {
 		SALCLID_2 = sALCLID_2;
 	}
 
-	public Double getA_CTA_1() {
+	public double getA_CTA_1() {
 		return A_CTA_1;
 	}
 
-	public void setA_CTA_1(Double a_CTA_1) {
+	public void setA_CTA_1(double a_CTA_1) {
 		A_CTA_1 = a_CTA_1;
 	}
 
-	public Double getA_CTA_2() {
+	public double getA_CTA_2() {
 		return A_CTA_2;
 	}
 
-	public void setA_CTA_2(Double a_CTA_2) {
+	public void setA_CTA_2(double a_CTA_2) {
 		A_CTA_2 = a_CTA_2;
 	}
 
-	public Double getA_CTAD_1() {
+	public double getA_CTAD_1() {
 		return A_CTAD_1;
 	}
 
-	public void setA_CTAD_1(Double a_CTAD_1) {
+	public void setA_CTAD_1(double a_CTAD_1) {
 		A_CTAD_1 = a_CTAD_1;
 	}
 
-	public Double getA_CTAD_2() {
+	public double getA_CTAD_2() {
 		return A_CTAD_2;
 	}
 
-	public void setA_CTAD_2(Double a_CTAD_2) {
+	public void setA_CTAD_2(double a_CTAD_2) {
 		A_CTAD_2 = a_CTAD_2;
 	}
 
-	public Double getCRED_MAX() {
+	public double getCRED_MAX() {
 		return CRED_MAX;
 	}
 
-	public void setCRED_MAX(Double cRED_MAX) {
+	public void setCRED_MAX(double cRED_MAX) {
 		CRED_MAX = cRED_MAX;
 	}
 

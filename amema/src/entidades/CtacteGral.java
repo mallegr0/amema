@@ -6,12 +6,12 @@ public class CtacteGral implements Serializable{
 	/* VARIABLES */
 	private static final long serialVersionUID = 1L;
 	private String CODCLI, TMOV, NCOMP, FMOV;
-	private Double DEBE, HABER, SALDO;
+	private double DEBE, HABER, SALDO;
 	
 	/* CONSTRUCTORES */
 	public CtacteGral() {}
 	
-	public CtacteGral(String cod, String fec, String tmov, String ncomp, Double debe, Double haber, Double saldo) {
+	public CtacteGral(String cod, String fec, String tmov, String ncomp, double debe, double haber, double saldo) {
 		this.CODCLI = cod;
 		this.FMOV = fec;
 		this.TMOV = tmov;
@@ -55,27 +55,27 @@ public class CtacteGral implements Serializable{
 		FMOV = fMOV;
 	}
 
-	public Double getDEBE() {
+	public double getDEBE() {
 		return DEBE;
 	}
 
-	public void setDEBE(Double dEBE) {
+	public void setDEBE(double dEBE) {
 		DEBE = dEBE;
 	}
 
-	public Double getHABER() {
+	public double getHABER() {
 		return HABER;
 	}
 
-	public void setHABER(Double hABER) {
+	public void setHABER(double hABER) {
 		HABER = hABER;
 	}
 
-	public Double getSALDO() {
+	public double getSALDO() {
 		return SALDO;
 	}
 
-	public void setSALDO(Double sALDO) {
+	public void setSALDO(double sALDO) {
 		SALDO = sALDO;
 	}
 	

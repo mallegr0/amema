@@ -11,8 +11,8 @@ public class Venta implements Serializable {
 	private String NROPEDIDO, NROPRESUP, NVIAJ, DIRECTA, REFERENCIA, LIQUIDA, COMI_DIFE, INNCTACTE, DESPACHA, TEXTLIB;
 	private String CCOND_1, CCOND_2, CCOND_3, CCOND_4, VA_DTO, CODART, DESPACHO, TIVA, UBICAC1, UBICAC2, UBICAC3, ANALISIS, CANCDEUANT;
 	private Date FCOMP, FVTO, FEC_DESDE;
-	private Double TEXTO, FLETE, PORDESCTO, PORBONIF, TASA, BONART, BONART2, PRECIO, UNIDADES, IMPCH, IMPCANCDEUANT;
-	private Integer NROMOV;
+	private double TEXTO, FLETE, PORDESCTO, PORBONIF, TASA, BONART, BONART2, PRECIO, UNIDADES, IMPCH, IMPCANCDEUANT;
+	private int NROMOV;
 	
 	
 	/* CONSTRUCTORES */
@@ -20,10 +20,10 @@ public class Venta implements Serializable {
 	
 	public Venta(String nro, String tpo, String letra, String cia, Date fecCom, String nroFac, Date fecVto, String socio, String reg, 
 			String obs, String cper1, String cper2, String cper3, String vto, String nroRem, String nroPed, String nroPre, String nroViaj, String dir, 
-			String ref, String liq, String comDif, String cta, String despacha, String txtLib, Double txt, Double flete, String cod1, String cod2, 
-			String cod3, String cod4, Double dto, Double bonif, String vaDto, String codart, Double tasa, String despacho, String tiva, Double bonart, 
-			Double bonart2, Double precio, Double unidades, String ubic1, String ubic2, String ubic3, String analisis, Date fecDesde, Integer nromov, Double impch, 
-			String cancelaD, Double impCancela) {
+			String ref, String liq, String comDif, String cta, String despacha, String txtLib, double txt, double flete, String cod1, String cod2, 
+			String cod3, String cod4, double dto, double bonif, String vaDto, String codart, double tasa, String despacho, String tiva, double bonart, 
+			double bonart2, double precio, double unidades, String ubic1, String ubic2, String ubic3, String analisis, Date fecDesde, int nromov, double impch, 
+			String cancelaD, double impCancela) {
 		
 		this.NCOMP = nro;
 		this.TCOMP = tpo;
@@ -393,99 +393,99 @@ public class Venta implements Serializable {
 		FEC_DESDE = fEC_DESDE;
 	}
 
-	public Double getTEXTO() {
+	public double getTEXTO() {
 		return TEXTO;
 	}
 
-	public void setTEXTO(Double tEXTO) {
+	public void setTEXTO(double tEXTO) {
 		TEXTO = tEXTO;
 	}
 
-	public Double getFLETE() {
+	public double getFLETE() {
 		return FLETE;
 	}
 
-	public void setFLETE(Double fLETE) {
+	public void setFLETE(double fLETE) {
 		FLETE = fLETE;
 	}
 
-	public Double getPORDESCTO() {
+	public double getPORDESCTO() {
 		return PORDESCTO;
 	}
 
-	public void setPORDESCTO(Double pORDESCTO) {
+	public void setPORDESCTO(double pORDESCTO) {
 		PORDESCTO = pORDESCTO;
 	}
 
-	public Double getPORBONIF() {
+	public double getPORBONIF() {
 		return PORBONIF;
 	}
 
-	public void setPORBONIF(Double pORBONIF) {
+	public void setPORBONIF(double pORBONIF) {
 		PORBONIF = pORBONIF;
 	}
 
-	public Double getTASA() {
+	public double getTASA() {
 		return TASA;
 	}
 
-	public void setTASA(Double tASA) {
+	public void setTASA(double tASA) {
 		TASA = tASA;
 	}
 
-	public Double getBONART() {
+	public double getBONART() {
 		return BONART;
 	}
 
-	public void setBONART(Double bONART) {
+	public void setBONART(double bONART) {
 		BONART = bONART;
 	}
 
-	public Double getBONART2() {
+	public double getBONART2() {
 		return BONART2;
 	}
 
-	public void setBONART2(Double bONART2) {
+	public void setBONART2(double bONART2) {
 		BONART2 = bONART2;
 	}
 
-	public Double getPRECIO() {
+	public double getPRECIO() {
 		return PRECIO;
 	}
 
-	public void setPRECIO(Double pRECIO) {
+	public void setPRECIO(double pRECIO) {
 		PRECIO = pRECIO;
 	}
 
-	public Double getUNIDADES() {
+	public double getUNIDADES() {
 		return UNIDADES;
 	}
 
-	public void setUNIDADES(Double uNIDADES) {
+	public void setUNIDADES(double uNIDADES) {
 		UNIDADES = uNIDADES;
 	}
 
-	public Double getIMPCH() {
+	public double getIMPCH() {
 		return IMPCH;
 	}
 
-	public void setIMPCH(Double iMPCH) {
+	public void setIMPCH(double iMPCH) {
 		IMPCH = iMPCH;
 	}
 
-	public Double getIMPCANCDEUANT() {
+	public double getIMPCANCDEUANT() {
 		return IMPCANCDEUANT;
 	}
 
-	public void setIMPCANCDEUANT(Double iMPCANCDEUANT) {
+	public void setIMPCANCDEUANT(double iMPCANCDEUANT) {
 		IMPCANCDEUANT = iMPCANCDEUANT;
 	}
 
-	public Integer getNROMOV() {
+	public int getNROMOV() {
 		return NROMOV;
 	}
 
-	public void setNROMOV(Integer nROMOV) {
+	public void setNROMOV(int nROMOV) {
 		NROMOV = nROMOV;
 	}
 	

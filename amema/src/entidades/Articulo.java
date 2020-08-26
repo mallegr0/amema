@@ -9,20 +9,20 @@ public class Articulo implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String CGRUPO, CSUBF, NROART, DESART, ENVASE, CPROV, ANALISIS, UNIVTA, MARCA, CAJA, UBICACION, ADUANA;
 	private String DESPACHO1, DESPACHO2, DESPACHO3, TIVA;
-	private Double UNIDAD, TASA, PCOMPRA, PVENTA_1, PVENTA_2, PVENTA_3, PVENTA_4, STOCK_1, STOCK_2, MINIMO_1, MINIMO_2;
-	private Double VTAPROM_1, HORI_1, HORI_2, PE, VTAPROM_2, PBONIF, PPPC, PPPV, BAK, PFISCAL;
+	private double UNIDAD, TASA, PCOMPRA, PVENTA_1, PVENTA_2, PVENTA_3, PVENTA_4, STOCK_1, STOCK_2, MINIMO_1, MINIMO_2;
+	private double VTAPROM_1, HORI_1, HORI_2, PE, VTAPROM_2, PBONIF, PPPC, PPPV, BAK, PFISCAL;
 	private Date FECAUM, DESDE_PPPC, HASTA_PPPC, DESDE_PPPV, HASTA_PPPV, FDESPACHO, ULT_CPRA;//44
 	
 	
 	/* CONSTRUCTORES */
 	public Articulo() {}
 	
-	public Articulo(String grupo, String subgrupo, String articulo, String descArt, Double unidad, String envase, 
-			String codProv, String analisis, String tiva, Double tasa, Double pCompra, Double pvta1, Double pvta2,
-			Double pvta3, Double pvta4, Date fecAum, Double stock, Double stock2, Double min1, Double min2, Double vtaProm,
-			Double hori1, Double hori2, Double pe, Double vtaProm2, String univta, String marca, Double bonif, String caja, Double pppc,
-			Date pppcDesde, Date pppcHasta, Double pppv, Date pppvDesde, Date pppvHasta, String ubicacion, String aduana,
-			String despacho1, String despacho2, String despacho3, Date fecDespacho, Double bak, Double pFiscal, Date ultCpra) {
+	public Articulo(String grupo, String subgrupo, String articulo, String descArt, double unidad, String envase, 
+			String codProv, String analisis, String tiva, double tasa, double pCompra, double pvta1, double pvta2,
+			double pvta3, double pvta4, Date fecAum, double stock, double stock2, double min1, double min2, double vtaProm,
+			double hori1, double hori2, double pe, double vtaProm2, String univta, String marca, double bonif, String caja, double pppc,
+			Date pppcDesde, Date pppcHasta, double pppv, Date pppvDesde, Date pppvHasta, String ubicacion, String aduana,
+			String despacho1, String despacho2, String despacho3, Date fecDespacho, double bak, double pFiscal, Date ultCpra) {
 		
 		this.CGRUPO = grupo;
 		this.CSUBF = subgrupo;
@@ -202,171 +202,171 @@ public class Articulo implements Serializable{
 		TIVA = tIVA;
 	}
 
-	public Double getUNIDAD() {
+	public double getUNIDAD() {
 		return UNIDAD;
 	}
 
-	public void setUNIDAD(Double uNIDAD) {
+	public void setUNIDAD(double uNIDAD) {
 		UNIDAD = uNIDAD;
 	}
 
-	public Double getTASA() {
+	public double getTASA() {
 		return TASA;
 	}
 
-	public void setTASA(Double tASA) {
+	public void setTASA(double tASA) {
 		TASA = tASA;
 	}
 
-	public Double getPCOMPRA() {
+	public double getPCOMPRA() {
 		return PCOMPRA;
 	}
 
-	public void setPCOMPRA(Double pCOMPRA) {
+	public void setPCOMPRA(double pCOMPRA) {
 		PCOMPRA = pCOMPRA;
 	}
 
-	public Double getPVENTA_1() {
+	public double getPVENTA_1() {
 		return PVENTA_1;
 	}
 
-	public void setPVENTA_1(Double pVENTA_1) {
+	public void setPVENTA_1(double pVENTA_1) {
 		PVENTA_1 = pVENTA_1;
 	}
 
-	public Double getPVENTA_2() {
+	public double getPVENTA_2() {
 		return PVENTA_2;
 	}
 
-	public void setPVENTA_2(Double pVENTA_2) {
+	public void setPVENTA_2(double pVENTA_2) {
 		PVENTA_2 = pVENTA_2;
 	}
 
-	public Double getPVENTA_3() {
+	public double getPVENTA_3() {
 		return PVENTA_3;
 	}
 
-	public void setPVENTA_3(Double pVENTA_3) {
+	public void setPVENTA_3(double pVENTA_3) {
 		PVENTA_3 = pVENTA_3;
 	}
 
-	public Double getPVENTA_4() {
+	public double getPVENTA_4() {
 		return PVENTA_4;
 	}
 
-	public void setPVENTA_4(Double pVENTA_4) {
+	public void setPVENTA_4(double pVENTA_4) {
 		PVENTA_4 = pVENTA_4;
 	}
 
-	public Double getSTOCK_1() {
+	public double getSTOCK_1() {
 		return STOCK_1;
 	}
 
-	public void setSTOCK_1(Double sTOCK_1) {
+	public void setSTOCK_1(double sTOCK_1) {
 		STOCK_1 = sTOCK_1;
 	}
 
-	public Double getSTOCK_2() {
+	public double getSTOCK_2() {
 		return STOCK_2;
 	}
 
-	public void setSTOCK_2(Double sTOCK_2) {
+	public void setSTOCK_2(double sTOCK_2) {
 		STOCK_2 = sTOCK_2;
 	}
 
-	public Double getMINIMO_1() {
+	public double getMINIMO_1() {
 		return MINIMO_1;
 	}
 
-	public void setMINIMO_1(Double mINIMO_1) {
+	public void setMINIMO_1(double mINIMO_1) {
 		MINIMO_1 = mINIMO_1;
 	}
 
-	public Double getMINIMO_2() {
+	public double getMINIMO_2() {
 		return MINIMO_2;
 	}
 
-	public void setMINIMO_2(Double mINIMO_2) {
+	public void setMINIMO_2(double mINIMO_2) {
 		MINIMO_2 = mINIMO_2;
 	}
 
-	public Double getVTAPROM_1() {
+	public double getVTAPROM_1() {
 		return VTAPROM_1;
 	}
 
-	public void setVTAPROM_1(Double vTAPROM_1) {
+	public void setVTAPROM_1(double vTAPROM_1) {
 		VTAPROM_1 = vTAPROM_1;
 	}
 
-	public Double getHORI_1() {
+	public double getHORI_1() {
 		return HORI_1;
 	}
 
-	public void setHORI_1(Double hORI_1) {
+	public void setHORI_1(double hORI_1) {
 		HORI_1 = hORI_1;
 	}
 
-	public Double getHORI_2() {
+	public double getHORI_2() {
 		return HORI_2;
 	}
 
-	public void setHORI_2(Double hORI_2) {
+	public void setHORI_2(double hORI_2) {
 		HORI_2 = hORI_2;
 	}
 
-	public Double getPE() {
+	public double getPE() {
 		return PE;
 	}
 
-	public void setPE(Double pE) {
+	public void setPE(double pE) {
 		PE = pE;
 	}
 
-	public Double getVTAPROM_2() {
+	public double getVTAPROM_2() {
 		return VTAPROM_2;
 	}
 
-	public void setVTAPROM_2(Double vTAPROM_2) {
+	public void setVTAPROM_2(double vTAPROM_2) {
 		VTAPROM_2 = vTAPROM_2;
 	}
 
-	public Double getPBONIF() {
+	public double getPBONIF() {
 		return PBONIF;
 	}
 
-	public void setPBONIF(Double pBONIF) {
+	public void setPBONIF(double pBONIF) {
 		PBONIF = pBONIF;
 	}
 
-	public Double getPPPC() {
+	public double getPPPC() {
 		return PPPC;
 	}
 
-	public void setPPPC(Double pPPC) {
+	public void setPPPC(double pPPC) {
 		PPPC = pPPC;
 	}
 
-	public Double getPPPV() {
+	public double getPPPV() {
 		return PPPV;
 	}
 
-	public void setPPPV(Double pPPV) {
+	public void setPPPV(double pPPV) {
 		PPPV = pPPV;
 	}
 
-	public Double getBAK() {
+	public double getBAK() {
 		return BAK;
 	}
 
-	public void setBAK(Double bAK) {
+	public void setBAK(double bAK) {
 		BAK = bAK;
 	}
 
-	public Double getPFISCAL() {
+	public double getPFISCAL() {
 		return PFISCAL;
 	}
 
-	public void setPFISCAL(Double pFISCAL) {
+	public void setPFISCAL(double pFISCAL) {
 		PFISCAL = pFISCAL;
 	}
 

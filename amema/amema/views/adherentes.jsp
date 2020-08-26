@@ -78,7 +78,7 @@
 								<td><%=a.getMODO() %></td>
 								<td><%=a.getESTADO() %></td>
 								<td><button class="w3-button w3-green w3-hover-indigo" onclick="abrirModalAdherente('id01','<%=a.getNROMC()%>')"><i class="fas fa-search fa-2x"></i></button></td>
-								<td><button class="w3-button w3-orange w3-hover-indigo w3-text-white"><i class="fas fa-print fa-2x"></i></button></td>
+								<td><button class="w3-button w3-orange w3-hover-indigo w3-text-white" onclick="abrirModalAdherente('id02','<%=c.getCODCLI()%> y movimiento <%=a.getNROMC()%>')"><i class="fas fa-print fa-2x"></i></button></td>
 							</tr>
 							<%}%>
 						<%}
@@ -98,6 +98,12 @@
 
 			<!-- FIN AREA DE MODAL DE VISTA -->
 
+			<!-- AREA DE MODAL DE IMPRESION -->
+
+			<%@include file="../modal/adherente/modalImprimirMovimiento.jsp"%>
+
+			<!-- FIN AREA DE MODAL DE IMPRESION -->
+
 				<%}%>
 		</div>
 
@@ -106,9 +112,14 @@
 		<%@ include file="footer.jsp" %>
 		<script type="text/javascript">
 			function abrirModalAdherente(modal, codigo){
-				document.getElementById("id01").style.display='block';
-				document.getElementById("nro").innerHTML = codigo;
-			}
+				document.getElementById(modal).style.display='block';
+				if(modal == 'id01'){
+					document.getElementById("nro").innerHTML = codigo;
+				}
+				else{
+					document.getElementById("printadherente").value = codigo;
+				}
+			}	
 
 		</script>
 	</body>

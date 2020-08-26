@@ -18,7 +18,7 @@ public class Conector {
 	public Conector(){
 		try{
 			Class.forName(driver);
-			conexion = DriverManager.getConnection("jdbc:ucanaccess://"+db+";jackessOpener=util.CryptCodecOpener",user,pass);
+			conexion = DriverManager.getConnection("jdbc:ucanaccess://"+db+";memory=false;jackessOpener=util.CryptCodecOpener",user,pass);
 		}
 		catch(ClassNotFoundException | SQLException e){
 			System.out.println("--------");

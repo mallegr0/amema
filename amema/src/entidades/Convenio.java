@@ -8,15 +8,15 @@ public class Convenio implements Serializable {
 	/* VARIABLES */
 	private static final long serialVersionUID = 1L;
 	private String CCOND, DESCOND, TIPOVTO, Conc1, Conc2, Conc3, GenInt, CODARTINT, IngCobro;
-	private Integer DIAS;
+	private int DIAS;
 	private Date FECVTO;
-	private Double PORBONIF, Tope1, Tope2, Tope3, TasaInt;
+	private double PORBONIF, Tope1, Tope2, Tope3, TasaInt;
 	
 	/* CONSTRUCTORES */
 	public Convenio() {}
 	
-	public Convenio(String id, String nombre, String vto, Integer dias, Date fec, Double bonif, String cpto1, String cpto2,
-			String cpto3, Double t1, Double t2, double t3, String intereses, Double tasa, String codigo,String cobro) {
+	public Convenio(String id, String nombre, String vto, int dias, Date fec, double bonif, String cpto1, String cpto2,
+			String cpto3, double t1, double t2, double t3, String intereses, double tasa, String codigo,String cobro) {
 		
 		this.CCOND = id;
 		this.DESCOND = nombre;
@@ -112,11 +112,11 @@ public class Convenio implements Serializable {
 		IngCobro = ingCobro;
 	}
 
-	public Integer getDIAS() {
+	public int getDIAS() {
 		return DIAS;
 	}
 
-	public void setDIAS(Integer dIAS) {
+	public void setDIAS(int dIAS) {
 		DIAS = dIAS;
 	}
 
@@ -128,43 +128,43 @@ public class Convenio implements Serializable {
 		FECVTO = fECVTO;
 	}
 
-	public Double getPORBONIF() {
+	public double getPORBONIF() {
 		return PORBONIF;
 	}
 
-	public void setPORBONIF(Double pORBONIF) {
+	public void setPORBONIF(double pORBONIF) {
 		PORBONIF = pORBONIF;
 	}
 
-	public Double getTope1() {
+	public double getTope1() {
 		return Tope1;
 	}
 
-	public void setTope1(Double tope1) {
+	public void setTope1(double tope1) {
 		Tope1 = tope1;
 	}
 
-	public Double getTope2() {
+	public double getTope2() {
 		return Tope2;
 	}
 
-	public void setTope2(Double tope2) {
+	public void setTope2(double tope2) {
 		Tope2 = tope2;
 	}
 
-	public Double getTope3() {
+	public double getTope3() {
 		return Tope3;
 	}
 
-	public void setTope3(Double tope3) {
+	public void setTope3(double tope3) {
 		Tope3 = tope3;
 	}
 
-	public Double getTasaInt() {
+	public double getTasaInt() {
 		return TasaInt;
 	}
 
-	public void setTasaInt(Double tasaInt) {
+	public void setTasaInt(double tasaInt) {
 		TasaInt = tasaInt;
 	}
 	

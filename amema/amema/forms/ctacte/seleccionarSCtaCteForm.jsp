@@ -4,14 +4,14 @@
 	<h4 class="w3-center w3-text-indigo"> Selección de Socio</h4>
 	<br>
 	<% ArrayList<Cliente> lista = (ArrayList<Cliente>) request.getSession().getAttribute("lista"); %>
-	<form action="/amema/Adherente" method="post">
+	<form action="/amema/Cuenta" method="post">
 		<div class="w3-container">
 			<div class="w3-container w3-quarter"></div>
 			<div class="w3-container w3-half">
 				<select class="w3-select" name="socio">
 					<option value="" disabled></option>
 					<% for(Cliente c : lista){%>
-						<option value="<%=c.getCODCLI()%>"><%=c.getCODCLI()%> - <%=c.getNOMCLI()%></option>
+						<option value="<%=c.getCODCLI()%>" name="socio"><%=c.getCODCLI()%> - <%=c.getNOMCLI()%></option>
 				<%}%>
 				</select>
 			</div>

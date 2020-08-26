@@ -6,15 +6,15 @@ public class AdherentesGral implements Serializable {
 	
 	/* VARIABLES */
 	private static final long serialVersionUID = 1L;
-	private Integer NROMC, CUOTAS;
+	private int NROMC, CUOTAS;
 	private String PRIOR, CODMOV, REF, DESMOV, CANTMENS, MODO, ESTADO, FDESDE, FHASTA;
-	private Double IMPORTE; 
+	private double IMPORTE; 
 	
 	/* CONSTRUCTOR */
 	public AdherentesGral() {}
 	
-	public AdherentesGral(Integer nro, String fdesde, String fhasta, String prioridad, String codMov, String referencia, 
-			String descMov, Double Importe, Integer cuotas, String mensual, String modo, String estado) {
+	public AdherentesGral(int nro, String fdesde, String fhasta, String prioridad, String codMov, String referencia, 
+			String descMov, double Importe, int cuotas, String mensual, String modo, String estado) {
 		
 		this.NROMC = nro;
 		this.FDESDE = fdesde;
@@ -32,11 +32,11 @@ public class AdherentesGral implements Serializable {
 	}
 	
 	/* METODOS */
-	public Integer getNROMC() {
+	public int getNROMC() {
 		return NROMC;
 	}
 
-	public void setNROMC(Integer nROMC) {
+	public void setNROMC(int nROMC) {
 		NROMC = nROMC;
 	}
 
@@ -112,19 +112,19 @@ public class AdherentesGral implements Serializable {
 		FHASTA = fHASTA;
 	}
 
-	public Double getIMPORTE() {
+	public double getIMPORTE() {
 		return IMPORTE;
 	}
 
-	public void setIMPORTE(Double iMPORTE) {
+	public void setIMPORTE(double iMPORTE) {
 		IMPORTE = iMPORTE;
 	}
 
-	public Integer getCUOTAS() {
+	public int getCUOTAS() {
 		return CUOTAS;
 	}
 
-	public void setCUOTAS(Integer cUOTAS) {
+	public void setCUOTAS(int cUOTAS) {
 		CUOTAS = cUOTAS;
 	}
 	

@@ -19,14 +19,9 @@
 
 	<div class="w3-container w3-padding-64 w3-card-4">
 		<br>
-		<h2 class="w3-center  w3-text-indigo">Consulta de Cuentas Corrientes</h2>
-		<div class="w3-container w3-card-4">
-			<%@ include file="/forms/ctacte/buscarCtaCteForm.jsp"%>
-		</div>
-		<br>
 		<% 	
 			if(request.getSession().getAttribute("persona") == null && request.getSession().getAttribute("movimientos") == null){%>
-			<h1 class="w3-center"> No hay datos que mostrar</h1><%}
+			<jsp:forward page="/views/buscactactes.jsp"></jsp:forward><%}
 			else {
 				Cliente c = (Cliente) request.getSession().getAttribute("persona");
 			%> 
@@ -86,10 +81,12 @@
 							</div>
 						</form>
 					</div>
-			
+						
 			<% }
 			request.getSession().removeAttribute("persona");
 			request.getSession().removeAttribute("movimientos");%>
+			
+
 	</div>
 
 	<%@ include file="footer.jsp" %>

@@ -9,13 +9,13 @@ public class Ctactecliente implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String CODCLI, TMOV, LCOMP, PCOMP, TCOMP, NCOMP, LCOMPORIG, PCOMPORIG, NCOMPORIG;
 	private Date FMOV, FCOMPORIG;
-	private Double DEBE, HABER;
+	private double DEBE, HABER;
 	
 	/* CONSTRUCTORES */
 	public Ctactecliente() {}
 	
 	public Ctactecliente(String cod, Date fec, String tmov, String lcomp, String pcomp, String tcomp, String ncomp, Date forig,
-			String lorig, String porig, String norig, Double debe, Double haber) {
+			String lorig, String porig, String norig, double debe, double haber) {
 		this.CODCLI = cod;
 		this.FMOV = fec;
 		this.TMOV = tmov;
@@ -122,19 +122,19 @@ public class Ctactecliente implements Serializable{
 		FCOMPORIG = fCOMPORIG;
 	}
 
-	public Double getDEBE() {
+	public double getDEBE() {
 		return DEBE;
 	}
 
-	public void setDEBE(Double dEBE) {
+	public void setDEBE(double dEBE) {
 		DEBE = dEBE;
 	}
 
-	public Double getHABER() {
+	public double getHABER() {
 		return HABER;
 	}
 
-	public void setHABER(Double hABER) {
+	public void setHABER(double hABER) {
 		HABER = hABER;
 	}
 	
