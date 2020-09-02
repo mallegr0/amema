@@ -13,7 +13,7 @@
 					<button class="w3-button w3-green w3-hover-indigo" name="evento_imprimirPDF">Imprimir</button>
 				</div>
 				<div class="w3-rest w3-center">
-					<a href="../views/Adherentes.jsp" class="w3-button w3-red">Volver</a>
+					<a href="../views/adherentes.jsp" class="w3-button w3-red">Volver</a>
 				</div>
 			</div>
 		</div>

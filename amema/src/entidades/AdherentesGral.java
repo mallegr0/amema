@@ -7,14 +7,14 @@ public class AdherentesGral implements Serializable {
 	/* VARIABLES */
 	private static final long serialVersionUID = 1L;
 	private int NROMC, CUOTAS;
-	private String PRIOR, CODMOV, REF, DESMOV, CANTMENS, MODO, ESTADO, FDESDE, FHASTA;
+	private String PRIOR, CODMOV, REF, DESMOV, CANTMENS, MODO, ESTADO, FDESDE, FHASTA, NOMBRE;
 	private double IMPORTE; 
 	
 	/* CONSTRUCTOR */
 	public AdherentesGral() {}
 	
 	public AdherentesGral(int nro, String fdesde, String fhasta, String prioridad, String codMov, String referencia, 
-			String descMov, double Importe, int cuotas, String mensual, String modo, String estado) {
+			String descMov, double Importe, int cuotas, String mensual, String modo, String estado, String nombre) {
 		
 		this.NROMC = nro;
 		this.FDESDE = fdesde;
@@ -28,10 +28,11 @@ public class AdherentesGral implements Serializable {
 		this.CANTMENS = mensual;
 		this.MODO = modo;
 		this.ESTADO = estado;
-		
+		this.NOMBRE	 = nombre;
 	}
 	
 	/* METODOS */
+	
 	public int getNROMC() {
 		return NROMC;
 	}
@@ -128,5 +129,11 @@ public class AdherentesGral implements Serializable {
 		CUOTAS = cUOTAS;
 	}
 	
+	public String getNOMBRE() {
+		return NOMBRE;
+	}
 	
+	public void SetNOMBRE(String nOMBRE) {
+		NOMBRE = nOMBRE;
+	}
 }

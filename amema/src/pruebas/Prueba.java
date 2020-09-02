@@ -1,35 +1,22 @@
 package pruebas;
 
-import java.util.ArrayList;
-
-
-import controladores.CtrlCtactecliente;
-import entidades.Ctactecliente;
-import util.ApplicationException;
+import java.text.DecimalFormat;
 
 public class Prueba {
 
 	public static void main(String[] args) {
 
-		CtrlCtactecliente cc = new CtrlCtactecliente();
-		ArrayList<Ctactecliente> lista = new ArrayList<>();
+		DecimalFormat df = new DecimalFormat("#0.00");
 		
-		String cod = "0002";
-		java.util.Date fec = new java.util.Date();
+		double var = 1.0;
 		
-		java.sql.Date fecsql = new java.sql.Date(fec.getTime());
 		
-		try {
-			lista = cc.listarCtaCtePorSocioYFecha(cod,fecsql);
-		} catch (ApplicationException e) {
-			e.printStackTrace();
-		}
+		System.out.println(df.format(var));
 		
-		if(lista != null) { System.out.println("trajo algo");}
-		else { System.out.println("fallo");}
 		
-		for(Ctactecliente c : lista) {
-			System.out.println(c.getCODCLI()+" - "+c.getFMOV());
-		}
+		double var2 = Math.round(var*100.00)/100.00;
+		
+		
+		System.out.println(var2);
 	}
 }

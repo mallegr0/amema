@@ -12,6 +12,11 @@ public class CtrlVenta {
 	
 	public CtrlVenta() {}
 	
+	public Venta ConsultaVentaPorNroMov(int nroMov) throws ApplicationException {
+		dv = new DataVenta();
+		return dv.ConsultaVentaPorNroMov(nroMov);
+	}
+	
 	
 	public ArrayList<Venta> listarVentaPorSocio(String cod) throws ApplicationException {
 		dv = new DataVenta();

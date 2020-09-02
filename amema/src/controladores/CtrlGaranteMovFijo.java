@@ -27,7 +27,7 @@ public class CtrlGaranteMovFijo {
 		return dg.bajaGaranteMovFPorMov(m);
 	}
 	
-	public Boolean modifucaGaranteMovF(GaranteMovFijo g) throws ApplicationException {
+	public Boolean modificaGaranteMovF(GaranteMovFijo g) throws ApplicationException {
 		dg = new DataGaranteMovFijo();
 		return dg.modificaGaranteMovF(g);
 	}

@@ -30,12 +30,17 @@ import com.itextpdf.text.pdf.PdfWriter;
 import controladores.CtrlArticulo;
 import controladores.CtrlCliente;
 import controladores.CtrlConvenio;
+import controladores.CtrlGaranteMovFijo;
 import controladores.CtrlVenta;
+import controladores.CtrlVentasM;
+import entidades.AdherenteDetalle;
 import entidades.AdherentesGral;
 import entidades.Articulo;
 import entidades.Cliente;
+import entidades.GaranteMovFijo;
 import entidades.Usuario;
 import entidades.Venta;
+import entidades.VentasM;
 import reportes.HeaderFooterPageEvent;
 import util.ApplicationException;
 
@@ -47,7 +52,9 @@ public class Adherente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static String urlAdherente = "/amema/views/adherentes.jsp";
 	private static String urlBAdherente = "/amema/views/buscaadherentes.jsp";
+	private static String urlDAdherente = "/amema/views/detalleAdherente.jsp";
 	private CtrlCliente cc = null;
+	private CtrlVentasM cvm = null;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -89,6 +96,16 @@ public class Adherente extends HttpServlet {
 				}
 			catch(ApplicationException e) { e.printStackTrace(); }
 		}
+		if(request.getParameter("evento_detalle") != null) {
+			try {
+				cvm = new CtrlVentasM();
+				int nro = Integer.parseInt(request.getParameter("dato"));
+				request.getSession().setAttribute("detalle", cvm.listarVentasMPorNroMov(nro));
+				response.sendRedirect(urlDAdherente);
+			} 
+			catch (NumberFormatException | ApplicationException e) { e.printStackTrace(); }
+			
+		}
 	}
 	
 	
@@ -109,16 +126,35 @@ public class Adherente extends HttpServlet {
 	
 	private ArrayList<AdherentesGral> listarMovimientos(Cliente c) throws ApplicationException{
 		// Declaro las variables que voy a usar para devolver los movimientos del socio.
-		CtrlVenta cv = new CtrlVenta();
-		ArrayList<Venta> lventas;
-		String cgrupo, csubf, nroart, codart;
-		AdherentesGral rta = null;
-		ArrayList<AdherentesGral> lrta = new ArrayList<>();
-		CtrlArticulo ca = new CtrlArticulo();
-		Articulo a = null;
 		
-		lventas = cv.listarVentaPorSocio(c.getCODCLI());
-
+		//Declaro los controladores 
+		CtrlGaranteMovFijo cgmf = new CtrlGaranteMovFijo();
+		CtrlArticulo ca = new CtrlArticulo();
+		CtrlVenta cv = new CtrlVenta();
+		CtrlCliente cc = new CtrlCliente();
+		
+		//Declaros los arrays que voy a ir usando
+		ArrayList<Venta> lventas = new ArrayList<>();
+		ArrayList<AdherentesGral> lrta = new ArrayList<>();
+		
+		//Declaros las entidades que necesito.
+		AdherentesGral rta = null;
+		Articulo a = null;
+		Cliente cli = null;
+		
+		//Declaro variables varias para usar
+		String cgrupo, csubf, nroart, codart;
+		
+		// Recupero los movimientos fijos en el que sale garante un socio.
+		ArrayList<GaranteMovFijo> lmovimientos = cgmf.listarMovimientos(c.getCODCLI());
+		
+		//Busco las ventas por cada movimiento en el que participo el socio garante
+		for(GaranteMovFijo g: lmovimientos) {
+			lventas.add(cv.ConsultaVentaPorNroMov(g.getNroMovimFijo()));
+		}
+		
+		
+		//Por cada venta que encontre devuelvo los valores 
 		for(Venta lv : lventas) {
 			SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
 			codart = lv.getCODART();
@@ -127,17 +163,22 @@ public class Adherente extends HttpServlet {
 			nroart = codart.substring(3,6);
 			a = new Articulo();
 			a = ca.consultarArticulo(cgrupo, csubf, nroart);
+			cli = new Cliente();
+			cli = cc.consultaCliente(lv.getCODCLI());
 			String fecDesde = f.format(lv.getFEC_DESDE());
 			String fecHasta = f.format(lv.getFVTO());
 			rta = new AdherentesGral(lv.getNROMOV(), fecDesde, fecHasta, lv.getANALISIS(), lv.getCODART(), lv.getREFERENCIA(),
-					a.getDESART(), lv.getPRECIO(), (int) Math.round(a.getUNIDAD()), a.getENVASE(), lv.getINNCTACTE(), lv.getVA_DTO());
+					a.getDESART(), lv.getPRECIO(), (int) a.getUNIDAD(), a.getENVASE(), lv.getINNCTACTE(), lv.getVA_DTO(), cli.getNOMCLI());
 			lrta.add(rta);
+			a = null;
+			cli = null;
+			rta = null;
 		}
 		cv = null;
-		rta = null; 
-		a = null; 
+		ca = null;
+		cc = null;
+		cgmf = null;
 		return lrta;
-		
 	}
 	
 	private Cliente limpiarDatos(Cliente c) throws ApplicationException {
@@ -175,7 +216,7 @@ public class Adherente extends HttpServlet {
 			
 			//Recupero la data del Socio
 			Cliente c = buscarSocio(socio);
-			ArrayList<AdherentesGral> mov = listarMovFijos(movimiento);//TENGO QUE ENCONTRAR LA TABLA QUE ME RELACIONA, cUANDO LO HAGA PUEDO DEVOLVER LOS DATOS ACA
+			//ArrayList<AdherentesGral> mov = listarMovFijos(movimiento);//TENGO QUE ENCONTRAR LA TABLA QUE ME RELACIONA, cUANDO LO HAGA PUEDO DEVOLVER LOS DATOS ACA
 			
 			
 			//Seteo las fuentes
@@ -442,18 +483,4 @@ public class Adherente extends HttpServlet {
 		} 
 		catch (DocumentException | ApplicationException | IOException e) { e.printStackTrace();}
 	}
-	
-	
-	/*
-	 * 
-	 * ESTE METODO NO DEVUELVE LOS DATOS DEL ADHERENTE GRAL SINO QUE TENGO QUE CREAR UNA NUEVA ENTIDAD, CUANDO DESCUBRA
-	 * CUAL ES LA TABLA QUE SE RELACIONA
-	 * 
-	 */
-	
-	private ArrayList<AdherentesGral> listarMovFijos(int nro){
-		ArrayList<AdherentesGral> lista = null;
-		return lista;
-	}
-	
 }

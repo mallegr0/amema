@@ -59,7 +59,7 @@
 				<div class="w3-half w3-container">
 					<p></p>
 					<p>
-						<input class="w3-input" id="dato" type="text" name="dato" placeholder="Ingrese el dato a buscar" disabled="true">
+						<input class="w3-input" id="dato" type="text" name="dato" placeholder="Ingrese el dato a buscar" disabled>
 					</p>
 					<p></p>
 				</div>

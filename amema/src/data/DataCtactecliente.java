@@ -144,6 +144,7 @@ public class DataCtactecliente {
 					c.setHABER(rs.getDouble("HABER"));
 				}
 			}
+			
 		}
 		catch(SQLException e) {e.printStackTrace(); }
 		finally { cerrar(stmt, rs); }
@@ -155,7 +156,7 @@ public class DataCtactecliente {
 		ResultSet rs = null;
 		Ctactecliente c = null; 
 		ArrayList<Ctactecliente> lista = new ArrayList<>();
-		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ? AND FMOV < ? ORDER BY FMOV";
+		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ? AND FMOV < ? ORDER BY FMOV, NCOMP";
 		
 		try {
 			java.sql.Date fecha = new java.sql.Date(fec.getTime());

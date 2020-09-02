@@ -39,6 +39,10 @@
 				<br>
 			</div>
 			<br><br>
+			<div class="w3-container w3-card-4 w3-center w3-padding">
+				<a href="buscaadherentes.jsp" class="w3-button w3-green w3-hover-indigo"><strong>VOLVER</strong></a>
+			</div>
+			<br><br>
 			<div class="w3-container w3-card-4 w3-responsive">
 				<br>
 				<table class="w3-table-all">
@@ -56,6 +60,7 @@
 							<th>Cantidad Mensual</th>
 							<th>Modo</th>
 							<th>Estado</th>
+							<th>Nombre y Apellido</th>
 							<th colspan="2" class="w3-center">Acciones</th>
 						</tr>
 					</thead>
@@ -77,6 +82,7 @@
 								<td><%=a.getCANTMENS() %></td>
 								<td><%=a.getMODO() %></td>
 								<td><%=a.getESTADO() %></td>
+								<td><%=a.getNOMBRE() %></td>
 								<td><button class="w3-button w3-green w3-hover-indigo" onclick="abrirModalAdherente('id01','<%=a.getNROMC()%>')"><i class="fas fa-search fa-2x"></i></button></td>
 								<td><button class="w3-button w3-orange w3-hover-indigo w3-text-white" onclick="abrirModalAdherente('id02','<%=c.getCODCLI()%> y movimiento <%=a.getNROMC()%>')"><i class="fas fa-print fa-2x"></i></button></td>
 							</tr>
@@ -115,6 +121,7 @@
 				document.getElementById(modal).style.display='block';
 				if(modal == 'id01'){
 					document.getElementById("nro").innerHTML = codigo;
+					document.getElementById("dato").value = codigo;
 				}
 				else{
 					document.getElementById("printadherente").value = codigo;

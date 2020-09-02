@@ -16,6 +16,7 @@ import controladores.CtrlCliente;
 import controladores.CtrlConvenio;
 import controladores.CtrlCtactecliente;
 import controladores.CtrlTpoComprobante;
+import controladores.CtrlVentasM;
 import entidades.Cliente;
 import entidades.CtacteGral;
 import entidades.Ctactecliente;
@@ -34,6 +35,7 @@ public class Cuenta extends HttpServlet {
 	private CtrlConvenio cConvenio = null;
 	private CtrlCtactecliente cCuentas = null;
 	private CtrlTpoComprobante cTComprobante = null;
+	private CtrlVentasM cVentasM = null;
 
 	
     /**
@@ -68,6 +70,10 @@ public class Cuenta extends HttpServlet {
 		}
 		if(request.getParameter("evento_buscar3") != null) {
 			try { buscarSocio(request, response);}
+			catch(ApplicationException e) { e.printStackTrace(); }
+		}
+		if(request.getParameter("evento_detalle") != null) {
+			try { completaTabla(request, response); }
 			catch(ApplicationException e) { e.printStackTrace(); }
 		}
 	}
@@ -110,17 +116,20 @@ public class Cuenta extends HttpServlet {
 		cCliente = new CtrlCliente();
 		Cliente c = new Cliente();
 		c = cCliente.consultaCliente(socio.substring(0,4));
+		
 		req.getSession().setAttribute("persona", limpiarDatos(c));
 		
 		try {
-			Date fecha = (Date) format.parse(req.getParameter("fecha"));
-			ArrayList<Ctactecliente> lista = new ArrayList<>();
+			Date fecha = format.parse(req.getParameter("fecha"));
+			ArrayList<Ctactecliente> lmov = new ArrayList<>();
 			ArrayList<CtacteGral> mov = new ArrayList<>();
 			
 			cCuentas = new CtrlCtactecliente();
 			cTComprobante = new CtrlTpoComprobante();
-			lista = cCuentas.listarCtaCtePorSocioYFecha(socio, fecha);
-			for(Ctactecliente cta : lista) {
+
+			lmov = cCuentas.listarCtaCtePorSocioYFecha(c.getCODCLI(), fecha);
+			
+			for(Ctactecliente cta : lmov) {
 				CtacteGral r = new CtacteGral();
 				TpoComprobante tc = cTComprobante.consultaTComprobante(cta.getTCOMP());
 				r.setCODCLI(cta.getCODCLI());
@@ -163,4 +172,16 @@ public class Cuenta extends HttpServlet {
 		
 		return c;
 	}
+	
+	private void completaTabla(HttpServletRequest req, HttpServletResponse res) throws ApplicationException {
+		cVentasM = new CtrlVentasM();
+		
+		String cod = req.getParameter("dato");
+		cod = cod.substring(4);
+		
+		req.getSession().setAttribute("movimiento", cVentasM.consultaVentasM(cod));
+		try { res.sendRedirect("/amema/views/detalleCuenta.jsp"); } 
+		catch (IOException e) { e.printStackTrace(); }
+	}
+	
 }
