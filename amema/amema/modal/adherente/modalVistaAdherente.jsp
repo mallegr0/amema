@@ -6,17 +6,7 @@
 			<h2 class="w3-center"> Detalle de Movimiento seleccionado <label id="nro"></label></h2>
 		</header>
 		<div class="w3-container w3-card-4">
-			<br>
-			<form action="/amema/Adherente" method="post">
-				<div class="w3-container w3-threequarter">
-					<input class="w3-input" type="text" name="dato" id="dato" readonly>
-				</div>
-				<div class="w3-container w3-rest">
-					<button name="evento_detalle" class="w3-button w3-green w3-hover-indigo"><strong>Generar</strong></button>
-				</div>
-			</form>
-			<br>
-			<br>
+			<%@include file="../../forms/adherente/detalleAdherenteForm.jsp" %>
 			<div class="w3-container w3-padding-8 w3-center">
 			<br>
 				<a href="/amema/views/adherentes.jsp" class="w3-button w3-green w3-hover-indigo"><strong>VOLVER</strong></a>

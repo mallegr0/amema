@@ -112,7 +112,8 @@
 
 				<%}%>
 		</div>
-
+		
+		<% request.getSession().removeAttribute("detalle"); %>
 		<!-- FIN AREA DE TRABAJO -->
 
 		<%@ include file="footer.jsp" %>

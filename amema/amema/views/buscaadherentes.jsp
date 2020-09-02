@@ -34,7 +34,8 @@
 				<h1 class="w3-center  w3-text-indigo">No hay datos para mostrar</h1>
 			</div>
 		<%}%>
-			<% request.getSession().removeAttribute("lista"); %>
+			<% request.getSession().removeAttribute("lista"); 
+			   request.getSession().removeAttribute("movimientos");%>
 
 </div>
 	<%@ include file="footer.jsp" %>

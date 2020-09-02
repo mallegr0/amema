@@ -3,6 +3,7 @@ package servlets;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -33,7 +34,6 @@ import controladores.CtrlConvenio;
 import controladores.CtrlGaranteMovFijo;
 import controladores.CtrlVenta;
 import controladores.CtrlVentasM;
-import entidades.AdherenteDetalle;
 import entidades.AdherentesGral;
 import entidades.Articulo;
 import entidades.Cliente;
@@ -82,7 +82,7 @@ public class Adherente extends HttpServlet {
 			if(request.getParameter("doc") != null) { 
 				try { 
 					request.getSession().setAttribute("socio", buscarPorDocumento(request.getParameter("dato")));
-					request.getSession().setAttribute("Movimientos", listarMovimientos(buscarPorDocumento(request.getParameter("dato"))));
+					request.getSession().setAttribute("movimientos", listarMovimientos(buscarPorDocumento(request.getParameter("dato"))));
 					response.sendRedirect(urlAdherente);
 					}
 				catch(ApplicationException e) { e.printStackTrace(); }
@@ -201,6 +201,10 @@ public class Adherente extends HttpServlet {
 		int movimiento = Integer.parseInt(request.getParameter("printadherente").substring(18));
 		Usuario usuario = (Usuario) request.getSession().getAttribute("usuarioActivo");
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		DecimalFormat df = new DecimalFormat("#0.00");
+		double total = 0.0;
+		double tacuenta = 0.0;
+		double tdebe = 0.0;
 		
 		Document documento = new Document(PageSize.A4, 36, 36, 90, 36);		
 		
@@ -214,10 +218,16 @@ public class Adherente extends HttpServlet {
 			writer.setPageEvent(event);
 			
 			
-			//Recupero la data del Socio
+			//Recupero la data del Socio que es garante y de los movimientos
 			Cliente c = buscarSocio(socio);
-			//ArrayList<AdherentesGral> mov = listarMovFijos(movimiento);//TENGO QUE ENCONTRAR LA TABLA QUE ME RELACIONA, cUANDO LO HAGA PUEDO DEVOLVER LOS DATOS ACA
+			ArrayList<VentasM> movimientos = new ArrayList<>();
+			cvm = new CtrlVentasM();
 			
+			movimientos = cvm.listarVentasMPorNroMov(movimiento);	
+			
+			//Recupero los datos del socio al que le sale garante
+			
+			Cliente g = buscarSocio(movimientos.get(0).getCODCLI());
 			
 			//Seteo las fuentes
 			Font f1 = new Font(FontFamily.HELVETICA,13,Font.BOLDITALIC, BaseColor.DARK_GRAY);
@@ -418,7 +428,8 @@ public class Adherente extends HttpServlet {
 			//Defino el titulo
 			
 			Paragraph t4 = new Paragraph();
-			t4.add(new Phrase("-- Datos del Movimiento "+"aca va el nro de movimiento"+" --",f1));
+			t4.add(Chunk.NEWLINE);
+			t4.add(new Phrase("-- Es Garante de "+g.getNOMCLI()+ " en el Movimiento "+movimiento+" --",f1));
 			t4.setAlignment(Element.ALIGN_CENTER);
 			t4.add(Chunk.NEWLINE);
 			t4.add(Chunk.NEWLINE);
@@ -431,8 +442,9 @@ public class Adherente extends HttpServlet {
 			Paragraph m5 = new Paragraph(new Phrase("Adeudado",f2));
 			
 			// Defino los datos de la tabla
-			
-			
+			cvm = new CtrlVentasM();
+			ArrayList<VentasM> lmov = cvm.listarVentasMPorNroMov(movimiento);
+			cvm = null;
 			
 			
 			//Defino la tabla
@@ -441,19 +453,19 @@ public class Adherente extends HttpServlet {
 			
 			// Defino las celdas
 			PdfPCell cm1 = new PdfPCell(m1);
-			cm1.setBorder(4);
+			cm1.setBorder(3);
 			cm1.setBorderColor(BaseColor.BLUE);
 			PdfPCell cm2 = new PdfPCell(m2);
-			cm2.setBorder(1);
+			cm2.setBorder(3);
 			cm2.setBorderColor(BaseColor.BLUE);
 			PdfPCell cm3 = new PdfPCell(m3);
-			cm3.setBorder(1);
+			cm3.setBorder(3);
 			cm3.setBorderColor(BaseColor.BLUE);
 			PdfPCell cm4 = new PdfPCell(m4);
-			cm4.setBorder(1);
+			cm4.setBorder(3);
 			cm4.setBorderColor(BaseColor.BLUE);
 			PdfPCell cm5 = new PdfPCell(m5);
-			cm5.setBorder(1);
+			cm5.setBorder(3);
 			cm5.setBorderColor(BaseColor.BLUE);
 			
 			
@@ -464,6 +476,51 @@ public class Adherente extends HttpServlet {
 			tmov.addCell(cm4);
 			tmov.addCell(cm5);
 			
+			for(VentasM v : lmov) {
+				PdfPCell dm1 = new PdfPCell(new Paragraph(new Phrase(format.format(v.getFMOV()), f3)));
+				dm1.setBorder(3);
+				dm1.setBorderColor(BaseColor.BLUE);
+				PdfPCell dm2 = new PdfPCell(new Paragraph(new Phrase(v.getNCOMP(),f3)));
+				dm2.setBorder(3);
+				dm2.setBorderColor(BaseColor.BLUE);
+				PdfPCell dm3 = new PdfPCell(new Paragraph(new Phrase(df.format(v.getSUBTOTAL()),f3)));
+				dm3.setBorder(3);
+				dm3.setBorderColor(BaseColor.BLUE);
+				PdfPCell dm4 = new PdfPCell(new Paragraph(new Phrase(df.format(v.getA_CUENTA()),f3)));
+				dm4.setBorder(3);
+				dm4.setBorderColor(BaseColor.BLUE);
+				PdfPCell dm5 = new PdfPCell(new Paragraph(new Phrase(df.format(v.getA_CUENTAD()),f3)));
+				dm5.setBorder(3);
+				dm5.setBorderColor(BaseColor.BLUE);
+				tmov.addCell(dm1);
+				tmov.addCell(dm2);
+				tmov.addCell(dm3);
+				tmov.addCell(dm4);
+				tmov.addCell(dm5);
+				total += v.getSUBTOTAL();
+				tacuenta += v.getA_CUENTA();
+				tdebe += v.getA_CUENTAD();
+			}
+			PdfPCell tm1 = new PdfPCell();
+			tm1.setBorder(3);
+			tm1.setBorderColor(BaseColor.BLUE);
+			PdfPCell tm2 = new PdfPCell(new Paragraph(new Phrase("Total: ",f2)));
+			tm2.setBorder(3);
+			tm2.setBorderColor(BaseColor.BLUE);
+			PdfPCell tm3 = new PdfPCell(new Paragraph(new Phrase(df.format(total),f3)));
+			tm3.setBorder(3);
+			tm3.setBorderColor(BaseColor.BLUE);
+			PdfPCell tm4 = new PdfPCell(new Paragraph(new Phrase(df.format(tacuenta),f3)));
+			tm4.setBorder(3);
+			tm4.setBorderColor(BaseColor.BLUE);
+			PdfPCell tm5 = new PdfPCell(new Paragraph(new Phrase(df.format(tdebe),f3)));
+			tm5.setBorder(3);
+			tm5.setBorderColor(BaseColor.BLUE);
+			tmov.addCell(tm1);
+			tmov.addCell(tm2);
+			tmov.addCell(tm3);
+			tmov.addCell(tm4);
+			tmov.addCell(tm5);
 			
 			/* FIN TABLAS MOVIMIENTOS */
 			
