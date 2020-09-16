@@ -209,7 +209,7 @@ public class ListarSocio extends HttpServlet {
 			rdata.createCell(14).setCellValue(c.getCONTACTO2());
 			rdata.createCell(15).setCellValue(c.getCOM_IND());
 			rdata.createCell(16).setCellValue(fl.format(c.getFECHA_ING()));
-			rdata.createCell(17).setCellValue(c.getOBSCLI());
+			rdata.createCell(17).setCellValue("S/Observaciones");
 			cont++;
 		}
 		

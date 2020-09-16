@@ -127,6 +127,30 @@ public class DataGaranteMovFijo {
 		finally { cerrar(stmt, rs); }
 		return rta;
 	}
+	
+	public String consultaGarantePorMovF(int movimiento) throws ApplicationException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		String rta = ""; 
+		String sql = "SELECT NroGarante FROM GarantesMovimF WHERE NroMovimFijo = ?";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			stmt.setInt(1, movimiento);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					rta = rs.getString("NroGarante");
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return rta;
+	}
 
 	public ArrayList<GaranteMovFijo> listarTodo() throws ApplicationException {
 		PreparedStatement stmt = null;
@@ -162,6 +186,31 @@ public class DataGaranteMovFijo {
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
 			stmt.setString(1, g);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					garantes = new GaranteMovFijo(rs.getString("NroGarante"), rs.getInt("NroMovimFijo"));
+					lista.add(garantes);
+				}
+			}
+		}
+		catch (SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista;
+	}
+	
+	public ArrayList<GaranteMovFijo> listarGarantesPorMovimientos(int m) throws ApplicationException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ArrayList<GaranteMovFijo> lista = new ArrayList<>();
+		GaranteMovFijo garantes = null; 
+		String sql = "SELECT * FROM GarantesMovFijos WHERE NroMovimFijo = ? ORDER BY NroGarante";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setInt(1, m);
 			
 			rs = stmt.executeQuery();
 			

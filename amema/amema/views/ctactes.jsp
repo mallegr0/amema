@@ -42,10 +42,6 @@
 				<br>
 			</div>
 			<br><br>
-			<div class="w3-container w3-card-4 w3-padding w3-center">
-				<a href="buscactactes.jsp" class="w3-button w3-green w3-hover-indigo"><strong>VOLVER</strong></a>
-			</div>
-			<br><br>
 			<div class="w3-container w3-card-4 w3-responsive">
 				<br>
 				<table class="w3-table-all">
@@ -57,7 +53,7 @@
 							<th>Debe</th>
 							<th>haber</th>
 							<th>Saldo</th>
-							<th colspan="2" class="w3-center">Acciones</th>
+							<th colspan="3" class="w3-center">Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -75,6 +71,7 @@
 								<td><%=df.format(a.getSALDO())%></td>
 								<td><button class="w3-button w3-green w3-hover-indigo" onclick="abrirModalCta('id01','<%=a.getNCOMP()%>')" name="evento_detalle"><i class="fas fa-search fa-2x"></i></button></td>
 								<td><button class="w3-button w3-orange w3-hover-indigo w3-text-white" onclick="abrirModalCta('id02','<%=a.getNCOMP()%>')"><i class="fas fa-print fa-2x"></i></button></td>
+								<td><button class="w3-button w3-purple w3-hover-indigo" onclick="abrirModalCta('id04','<%=a.getNCOMP()%>')"><i class="fas fa-users fa-2x"></i></button></td>
 							</tr>
 							<%}%>
 						<%}
@@ -87,6 +84,16 @@
 				</table>
 				<br>
 			</div>
+			<br><br>
+			<div class="w3-container w3-card-4 w3-padding">
+				<div class="w3-container w3-half w3-center">
+					<a href="buscactactes.jsp" class="w3-button w3-green w3-hover-indigo"><strong>VOLVER</strong></a>
+				</div>
+				<div class="w3-container w3-half w3-center">
+					<button class="w3-button w3-orange w3-hover-indigo w3-text-white" onclick="abrirModalCta('id03', '<%=c.getCODCLI()%>')"><strong>TRANSF. A EXCEL</strong></button>
+				</div>
+			</div>
+			<br><br>
 			
 			<!-- AREA DE MODAL DE VISTA -->
 
@@ -94,11 +101,24 @@
 
 			<!-- FIN AREA DE MODAL DE VISTA -->
 
-			<!-- AREA DE MODAL DE IMPRESION -->
+			<!-- AREA DE MODAL DE IMPRESION DE MOVIMIENTO-->
 
-			<%@include file="../modal/adherente/modalImprimirMovimiento.jsp"%>
+			<%@include file="../modal/ctacte/modalImprimircta.jsp"%>
 
-			<!-- FIN AREA DE MODAL DE IMPRESION -->
+			<!-- FIN AREA DE MODAL DE IMPRESION DE MOVIMIENTO-->
+
+			<!-- AREA DE MODAL DE GARANTES DEL MOVIMIENTO-->
+
+			<%@include file="../modal/ctacte/modalGarantesCtacte.jsp"%>
+
+			<!-- FIN AREA DE MODAL DE GARANTES DEL MOVIMIENTO-->
+
+
+			<!-- AREA DE MODAL DE IMPRESION TODO-->
+
+			<%@include file="../modal/ctacte/modalImprimirTodo.jsp"%>
+
+			<!-- FIN AREA DE MODAL DE IMPRESION TODO-->
 
 				<%}%>
 		</div>
@@ -113,8 +133,15 @@
 					document.getElementById("nro").innerHTML = codigo;
 					document.getElementById("dato").value = codigo;
 				}
-				else{
+				if(modal == 'id02'){
 					document.getElementById("printadherente").value = codigo;
+				}
+				if(modal == 'id03'){
+					document.getElementById("migrarExcel").value = codigo;
+				}
+				if(modal == 'id04'){
+					document.getElementById("nrog").innerHTML = codigo;
+					document.getElementById("datog").value = codigo;
 				}
 			}	
 

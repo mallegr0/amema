@@ -17,7 +17,7 @@ import util.ApplicationException;
 /**
  * Servlet implementation class Login
  */
-@WebServlet(urlPatterns = {"/Login"})
+@WebServlet(urlPatterns = {"/Login"}, name="Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

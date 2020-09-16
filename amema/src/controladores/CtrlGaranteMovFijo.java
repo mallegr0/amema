@@ -37,6 +37,11 @@ public class CtrlGaranteMovFijo {
 		return dg.consultaGaranteMovF(g);
 	}
 	
+	public String consultaGaranteporMovF(int movimiento) throws ApplicationException {
+		dg = new DataGaranteMovFijo();
+		return dg.consultaGarantePorMovF(movimiento);
+	}
+	
 	public ArrayList<GaranteMovFijo> listarTodo() throws ApplicationException {
 		dg = new DataGaranteMovFijo();
 		return dg.listarTodo();
@@ -45,5 +50,10 @@ public class CtrlGaranteMovFijo {
 	public ArrayList<GaranteMovFijo> listarMovimientos(String g) throws ApplicationException {
 		dg = new DataGaranteMovFijo();
 		return dg.listarMovimientos(g);
+	}
+	
+	public ArrayList<GaranteMovFijo> listarGarantesPorMovimientos(int m) throws ApplicationException {
+		dg = new DataGaranteMovFijo();
+		return dg.listarGarantesPorMovimientos(m);
 	}
 }

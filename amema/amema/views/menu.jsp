@@ -44,26 +44,24 @@
 						<a href="/amema/views/socios.jsp" class="w3-bar-item w3-button">Gestión de Socios</a>
 						<a href="/amema/views/listarsocios.jsp" class="w3-bar-item w3-button">Listado de Socios</a>
 						<a href="/amema/views/buscaadherentes.jsp" class="w3-bar-item w3-button">Gestión de Adherentes</a>
+						<a href="/amema/views/buscaconveniosocio.jsp" class="w3-bar-item w3-button">Parámetro Socio/Convenio</a>
+					</div>
+				</div>
+				<div class="w3-dropdown-click w3-hide-small">
+					<button class="w3-button" title="Movimientos Fijos">Movimientos Fijos <i class="fas fa-angle-down"></i></button>
+					<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="left: 100px;">
+						<a href="/amema/views/buscamovfijos.jsp" class="w3-bar-item w3-button">Grabar Movimientos Fijos</a>
+						<a href="" class="w3-bar-item w3-button">Actualización de Cuentas Corrientes</a>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="w3-dropdown-click">
-			<button class="w3-button" title="Menu 3">Cuenta Corriente <i class="fas fa-angle-down"></i></button>     
+			<button class="w3-button" title="Cuentas Corrientes">Cuenta Corriente <i class="fas fa-angle-down"></i></button>     
 			<div id="menu" class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide">
 				<a href="/amema/views/buscactactes.jsp" class="w3-bar-item w3-button">Cuenta Corriente</a>
 			</div>
 		</div>
-<!--
-		<div class="w3-dropdown-click w3-hide-small">
-			<button class="w3-button" title="Menu 4">Menu 4 <i class="fas fa-angle-down"></i></button>
-			<div id="menu" class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide">
-				<a href="#" class="w3-bar-item w3-button">Link</a>
-				<a href="#" class="w3-bar-item w3-button">Link</a>
-				<a href="#" class="w3-bar-item w3-button">Link</a>
-			</div>
-		</div>
-		-->
 		<div class="w3-dropdown-click w3-hide-small">
 			<button class="w3-button" title="usuarios">Usuarios <i class="fas fa-angle-down"></i></button>     
 			<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide">

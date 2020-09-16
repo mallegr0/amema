@@ -232,7 +232,7 @@ public class Socio extends HttpServlet {
 			c1.add(new Phrase(c.getCCOND(),f3));
 			Paragraph c2 = new Paragraph();
 			c2.add(new Phrase("Observaciones: ",f2)); // Observaciones
-			c2.add(new Phrase(validaNull(c.getOBSCLI()),f3));
+			c2.add(new Phrase("S/Observaciones",f3));
 			
 			
 

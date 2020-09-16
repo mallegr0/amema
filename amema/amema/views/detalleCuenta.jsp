@@ -21,7 +21,7 @@
 					<p style="width: 80%"><label class="w3-text-indigo"><strong>Origen del Movimiento: </strong></label><input class="w3-input" type="text" value="<%=v.getNCOMP()%>" readonly></p>
 					<p style="width: 80%"><label class="w3-text-indigo"><strong>Cantidad de Cuotas: </strong></label><input class="w3-input" type="text" value="<%=v.getOBSERV()%>" readonly></p>
 					<p style="width: 80%"><label class="w3-text-indigo"><strong>Referencia: </strong></label><input class="w3-input" type="text" value="<%=v.getREFERENCIA()%>" readonly></p>
-					<p style="width: 80%"><label class="w3-text-indigo"><strong>Nro Planificación: </strong></label><input class="w3-input" type="text" value="<%=v.getNROMOVPLANIF()%>" readonly></p>
+					<p style="width: 80%"><label class="w3-text-indigo"><strong>Nro Planificación: </strong></label><input class="w3-input" type="text" value="<%=v.getNROMOVPLANIF()%> (Nro Actualiz: <%=v.getNROACTUALIZ()%>)" readonly></p>
 				</div>
 				<div class="w3-half">
 					<p style="width: 80%"><label class="w3-text-indigo"><strong>Fec. Movimiento: </strong></label><input class="w3-input" type="date" value="<%=v.getFMOV()%>" readonly></p>

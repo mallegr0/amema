@@ -151,6 +151,43 @@ public class DataCtactecliente {
 		return c;
 	}
 	
+	public Ctactecliente consultarComprobanteCta(String cod) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null;
+		Ctactecliente c = null; 
+		String sql = "SELECT * FROM CTACTECLI WHERE NCOMP = ?";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setString(1, cod);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					c = new Ctactecliente();
+					c.setCODCLI(rs.getString("CODCLI"));
+					c.setFMOV(rs.getDate("FMOV"));
+					c.setTMOV(rs.getString("TMOV"));
+					c.setLCOMP(rs.getString("LCOMP"));
+					c.setPCOMP(rs.getString("PCOMP"));
+					c.setTCOMP(rs.getString("TCOMP"));
+					c.setNCOMP(rs.getString("NCOMP"));
+					c.setFCOMPORIG(rs.getDate("FCOMPORIG"));
+					c.setLCOMPORIG(rs.getString("LCOMPORIG"));
+					c.setPCOMPORIG(rs.getString("PCOMPORIG"));
+					c.setNCOMPORIG(rs.getString("NCOMPORIG"));
+					c.setDEBE(rs.getDouble("DEBE"));
+					c.setHABER(rs.getDouble("HABER"));
+				}
+			}
+			
+		}
+		catch(SQLException e) {e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return c;
+	}
+	
 	public ArrayList<Ctactecliente> listarCtaCtePorSocioYFec(String cod, Date fec) throws ApplicationException {
 		PreparedStatement stmt = null; 
 		ResultSet rs = null;
