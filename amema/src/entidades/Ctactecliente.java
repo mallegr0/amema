@@ -7,7 +7,7 @@ public class Ctactecliente implements Serializable{
 	
 	/* VARIABLES */
 	private static final long serialVersionUID = 1L;
-	private String CODCLI, TMOV, LCOMP, PCOMP, TCOMP, NCOMP, LCOMPORIG, PCOMPORIG, NCOMPORIG;
+	private String CODCLI, TMOV, LCOMP, PCOMP, TCOMP, NCOMP, LCOMPORIG, PCOMPORIG, NCOMPORIG, TCOMPORIG;
 	private Date FMOV, FCOMPORIG;
 	private double DEBE, HABER;
 	
@@ -15,7 +15,7 @@ public class Ctactecliente implements Serializable{
 	public Ctactecliente() {}
 	
 	public Ctactecliente(String cod, Date fec, String tmov, String lcomp, String pcomp, String tcomp, String ncomp, Date forig,
-			String lorig, String porig, String norig, double debe, double haber) {
+			String lorig, String porig, String torig, String norig, double debe, double haber) {
 		this.CODCLI = cod;
 		this.FMOV = fec;
 		this.TMOV = tmov;
@@ -26,6 +26,7 @@ public class Ctactecliente implements Serializable{
 		this.FCOMPORIG = forig;
 		this.LCOMPORIG = lorig;
 		this.PCOMPORIG = porig;
+		this.TCOMPORIG = torig;
 		this.NCOMPORIG = norig;
 		this.DEBE = debe;
 		this.HABER = haber;
@@ -60,6 +61,14 @@ public class Ctactecliente implements Serializable{
 
 	public String getPCOMP() {
 		return PCOMP;
+	}
+
+	public String getTCOMPORIG() {
+		return TCOMPORIG;
+	}
+
+	public void setTCOMPORIG(String tCOMPORIG) {
+		TCOMPORIG = tCOMPORIG;
 	}
 
 	public void setPCOMP(String pCOMP) {

@@ -42,7 +42,7 @@
 			<!-- EMPIEZA LA TABLA DE USUARIOS CON LOS BOTONES CAMBIAR PASS, MODIFICAR Y ELIMINAR-->
 			<h1 class="w3-center  w3-text-indigo"> Usuarios </h1>
 			<div class="w3-responsive w3-card-4">
-				<table class="w3-table-all">
+				<table class="w3-table w3-bordered">
 					<thead>
 						<tr class="w3-indigo">
 							<th>Usuario</th>
@@ -53,7 +53,7 @@
 					</thead>
 					<tbody>
 						<% for(Usuario u : listaUsers){%>
-							<tr class="w3-hover-light-green">
+							<tr class="w3-hover-light-blue">
 								<td><%=u.getLogIn() %></td>
 								<td><%=u.getNomUs() %></td>
 								<td><%=cu.consultaPerfil(u.getCperfil()) %></td>

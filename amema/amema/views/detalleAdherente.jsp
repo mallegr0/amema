@@ -19,7 +19,7 @@
 			<br>
 			<br>
 			<h3 class="w3-center w3-text-indigo">Detalle del movimiento seleccionado</h3>
-			<table class="w3-table-all">
+			<table class="w3-table w3-bordered">
 				<thead>
 					<tr class="w3-indigo">
 						<th>Fecha Movimiento</th>
@@ -38,7 +38,7 @@
 						double tfavor = 0.0;
 						double tdebe = 0.0;
 						for(VentasM v: lista) {%>
-					<tr>
+					<tr class="w3-hover-light-blue">
 						<td><%=v.getFMOV()%></td>
 						<td><%=v.getNCOMP() %></td>
 						<td><%=formato.format(v.getSUBTOTAL()) %></td>

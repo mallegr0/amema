@@ -17,6 +17,8 @@ public class DataVenta {
 	/* CONSTRUCTOR */
 	public DataVenta() {}
 	
+	
+	/* METODOS */
 	private void cerrar(PreparedStatement stmt, ResultSet rs) throws ApplicationException {
 		try {
 			if(stmt != null) stmt.close();
@@ -26,14 +28,172 @@ public class DataVenta {
 		catch (SQLException e) { e.printStackTrace(); }
 	}
 	
+	public boolean altaVenta(Venta v) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "INSERT INTO VENTAS (NCOMP, TCOMP, LETRA, CIA, FCOMP, NFACC, FVTO, CODCLI, REGCLI, OBSERV, CPERS1"
+				+ "CPERS2, CPERS3, CVTO, NROREMITO, NROPEDIDO, NROPRESUP, NVIAJ, DIRECTA, REFERENCIA, LIQUIDA, COMI_DIFE, "
+				+ "INCCTACTE, DESPACHA, TEXTLIB, TEXTO, FLETE, CCOND_1, CCOND_2, CCOND_3, CCOND_4, PORDESCTO, VA_DTO, CODART, "
+				+ "TASA, DESPACHO, TIVA, BONART, BONART2, PRECIO, UNIDADES, UBICAC1, UBICAC2, UBICAC3, ANALISIS, FEC_DESDE, NROMOV, IMPCH,"
+				+ "CANCDEUANT, IMPCANCDEUANT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+				+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setString(1, v.getNCOMP());
+			stmt.setString(2, v.getTCOMP());
+			stmt.setString(3, v.getLETRA());
+			stmt.setString(4, v.getCIA());
+			stmt.setDate(5, v.getFCOMP());
+			stmt.setString(6, v.getNFACC());
+			stmt.setDate(7, v.getFVTO());
+			stmt.setString(8, v.getCODCLI());
+			stmt.setString(9, v.getREGCLI());
+			stmt.setString(10, v.getOBSERV());
+			stmt.setString(11, v.getCPERS1());
+			stmt.setString(12, v.getCPERS2());
+			stmt.setString(13, v.getCPERS3());
+			stmt.setString(14, v.getCVTO());
+			stmt.setString(15, v.getNROREMITO());
+			stmt.setString(16, v.getNROPEDIDO());
+			stmt.setString(17, v.getNROPRESUP());
+			stmt.setString(18, v.getNVIAJ());
+			stmt.setString(19, v.getDIRECTA());
+			stmt.setString(20, v.getREFERENCIA());
+			stmt.setString(21, v.getLIQUIDA());
+			stmt.setString(22, v.getCOMI_DIFE());
+			stmt.setString(23, v.getINNCTACTE());
+			stmt.setString(24, v.getDESPACHA());
+			stmt.setString(25, v.getTEXTLIB());
+			stmt.setDouble(26, v.getTEXTO());
+			stmt.setDouble(27, v.getFLETE());
+			stmt.setString(28, v.getCCOND_1());
+			stmt.setString(29, v.getCCOND_2());
+			stmt.setString(30, v.getCCOND_3());
+			stmt.setString(31, v.getCCOND_4());
+			stmt.setDouble(32, v.getPORDESCTO());
+			stmt.setDouble(33, v.getPORBONIF());
+			stmt.setString(34, v.getVA_DTO());
+			stmt.setString(35, v.getCODART());
+			stmt.setDouble(36, v.getTASA());
+			stmt.setString(37, v.getDESPACHO());
+			stmt.setString(38, v.getTIVA());
+			stmt.setDouble(39, v.getBONART());
+			stmt.setDouble(40, v.getBONART2());
+			stmt.setDouble(41, v.getPRECIO());
+			stmt.setDouble(42, v.getUNIDADES());
+			stmt.setString(43, v.getUBICAC1());
+			stmt.setString(44, v.getUBICAC2());
+			stmt.setString(45, v.getUBICAC3());
+			stmt.setString(46, v.getANALISIS());
+			stmt.setDate(47, v.getFEC_DESDE());
+			stmt.setInt(48, v.getNROMOV());
+			stmt.setDouble(49, v.getIMPCH());
+			stmt.setString(50, v.getCANCDEUANT());
+			stmt.setDouble(51, v.getIMPCANCDEUANT());
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else { return false; }
+		}
+		catch( SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally { cerrar(stmt, null); }
+	}
 	
-	// metodo alta
+	public boolean bajaVenta(String cod, int mov) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "DELETE FROM VENTAS WHERE CODCLI = ? AND NROMOV = ?";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			stmt.setString(1, cod);
+			stmt.setInt(2, mov);
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else { return false; }
+		}
+		catch( SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally { cerrar(stmt, null); }
+	}
 	
-	// metodo baja
-	
-	//metodo modificacion
-	
-	//metodo consultar
+	public boolean modificaVenta(Venta v) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "UPDATE VENTAS SET NCOMP = ?, TCOMP = ?, LETRA = ?, CIA = ?, FCOMP = ?, NFACC = ?, FVTO = ?, REGCLI = ?, OBSERV = ?, CPERS1 = ?"
+				+ "CPERS2 = ?, CPERS3 = ?, CVTO = ?, NROREMITO = ?, NROPEDIDO = ?, NROPRESUP = ?, NVIAJ = ?, DIRECTA = ?, REFERENCIA = ?, LIQUIDA = ?,"
+				+ "COMI_DIFE = ?, INCCTACTE = ?, DESPACHA = ?, TEXTLIB = ?, TEXTO = ?, FLETE = ?, CCOND_1 = ?, CCOND_2 = ?, CCOND_3 = ?, CCOND_4 = ?, "
+				+ "PORDESCTO = ?, VA_DTO = ?, CODART = ?, TASA = ?, DESPACHO = ?, TIVA = ?, BONART = ?, BONART2 = ?, PRECIO = ?, UNIDADES = ?, UBICAC1 = ?, "
+				+ "UBICAC2 = ?, UBICAC3 = ?, ANALISIS = ?, FEC_DESDE = ?, IMPCH = ?, CANCDEUANT = ?, IMPCANCDEUANT = ? WHERE CODCLI = ? AND NROMOV = ?";
+		try {
+			
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setString(1, v.getNCOMP());
+			stmt.setString(2, v.getTCOMP());
+			stmt.setString(3, v.getLETRA());
+			stmt.setString(4, v.getCIA());
+			stmt.setDate(5, v.getFCOMP());
+			stmt.setString(6, v.getNFACC());
+			stmt.setDate(7, v.getFVTO());
+			stmt.setString(8, v.getREGCLI());
+			stmt.setString(9, v.getOBSERV());
+			stmt.setString(10, v.getCPERS1());
+			stmt.setString(11, v.getCPERS2());
+			stmt.setString(12, v.getCPERS3());
+			stmt.setString(13, v.getCVTO());
+			stmt.setString(14, v.getNROREMITO());
+			stmt.setString(15, v.getNROPEDIDO());
+			stmt.setString(16, v.getNROPRESUP());
+			stmt.setString(17, v.getNVIAJ());
+			stmt.setString(18, v.getDIRECTA());
+			stmt.setString(19, v.getREFERENCIA());
+			stmt.setString(20, v.getLIQUIDA());
+			stmt.setString(21, v.getCOMI_DIFE());
+			stmt.setString(22, v.getINNCTACTE());
+			stmt.setString(23, v.getDESPACHA());
+			stmt.setString(24, v.getTEXTLIB());
+			stmt.setDouble(25, v.getTEXTO());
+			stmt.setDouble(26, v.getFLETE());
+			stmt.setString(27, v.getCCOND_1());
+			stmt.setString(28, v.getCCOND_2());
+			stmt.setString(29, v.getCCOND_3());
+			stmt.setString(30, v.getCCOND_4());
+			stmt.setDouble(31, v.getPORDESCTO());
+			stmt.setDouble(32, v.getPORBONIF());
+			stmt.setString(33, v.getVA_DTO());
+			stmt.setString(34, v.getCODART());
+			stmt.setDouble(35, v.getTASA());
+			stmt.setString(36, v.getDESPACHO());
+			stmt.setString(37, v.getTIVA());
+			stmt.setDouble(38, v.getBONART());
+			stmt.setDouble(39, v.getBONART2());
+			stmt.setDouble(40, v.getPRECIO());
+			stmt.setDouble(41, v.getUNIDADES());
+			stmt.setString(42, v.getUBICAC1());
+			stmt.setString(43, v.getUBICAC2());
+			stmt.setString(44, v.getUBICAC3());
+			stmt.setString(45, v.getANALISIS());
+			stmt.setDate(46,v.getFEC_DESDE());
+			stmt.setDouble(47, v.getIMPCH());
+			stmt.setString(48, v.getCANCDEUANT());
+			stmt.setDouble(49, v.getIMPCANCDEUANT());
+			stmt.setString(50, v.getCODCLI());
+			stmt.setInt(51, v.getNROMOV());
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else { return false; }
+		}
+		catch( SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally { cerrar(stmt, null); }
+	}
+
 	
 	public Venta ConsultaVentaPorNroMov(int nroMov) throws ApplicationException {
 		PreparedStatement stmt = null; 
@@ -119,7 +279,7 @@ public class DataVenta {
 		ResultSet rs = null; 
 		ArrayList<Venta> lista = new ArrayList<>();
 		Venta v = null;
-		String sql = "SELECT * FROM VENTAS WHERE CODCLI = ? ORDER BY NROMOV";
+		String sql = "SELECT * FROM VENTAS WHERE CODCLI = ? ORDER BY VA_DTO DESC, NROMOV DESC";
 		
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
@@ -189,6 +349,30 @@ public class DataVenta {
 		catch( SQLException e) { e.printStackTrace(); }
 		finally { cerrar(stmt, rs); }
 		return lista;
+	}
+	
+	public int ultimoID() throws ApplicationException {
+		int id = 0;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT TOP 1 NROMOV FROM VENTAS ORDER BY NROMOV DESC ";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					id = rs.getInt("NROMOV");
+					return id;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally { cerrar(stmt, rs);	}
+		return id;
 	}
 
 

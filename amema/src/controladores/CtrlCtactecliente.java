@@ -54,6 +54,11 @@ public class CtrlCtactecliente {
 		return dc.bajaCtaCte(cod, fec);
 	}
 	
+	public boolean bajaCtaCtePorSocio(String cod) throws ApplicationException {
+		dc = new DataCtactecliente();
+		return dc.bajaCtaCtePorSocio(cod);
+	}
+	
 	public boolean modificaCtaCte(Ctactecliente c) throws ApplicationException {
 		dc = new DataCtactecliente();
 		return dc.modificaCtaCte(c);
@@ -72,6 +77,26 @@ public class CtrlCtactecliente {
 	public ArrayList<Ctactecliente> listarCtaCtePorSocioYFecha(String cod, Date fec) throws ApplicationException {
 		dc = new DataCtactecliente();
 		return dc.listarCtaCtePorSocioYFec(cod, fec);
+	}
+	
+	public ArrayList<Ctactecliente> listarCtaCtePorSocio(String cod) throws ApplicationException {
+		dc = new DataCtactecliente();
+		return dc.listarCtaCtePorSocio(cod);
+	}
+	
+	public ArrayList<Ctactecliente> listarCtaCte() throws ApplicationException {
+		dc = new DataCtactecliente();
+		return dc.listarCtaCte();
+	}
+	
+	public boolean contarTabla() throws ApplicationException {
+		dc = new DataCtactecliente();
+		return dc.contarTabla();
+	}
+	
+	public int contarCtaSocio(String cod) throws ApplicationException {
+		dc = new DataCtactecliente();
+		return dc.contarCtaSocio(cod);
 	}
 	
 	public void migrarExcel(String codigo, Date fecha, String usuario) throws ApplicationException, ParseException, IOException {

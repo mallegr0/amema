@@ -34,12 +34,14 @@ import controladores.CtrlConvenio;
 import controladores.CtrlCtactecliente;
 import controladores.CtrlFactRec;
 import controladores.CtrlGaranteMovFijo;
+import controladores.CtrlReciboM;
 import controladores.CtrlTpoComprobante;
 import controladores.CtrlVentasM;
 import entidades.Cliente;
 import entidades.CtacteGral;
 import entidades.Ctactecliente;
 import entidades.GaranteMovFijo;
+import entidades.ReciboM;
 import entidades.TpoComprobante;
 import entidades.Usuario;
 import entidades.VentasM;
@@ -63,6 +65,7 @@ public class Cuenta extends HttpServlet {
 	private CtrlVentasM cVentasM;
 	private CtrlFactRec	CFactura;
 	private CtrlGaranteMovFijo gmf;
+	private CtrlReciboM CRecibosM;
 
 	/*
 	 * ***************************************************************************
@@ -118,6 +121,10 @@ public class Cuenta extends HttpServlet {
 		if(request.getParameter("evento_garante") != null) {
 			try { completaGaranteCuenta(request, response); }
 			catch(ApplicationException e) { e.printStackTrace();}
+		}
+		if(request.getParameter("evento_reconstruir") != null) {
+			try { reconstruyeCuenta(request, response); }
+			catch(ApplicationException e) { e.printStackTrace(); }
 		}
 	}
 	
@@ -250,30 +257,65 @@ public class Cuenta extends HttpServlet {
 	}
 	
 	private void completaGaranteCuenta(HttpServletRequest req, HttpServletResponse res) throws ApplicationException, IOException {
-		cVentasM = new CtrlVentasM();
+		cCuentas = new CtrlCtactecliente();
 		gmf = new CtrlGaranteMovFijo();
 		cCliente = new CtrlCliente();
+		cVentasM = new CtrlVentasM();
 		VentasM vm = new VentasM();
 		ArrayList<Cliente> socios = new ArrayList<>();
 		String dato = req.getParameter("datog");
+		Ctactecliente comprobante;
 		
-		if(dato.length() == 8) { vm = cVentasM.consultaVentasM(dato); }
-		else { vm = cVentasM.consultaVentasM(dato.substring(4)); }
-		req.getSession().setAttribute("comprobante", vm.getNROMOVPLANIF());
+		comprobante = cCuentas.consultarComprobanteCta(dato);
+		
+		vm = cVentasM.consultaVentasM(comprobante.getNCOMPORIG().substring(4));
+		
+		req.getSession().setAttribute("comprobante", vm.getNCOMP());
 		ArrayList<GaranteMovFijo> movimientos = gmf.listarGarantesPorMovimientos(vm.getNROMOVPLANIF());
-		for(GaranteMovFijo g: movimientos) {
-			socios.add(limpiarDatos(cCliente.consultaCliente(g.getNroGarante())));
+		
+		if(movimientos.isEmpty() == false) {
+			for(GaranteMovFijo g: movimientos) {
+				socios.add(limpiarDatos(cCliente.consultaCliente(g.getNroGarante())));
+			}
+			req.getSession().setAttribute("garantes", socios);
 		}
-		req.getSession().setAttribute("garantes", socios);
+		else { req.getSession().setAttribute("garantes", null); }
+
 		// Limpio los contoladores
 		cVentasM = null; 
 		gmf = null; 
 		cCliente = null;
+		cCuentas = null;
 		vm = null;
+		comprobante = null;
 		
 		res.sendRedirect(urlGCtacte);
 	}
-
+	
+	private void reconstruyeCuenta(HttpServletRequest req, HttpServletResponse res) throws ApplicationException, IOException {
+		String msj = "";
+		cCuentas = new CtrlCtactecliente();
+		String cod = req.getParameter("socio");
+		System.gc();
+		
+		//Valido si hay datos
+		int cant = cCuentas.contarCtaSocio(cod);
+		if(cant == 0) { 
+			if (cargarDatos(cod) == true) { msj = "OKcarga"; }
+			else { msj = "NOcarga"; }
+			}
+		else {
+			if(limpiarTabla(cod) == true) {
+				if (cargarDatos(cod) == true) { msj = "OKcarga"; }
+				else { msj = "NOcarga"; }
+			}
+		}
+		
+		
+		cCuentas = null; 
+		req.getSession().setAttribute("msj", msj);
+		res.sendRedirect(urlCtacte);
+	}
 	
 	/*
 	 * ***************************************************************************
@@ -300,8 +342,7 @@ public class Cuenta extends HttpServlet {
 	private VentasM consultaVentasM(String cod) throws ApplicationException {
 		cVentasM = new CtrlVentasM();
 		return cVentasM.consultaVentasM(cod);
-	}
-	
+	}	
 	
 	private Cliente limpiarDatos(Cliente c) throws ApplicationException {
 		if(c.getNOMCLI() == null) { c.setNOMCLI("S/Nombre"); }
@@ -535,4 +576,58 @@ public class Cuenta extends HttpServlet {
 		} 
 		catch (DocumentException | IOException e) { e.printStackTrace();}
 	}	
+
+	private boolean limpiarTabla(String cod) throws ApplicationException {
+		cCuentas = new CtrlCtactecliente();
+		return cCuentas.bajaCtaCtePorSocio(cod);
+	}
+	
+	private boolean cargarDatos(String cod) throws ApplicationException {
+		Ctactecliente cliente;
+		cCuentas = new CtrlCtactecliente();
+		cVentasM = new CtrlVentasM();
+		CRecibosM = new CtrlReciboM();
+		ArrayList<VentasM> ventas = new ArrayList<>();
+		ArrayList<ReciboM> recibos = new ArrayList<>();
+		int contVentas = 0;
+		int contRecibos = 0;
+		
+		//Cargo las ventas
+		ventas = cVentasM.listarVentasMSocio(cod);
+		int totalVentas = ventas.size(); 
+		for(VentasM v: ventas) {
+			cliente = new Ctactecliente(v.getCODCLI(), v.getFMOV(), v.getTCOMP(), v.getLETRA(), v.getPREFIJO(), v.getTCOMP(), "0000"+v.getNCOMP(), v.getFMOV(), v.getLETRA(), v.getTCOMP(),v.getTCOMP(), "0000"+v.getNCOMP(), v.getA_CUENTA(), 0.0);
+			if(cCuentas.altaCtaCte(cliente) != true) {
+				cliente = null; 
+				break;}
+			cliente = null; 
+			contVentas ++;
+		}
+		
+		//Cargo los recibos
+		recibos = CRecibosM.listarRecibosMSocio(cod);
+		int totalRecibos = recibos.size();
+		
+		for(ReciboM r: recibos) {
+			VentasM v = cVentasM.consultaVentasM(r.getNFACT01());
+			cliente = new Ctactecliente(r.getCODCLI(), r.getFRECIBO(), "7", null, null, "7", r.getNRECIBO(), v.getFMOV(), v.getLETRA(), v.getPREFIJO(), v.getTCOMP(), "0000"+r.getNFACT01(), 0.0, r.getIFACT01());
+			if(cCuentas.altaCtaCte(cliente) != true) {
+				cliente = null; 
+				break;
+			}
+			cliente = null; 
+			contRecibos ++;
+		}
+		
+		cCuentas = null; 
+		cVentasM = null; 
+		CRecibosM = null; 
+		System.gc();
+		
+		//Valido que todo haya salido OK
+		if(totalVentas == contVentas && totalRecibos == contRecibos) { return true; }
+		else { return false; }
+		
+	}
+
 }

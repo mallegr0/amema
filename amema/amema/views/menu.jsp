@@ -62,6 +62,7 @@
 				<a href="/amema/views/buscactactes.jsp" class="w3-bar-item w3-button">Cuenta Corriente</a>
 			</div>
 		</div>
+		
 		<div class="w3-dropdown-click w3-hide-small">
 			<button class="w3-button" title="usuarios">Usuarios <i class="fas fa-angle-down"></i></button>     
 			<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide">

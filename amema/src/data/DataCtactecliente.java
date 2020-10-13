@@ -30,8 +30,8 @@ public class DataCtactecliente {
 	
 	public Boolean altaCtaCte(Ctactecliente c) throws ApplicationException {
 		PreparedStatement stmt = null; 
-		String sql = "INSERT INTO CTACTECLI (CODCLI, FMOV, TMOV, LCOMP, PCOMP, TCOMP, NCOMP, FCOMPORIOG, LCOMPORIG, PCOMPORIG,"
-				+ "NCOMPORIG, DEBE, HABER) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO CTACTECLI (CODCLI, FMOV, TMOV, LCOMP, PCOMP, TCOMP, NCOMP, FCOMPORIG, LCOMPORIG, PCOMPORIG,"
+				+ "TCOMPORIG, NCOMPORIG, DEBE, HABER) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
@@ -45,9 +45,10 @@ public class DataCtactecliente {
 			stmt.setDate(8, (java.sql.Date) c.getFCOMPORIG());
 			stmt.setString(9, c.getLCOMPORIG());
 			stmt.setString(10, c.getPCOMPORIG());
-			stmt.setString(11, c.getNCOMPORIG());
-			stmt.setDouble(12, c.getDEBE());
-			stmt.setDouble(13, c.getHABER());
+			stmt.setNString(11, c.getTCOMPORIG());
+			stmt.setString(12, c.getNCOMPORIG());
+			stmt.setDouble(13, c.getDEBE());
+			stmt.setDouble(14, c.getHABER());
 			
 			if(stmt.executeUpdate() > 0) { return true; }
 			else { return false; }
@@ -59,16 +60,33 @@ public class DataCtactecliente {
 		finally { cerrar(stmt, null); }		
 	}
 
-	public Boolean bajaCtaCte(String cod, java.util.Date fec) throws ApplicationException {
+	public Boolean bajaCtaCtePorSocio(String cod) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "DELETE FROM CTACTECLI WHERE CODCLI = ?";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setString(1, cod);
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else { return false; }
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally { cerrar(stmt, null); }
+	}
+	
+	public Boolean bajaCtaCte(String cod, Date fec) throws ApplicationException {
 		PreparedStatement stmt = null; 
 		String sql = "DELETE FROM CTACTECLI WHERE CODCLI = ? AND FMOV = ?";
 		
 		try {
-			
-			java.sql.Date fecha = new java.sql.Date(fec.getTime());
+			System.out.println("codigo "+cod+" - fecha "+fec);
 			stmt = conn.abrirConn().prepareStatement(sql);
 			stmt.setString(1, cod);
-			stmt.setDate(2, fecha);
+			stmt.setDate(2, (java.sql.Date) fec);
 			
 			if(stmt.executeUpdate() > 0) { return true; }
 			else { return false; }
@@ -83,7 +101,7 @@ public class DataCtactecliente {
 	public Boolean modificaCtaCte(Ctactecliente c) throws ApplicationException {
 		PreparedStatement stmt = null; 
 		String sql = "UPDATE CTACTECLI SET  TMOV = ?, LCOMP = ?, PCOMP = ?, TCOMP = ?, NCOMP = ?, FCOMPORIOG = ?,"
-				+ " LCOMPORIG = ?, PCOMPORIG = ?, NCOMPORIG = ?, DEBE = ?, HABER = ? WHERE CODCLI = ?, FMOV = ?";
+				+ " LCOMPORIG = ?, PCOMPORIG = ?, TCOMPORIG = ?, NCOMPORIG = ?, DEBE = ?, HABER = ? WHERE CODCLI = ?, FMOV = ?";
 		
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
@@ -95,11 +113,12 @@ public class DataCtactecliente {
 			stmt.setDate(6, (java.sql.Date) c.getFCOMPORIG());
 			stmt.setString(7, c.getLCOMPORIG());
 			stmt.setString(8, c.getPCOMPORIG());
-			stmt.setString(9, c.getNCOMPORIG());
-			stmt.setDouble(10, c.getDEBE());
-			stmt.setDouble(11, c.getHABER());
-			stmt.setString(12, c.getCODCLI());
-			stmt.setDate(13, (java.sql.Date) c.getFMOV());
+			stmt.setString(9, c.getTCOMPORIG());
+			stmt.setString(10, c.getNCOMPORIG());
+			stmt.setDouble(11, c.getDEBE());
+			stmt.setDouble(12, c.getHABER());
+			stmt.setString(13, c.getCODCLI());
+			stmt.setDate(14, (java.sql.Date) c.getFMOV());
 			
 			
 			if(stmt.executeUpdate() > 0) { return true; }
@@ -139,6 +158,7 @@ public class DataCtactecliente {
 					c.setFCOMPORIG(rs.getDate("FCOMPORIG"));
 					c.setLCOMPORIG(rs.getString("LCOMPORIG"));
 					c.setPCOMPORIG(rs.getString("PCOMPORIG"));
+					c.setTCOMPORIG(rs.getString("TCOMPORIG"));
 					c.setNCOMPORIG(rs.getString("NCOMPORIG"));
 					c.setDEBE(rs.getDouble("DEBE"));
 					c.setHABER(rs.getDouble("HABER"));
@@ -176,6 +196,7 @@ public class DataCtactecliente {
 					c.setFCOMPORIG(rs.getDate("FCOMPORIG"));
 					c.setLCOMPORIG(rs.getString("LCOMPORIG"));
 					c.setPCOMPORIG(rs.getString("PCOMPORIG"));
+					c.setTCOMPORIG(rs.getString("TCOMPORIG"));
 					c.setNCOMPORIG(rs.getString("NCOMPORIG"));
 					c.setDEBE(rs.getDouble("DEBE"));
 					c.setHABER(rs.getDouble("HABER"));
@@ -215,6 +236,7 @@ public class DataCtactecliente {
 					c.setFCOMPORIG(rs.getDate("FCOMPORIG"));
 					c.setLCOMPORIG(rs.getString("LCOMPORIG"));
 					c.setPCOMPORIG(rs.getString("PCOMPORIG"));
+					c.setTCOMPORIG(rs.getString("TCOMPORIG"));
 					c.setNCOMPORIG(rs.getString("NCOMPORIG"));
 					c.setDEBE(rs.getDouble("DEBE"));
 					c.setHABER(rs.getDouble("HABER"));
@@ -227,5 +249,112 @@ public class DataCtactecliente {
 		return lista;
 	}
 	
+	public ArrayList<Ctactecliente> listarCtaCtePorSocio(String cod) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null;
+		Ctactecliente c = null; 
+		ArrayList<Ctactecliente> lista = new ArrayList<>();
+		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ?";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setString(1, cod);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					c = new Ctactecliente();
+					c.setCODCLI(rs.getString("CODCLI"));
+					c.setFMOV(rs.getDate("FMOV"));
+					c.setTMOV(rs.getString("TMOV"));
+					c.setLCOMP(rs.getString("LCOMP"));
+					c.setPCOMP(rs.getString("PCOMP"));
+					c.setTCOMP(rs.getString("TCOMP"));
+					c.setNCOMP(rs.getString("NCOMP"));
+					c.setFCOMPORIG(rs.getDate("FCOMPORIG"));
+					c.setLCOMPORIG(rs.getString("LCOMPORIG"));
+					c.setPCOMPORIG(rs.getString("PCOMPORIG"));
+					c.setTCOMPORIG(rs.getString("TCOMPORIG"));
+					c.setNCOMPORIG(rs.getString("NCOMPORIG"));
+					c.setDEBE(rs.getDouble("DEBE"));
+					c.setHABER(rs.getDouble("HABER"));
+					lista.add(c);
+				}
+			}
+		}
+		catch(SQLException e) {e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista;
+	}
+	
+	public ArrayList<Ctactecliente> listarCtaCte() throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null;
+		Ctactecliente c = null; 
+		ArrayList<Ctactecliente> lista = new ArrayList<>();
+		String sql = "SELECT * FROM CTACTECLI ORDER BY CODCLI";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					c = new Ctactecliente();
+					c.setCODCLI(rs.getString("CODCLI"));
+					c.setFMOV(rs.getDate("FMOV"));
+					c.setTMOV(rs.getString("TMOV"));
+					c.setLCOMP(rs.getString("LCOMP"));
+					c.setPCOMP(rs.getString("PCOMP"));
+					c.setTCOMP(rs.getString("TCOMP"));
+					c.setNCOMP(rs.getString("NCOMP"));
+					c.setFCOMPORIG(rs.getDate("FCOMPORIG"));
+					c.setLCOMPORIG(rs.getString("LCOMPORIG"));
+					c.setPCOMPORIG(rs.getString("PCOMPORIG"));
+					c.setTCOMPORIG(rs.getString("TCOMPORIG"));
+					c.setNCOMPORIG(rs.getString("NCOMPORIG"));
+					c.setDEBE(rs.getDouble("DEBE"));
+					c.setHABER(rs.getDouble("HABER"));
+					lista.add(c);
+				}
+			}
+		}
+		catch(SQLException e) {e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista;
+	}
+	
+	public boolean contarTabla() throws ApplicationException {
+		PreparedStatement stmt = null;
+		String sql = "SELECT COUNT(*) FROM CTACTECLI";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			if(stmt.executeUpdate() == 0) { return true; }
+			else { return false; }
+		}
+		catch(SQLException e) { 
+			e.printStackTrace();
+			return false; }
+		finally { cerrar(stmt, null); }
+	}
+	
+	public int contarCtaSocio(String cod) throws ApplicationException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT COUNT(*) FROM CTACTECLI WHERE CODCLI = ?";
+		int cont = 0;
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setString(1, cod);
+			
+			rs = stmt.executeQuery(); 
+			if(rs.next()) { cont = rs.getInt(1); }
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, null); }
 
+		return cont;
+	}
 }

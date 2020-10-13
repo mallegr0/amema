@@ -45,7 +45,7 @@
 			<br><br>
 			<div class="w3-container w3-card-4 w3-responsive">
 				<br>
-				<table class="w3-table-all">
+				<table class="w3-table w3-bordered">
 					<thead>
 						<tr class="w3-indigo">
 							<th>Nro MC</th>
@@ -69,7 +69,7 @@
 						ArrayList<AdherentesGral> lista = (ArrayList<AdherentesGral>) request.getSession().getAttribute("movimientos");
 						if(lista != null){
 							for(AdherentesGral a: lista){%>
-							<tr>
+							<tr class="w3-hover-light-blue">
 								<td><%=a.getNROMC() %></td>
 								<td><%=a.getFDESDE() %></td>
 								<td><%=a.getFHASTA() %></td>

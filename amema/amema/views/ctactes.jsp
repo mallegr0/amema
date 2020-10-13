@@ -44,7 +44,7 @@
 			<br><br>
 			<div class="w3-container w3-card-4 w3-responsive">
 				<br>
-				<table class="w3-table-all">
+				<table class="w3-table w3-bordered">
 					<thead>
 						<tr class="w3-indigo">
 							<th>Fecha</th>
@@ -62,7 +62,7 @@
 						ArrayList<CtacteGral> lista = (ArrayList<CtacteGral>) request.getSession().getAttribute("movimientos");
 						if(lista != null){
 							for(CtacteGral a: lista){%>
-							<tr>
+							<tr class="w3-hover-light-blue">
 								<td><%=a.getFMOV() %></td>
 								<td><%=a.getTMOV() %></td>
 								<td><%=a.getNCOMP() %></td>
@@ -86,11 +86,14 @@
 			</div>
 			<br><br>
 			<div class="w3-container w3-card-4 w3-padding">
-				<div class="w3-container w3-half w3-center">
+				<div class="w3-container w3-third w3-center">
 					<a href="buscactactes.jsp" class="w3-button w3-green w3-hover-indigo"><strong>VOLVER</strong></a>
 				</div>
-				<div class="w3-container w3-half w3-center">
+				<div class="w3-container w3-third w3-center">
 					<button class="w3-button w3-orange w3-hover-indigo w3-text-white" onclick="abrirModalCta('id03', '<%=c.getCODCLI()%>')"><strong>TRANSF. A EXCEL</strong></button>
+				</div>
+				<div class="w3-container w3-third w3-center">
+					<button class="w3-button w3-blue w3-hover-indigo w3-text-white" onclick="abrirModalCta('id05', '<%=c.getCODCLI()%>')"><strong>RECONSTRUIR</strong></button>
 				</div>
 			</div>
 			<br><br>
@@ -120,6 +123,12 @@
 
 			<!-- FIN AREA DE MODAL DE IMPRESION TODO-->
 
+			<!-- AREA DE MODAL DE RECONSTRUIR -->
+
+			<%@include file="../modal/ctacte/modalReconstruir.jsp"%>
+
+			<!-- FIN AREA DE MODAL DE RECONSTRUIR -->
+
 				<%}%>
 		</div>
 
@@ -142,6 +151,9 @@
 				if(modal == 'id04'){
 					document.getElementById("nrog").innerHTML = codigo;
 					document.getElementById("datog").value = codigo;
+				}
+				if(modal ==  'id05'){
+					document.getElementById("socioCta").value = codigo;
 				}
 			}	
 

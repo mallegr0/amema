@@ -11,7 +11,7 @@
 				<select class="w3-select" name="socio">
 					<option value="" disabled></option>
 					<% for(Cliente c : lista){%>
-						<option value="<%=c.getCODCLI()%>" name="socio"><%=c.getCODCLI()%> - <%=c.getNOMCLI()%></option>
+						<option value="<%=c.getCODCLI()%>"><%=c.getCODCLI()%> - <%=c.getNOMCLI()%></option>
 				<%}%>
 				</select>
 			</div>

@@ -77,7 +77,7 @@
 
 			<h1 class="w3-center  w3-text-indigo"> Socios </h1>
 			<div class="w3-responsive w3-card-4">
-				<table class="w3-table-all">
+				<table class="w3-table w3-bordered">
 					<thead>
 						<tr class="w3-indigo">
 							<th>Legajo</th>
@@ -95,7 +95,7 @@
 							ArrayList<Cliente> todos = (ArrayList<Cliente>) request.getSession().getAttribute("todos");
 							if(todos != null){
 								for(Cliente c : todos){%>
-								<tr class="w3-hover-pale-green">
+								<tr class="w3-hover-light-blue">
 									<td><%=c.getDNRP()%></td>
 									<td><%=c.getNOMCLI()%></td>
 									<td><%=c.getDOMCLI()%></td>

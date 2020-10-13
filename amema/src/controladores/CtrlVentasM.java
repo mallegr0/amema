@@ -30,5 +30,13 @@ public class CtrlVentasM {
 		return dvm.listarVentasMPorNroMov(mov);
 	}
 	
-
+	public ArrayList<VentasM> listarVentasM() throws ApplicationException {
+		dvm = new DataVentasM();
+		return dvm.listarVentasM();
+	}
+	
+	public ArrayList<VentasM> listarVentasMSocio(String cod) throws ApplicationException {
+		dvm = new DataVentasM();
+		return dvm.listarVentasMSocio(cod);
+	}
 }

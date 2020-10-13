@@ -19,7 +19,7 @@
 				if(request.getSession().getAttribute("comprobante") != null){%><%=request.getSession().getAttribute("comprobante")%><%} else {%>S/Nro<%}%></h3>
 			<br>
 			<div class="w3-container w3-card-4 w3-responsive w3-padding">
-				<table class="w3-table-all">
+				<table class="w3-table w3-bordered">
 					<thead>
 						<tr class="w3-indigo">
 							<td>Nro Socio</td>
@@ -32,7 +32,7 @@
 					</thead>
 					<tbody>
 						<%for(Cliente c: clientes){%>
-						<tr>
+						<tr class="w3-hover-light-blue">
 							<td><%= c.getCODCLI()%></td>
 							<td><%= c.getNOMCLI() %></td>
 							<td><%= c.getDOMCLI() %></td>
@@ -47,7 +47,7 @@
 			<br>
 			<%}
 			else{%>
-				<table>
+				<table class="w3-table w3-bordered">
 					<thead>
 						<tr class="w3-indigo">
 							<td>Nro Socio</td>
@@ -65,6 +65,8 @@
 					</tbody>
 				</table>
 			<%}%>
+			<br>
+			<br>
 			<div class="w3-container w3-center">
 				<a href="ctactes.jsp" class="w3-button w3-green w3-hover-indigo"><strong>VOLVER</strong></a>
 			</div>

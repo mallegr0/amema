@@ -40,12 +40,12 @@
 			</div>
 			<br><br>
 			<div class="w3-container w3-card-4 w3-center w3-padding">
-				<a href="buscaadherentes.jsp" class="w3-button w3-green w3-hover-indigo"><strong>VOLVER</strong></a>
+				<a href="buscamovfijos.jsp" class="w3-button w3-green w3-hover-indigo"><strong>VOLVER</strong></a>
 			</div>
 			<br><br>
 			<div class="w3-container w3-card-4 w3-responsive">
 				<br>
-				<table class="w3-table-all">
+				<table class="w3-table w3-bordered">
 					<thead>
 						<tr class="w3-indigo">
 							<th>Nro MC</th>
@@ -68,7 +68,7 @@
 						ArrayList<AdherentesGral> lista = (ArrayList<AdherentesGral>) request.getSession().getAttribute("movimientos");
 						if(lista != null){
 							for(AdherentesGral a: lista){%>
-							<tr>
+							<tr class="w3-hover-light-blue">
 								<td><%=a.getNROMC() %></td>
 								<td><%=a.getFDESDE() %></td>
 								<td><%=a.getFHASTA() %></td>
@@ -98,7 +98,7 @@
 			<br><br>	
 			<div class="w3-container w3-padding w3-center w3-card-4">
 				<div class="w3-container w3-half">
-					<button class="w3-button w3-green w3-hover-indigo">
+					<button class="w3-button w3-green w3-hover-indigo" onclick="abrirModalMovimiento('id01','<%=c.getCODCLI()%>')">
 						<i class="fas fa-plus fa-2x"></i>
 					</button>
 				</div>
@@ -109,7 +109,7 @@
 			
 			<!-- AREA DE MODAL DE VISTA -->
 
-			<%@include file="../modal/adherente/modalVistaAdherente.jsp"%>
+			<%@include file="../modal/movimientos/modalAltaMovFijo.jsp"%>
 
 			<!-- FIN AREA DE MODAL DE VISTA -->
 
@@ -120,15 +120,18 @@
 		<!-- FIN AREA DE TRABAJO -->
 
 		<%@ include file="footer.jsp" %>
+
 		<script type="text/javascript">
-			function abrirModalAdherente(modal, codigo){
-				document.getElementById(modal).style.display='block';
-				if(modal == 'id01'){
-					document.getElementById("nro").innerHTML = codigo;
-					document.getElementById("dato").value = codigo;
-				}
-			}	
+			function abrirModalMovimiento(modal, codigo){
+	alert(modal);
+	document.getElementById(modal).style.display='block';
+	if(modal == 'id01'){
+		document.getElementById("nro").innerHTML = codigo;
+		document.getElementById("dato").value = codigo;
+	}
+}	
 
 		</script>
+		
 	</body>
 </html>

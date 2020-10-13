@@ -40,7 +40,7 @@
 			<!-- EMPIEZA LA TABLA DE PRODUCTOS CON LOS BOTONES MODIFICAR Y ELIMINAR-->
 			<h1 class="w3-center  w3-text-indigo"> Productos </h1>
 			<div class="w3-responsive w3-card-4">
-				<table class="w3-table-all">
+				<table class="w3-table w3-bordered">
 					<thead>
 						<tr class="w3-indigo">
 							<th>Código</th>
@@ -51,8 +51,7 @@
 					</thead>
 					<tbody>
 						<% for(Familia f : listaFlias){%>
-							<tr class="w3-hover-light-green">
-								<td><%=f.getCFAMI() %></td>
+							<tr class="w3-hover-light-blue">
 								<td><%=f.getNFAMI() %></td>
 								<td><%=f.getBFAMI() %></td>
 								<td><a href="../forms/producto/modificaProductoForm.jsp?id=<%=f.getCFAMI()%>" class="fas fa-edit w3-button w3-hover-indigo w3-text-blue" ></a></td>
