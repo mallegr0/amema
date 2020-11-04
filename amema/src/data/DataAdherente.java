@@ -12,7 +12,8 @@ import util.ApplicationException;
 public class DataAdherente {
 	
 	/* VARIABLES */
-	Conector conn = new Conector();
+	//Conector conn = new Conector();
+	ConectorMySQL conn = new ConectorMySQL();
 	
 	/* CONSTRUCTOR */
 	public DataAdherente() {}

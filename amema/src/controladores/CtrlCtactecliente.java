@@ -59,6 +59,11 @@ public class CtrlCtactecliente {
 		return dc.bajaCtaCtePorSocio(cod);
 	}
 	
+	public boolean bajaCtaCtePorCompOrig(String comprobante) throws ApplicationException {
+		dc = new DataCtactecliente();
+		return dc.bajaCtaCtePorCompOrig(comprobante);
+	}
+	
 	public boolean modificaCtaCte(Ctactecliente c) throws ApplicationException {
 		dc = new DataCtactecliente();
 		return dc.modificaCtaCte(c);

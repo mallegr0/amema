@@ -16,7 +16,9 @@ public class DataUsuario {
 	public DataUsuario(){}
 	
 	/*  variables  */
-	ConectorSeguridad conn = new ConectorSeguridad();
+	//ConectorSeguridad conn = new ConectorSeguridad();
+
+		ConectorMySQL conn = new ConectorMySQL();
 	
 	/*  METODOS  */
 	

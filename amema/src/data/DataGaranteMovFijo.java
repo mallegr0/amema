@@ -11,7 +11,8 @@ import util.ApplicationException;
 public class DataGaranteMovFijo {
 	
 	/* VARIABLES */
-	Conector conn = new Conector();
+	//Conector conn = new Conector();
+		ConectorMySQL conn = new ConectorMySQL();
 	
 	/* CONSTRUCTOR */ 
 	public DataGaranteMovFijo() {}
@@ -27,7 +28,7 @@ public class DataGaranteMovFijo {
 	
 	public Boolean altaGaranteMovF(GaranteMovFijo g) throws ApplicationException {
 		PreparedStatement stmt = null;
-		String sql = "INSERT INTO GarantesMovFijos (NroGarante, NroMovimFijo) SET (?, ?)";
+		String sql = "INSERT INTO GarantesMovFijos (NroGarante, NroMovimFijo) VALUES (?, ?)";
 		
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
@@ -47,7 +48,7 @@ public class DataGaranteMovFijo {
 	
 	public Boolean bajaGaranteMovFPorGarante(String g) throws ApplicationException {
 		PreparedStatement stmt = null;
-		String sql = "DELETE FROM GarantesMovFijos WHERE NroGarante = ?)";
+		String sql = "DELETE FROM GarantesMovFijos WHERE NroGarante = ?";
 		
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
@@ -66,7 +67,7 @@ public class DataGaranteMovFijo {
 	
 	public Boolean bajaGaranteMovFPorMov(Integer m) throws ApplicationException {
 		PreparedStatement stmt = null;
-		String sql = "DELETE FROM GarantesMovFijos WHERE NroMovimFijo = ?)";
+		String sql = "DELETE FROM GarantesMovFijos WHERE NroMovimFijo = ?";
 		
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);

@@ -12,7 +12,8 @@ import util.ApplicationException;
 public class DataVenta {
 	
 	/* VARIABLES */
-	Conector conn = new Conector();
+	//Conector conn = new Conector();
+		ConectorMySQL conn = new ConectorMySQL();
 	
 	/* CONSTRUCTOR */
 	public DataVenta() {}
@@ -30,9 +31,9 @@ public class DataVenta {
 	
 	public boolean altaVenta(Venta v) throws ApplicationException {
 		PreparedStatement stmt = null; 
-		String sql = "INSERT INTO VENTAS (NCOMP, TCOMP, LETRA, CIA, FCOMP, NFACC, FVTO, CODCLI, REGCLI, OBSERV, CPERS1"
+		String sql = "INSERT INTO VENTAS (NCOMP, TCOMP, LETRA, CIA, FCOMP, NFACC, FVTO, CODCLI, REGCLI, OBSERV, CPERS1,"
 				+ "CPERS2, CPERS3, CVTO, NROREMITO, NROPEDIDO, NROPRESUP, NVIAJ, DIRECTA, REFERENCIA, LIQUIDA, COMI_DIFE, "
-				+ "INCCTACTE, DESPACHA, TEXTLIB, TEXTO, FLETE, CCOND_1, CCOND_2, CCOND_3, CCOND_4, PORDESCTO, VA_DTO, CODART, "
+				+ "INCCTACTE, DESPACHA, TEXLIB, TEXTO, FLETE, CCOND_1, CCOND_2, CCOND_3, CCOND_4, PORDESCTO, PORBONIF, VA_DTO, CODART, "
 				+ "TASA, DESPACHO, TIVA, BONART, BONART2, PRECIO, UNIDADES, UBICAC1, UBICAC2, UBICAC3, ANALISIS, FEC_DESDE, NROMOV, IMPCH,"
 				+ "CANCDEUANT, IMPCANCDEUANT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
 				+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -44,9 +45,9 @@ public class DataVenta {
 			stmt.setString(2, v.getTCOMP());
 			stmt.setString(3, v.getLETRA());
 			stmt.setString(4, v.getCIA());
-			stmt.setDate(5, v.getFCOMP());
+			stmt.setDate(5, cambiaFecha(v.getFCOMP()));
 			stmt.setString(6, v.getNFACC());
-			stmt.setDate(7, v.getFVTO());
+			stmt.setDate(7, cambiaFecha(v.getFVTO()));
 			stmt.setString(8, v.getCODCLI());
 			stmt.setString(9, v.getREGCLI());
 			stmt.setString(10, v.getOBSERV());
@@ -86,7 +87,7 @@ public class DataVenta {
 			stmt.setString(44, v.getUBICAC2());
 			stmt.setString(45, v.getUBICAC3());
 			stmt.setString(46, v.getANALISIS());
-			stmt.setDate(47, v.getFEC_DESDE());
+			stmt.setDate(47,cambiaFecha(v.getFEC_DESDE()));
 			stmt.setInt(48, v.getNROMOV());
 			stmt.setDouble(49, v.getIMPCH());
 			stmt.setString(50, v.getCANCDEUANT());
@@ -102,15 +103,14 @@ public class DataVenta {
 		finally { cerrar(stmt, null); }
 	}
 	
-	public boolean bajaVenta(String cod, int mov) throws ApplicationException {
+	public boolean bajaVenta(int mov) throws ApplicationException {
 		PreparedStatement stmt = null; 
-		String sql = "DELETE FROM VENTAS WHERE CODCLI = ? AND NROMOV = ?";
+		String sql = "DELETE FROM VENTAS WHERE NROMOV = ?";
 		
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
 			
-			stmt.setString(1, cod);
-			stmt.setInt(2, mov);
+			stmt.setInt(1, mov);
 			
 			if(stmt.executeUpdate() > 0) { return true; }
 			else { return false; }
@@ -124,10 +124,10 @@ public class DataVenta {
 	
 	public boolean modificaVenta(Venta v) throws ApplicationException {
 		PreparedStatement stmt = null; 
-		String sql = "UPDATE VENTAS SET NCOMP = ?, TCOMP = ?, LETRA = ?, CIA = ?, FCOMP = ?, NFACC = ?, FVTO = ?, REGCLI = ?, OBSERV = ?, CPERS1 = ?"
+		String sql = "UPDATE VENTAS SET NCOMP = ?, TCOMP = ?, LETRA = ?, CIA = ?, FCOMP = ?, NFACC = ?, FVTO = ?, REGCLI = ?, OBSERV = ?, CPERS1 = ?,"
 				+ "CPERS2 = ?, CPERS3 = ?, CVTO = ?, NROREMITO = ?, NROPEDIDO = ?, NROPRESUP = ?, NVIAJ = ?, DIRECTA = ?, REFERENCIA = ?, LIQUIDA = ?,"
-				+ "COMI_DIFE = ?, INCCTACTE = ?, DESPACHA = ?, TEXTLIB = ?, TEXTO = ?, FLETE = ?, CCOND_1 = ?, CCOND_2 = ?, CCOND_3 = ?, CCOND_4 = ?, "
-				+ "PORDESCTO = ?, VA_DTO = ?, CODART = ?, TASA = ?, DESPACHO = ?, TIVA = ?, BONART = ?, BONART2 = ?, PRECIO = ?, UNIDADES = ?, UBICAC1 = ?, "
+				+ "COMI_DIFE = ?, INCCTACTE = ?, DESPACHA = ?, TEXLIB = ?, TEXTO = ?, FLETE = ?, CCOND_1 = ?, CCOND_2 = ?, CCOND_3 = ?, CCOND_4 = ?, "
+				+ "PORDESCTO = ?, PORBONIF = ?, VA_DTO = ?, CODART = ?, TASA = ?, DESPACHO = ?, TIVA = ?, BONART = ?, BONART2 = ?, PRECIO = ?, UNIDADES = ?, UBICAC1 = ?, "
 				+ "UBICAC2 = ?, UBICAC3 = ?, ANALISIS = ?, FEC_DESDE = ?, IMPCH = ?, CANCDEUANT = ?, IMPCANCDEUANT = ? WHERE CODCLI = ? AND NROMOV = ?";
 		try {
 			
@@ -136,9 +136,9 @@ public class DataVenta {
 			stmt.setString(2, v.getTCOMP());
 			stmt.setString(3, v.getLETRA());
 			stmt.setString(4, v.getCIA());
-			stmt.setDate(5, v.getFCOMP());
+			stmt.setDate(5, cambiaFecha(v.getFCOMP()));
 			stmt.setString(6, v.getNFACC());
-			stmt.setDate(7, v.getFVTO());
+			stmt.setDate(7, cambiaFecha(v.getFVTO()));
 			stmt.setString(8, v.getREGCLI());
 			stmt.setString(9, v.getOBSERV());
 			stmt.setString(10, v.getCPERS1());
@@ -177,7 +177,7 @@ public class DataVenta {
 			stmt.setString(43, v.getUBICAC2());
 			stmt.setString(44, v.getUBICAC3());
 			stmt.setString(45, v.getANALISIS());
-			stmt.setDate(46,v.getFEC_DESDE());
+			stmt.setDate(46,cambiaFecha(v.getFEC_DESDE()));
 			stmt.setDouble(47, v.getIMPCH());
 			stmt.setString(48, v.getCANCDEUANT());
 			stmt.setDouble(49, v.getIMPCANCDEUANT());
@@ -272,6 +272,29 @@ public class DataVenta {
 		return v;
 	}
 	
+	public String consultarClientePorNroMov(int nro) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null;
+		String codcli = "";
+		String sql ="SELECT * FROM VENTAS WHERE NROMOV = ?";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setInt(1, nro);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					codcli = rs.getString("CODCLI");
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return codcli;
+	}
+	
 	//metodo listar 
 	
 	public ArrayList<Venta> listarVentaPorSocio(String cod) throws ApplicationException {
@@ -279,12 +302,169 @@ public class DataVenta {
 		ResultSet rs = null; 
 		ArrayList<Venta> lista = new ArrayList<>();
 		Venta v = null;
-		String sql = "SELECT * FROM VENTAS WHERE CODCLI = ? ORDER BY VA_DTO DESC, NROMOV DESC";
+		String sql = "SELECT * FROM VENTAS WHERE CODCLI = ? ORDER BY VA_DTO DESC, NROMOV ASC";
 		
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
 			
 			stmt.setString(1, cod);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					v = new Venta();
+					v.setNCOMP(rs.getString("NCOMP"));
+					v.setTCOMP(rs.getString("TCOMP"));
+					v.setLETRA(rs.getString("LETRA"));
+					v.setCIA(rs.getString("CIA"));
+					v.setFCOMP((Date) rs.getDate("FCOMP"));
+					v.setNFACC(rs.getString("NFACC"));
+					v.setFVTO((Date) rs.getDate("FVTO"));
+					v.setCODCLI(rs.getString("CODCLI"));
+					v.setREGCLI(rs.getString("REGCLI"));
+					v.setOBSERV(rs.getString("OBSERV"));
+					v.setCPERS1(rs.getString("CPERS1"));
+					v.setCPERS2(rs.getString("CPERS2"));
+					v.setCPERS3(rs.getString("CPERS3"));
+					v.setCVTO(rs.getString("CVTO"));
+					v.setNROREMITO(rs.getString("NROREMITO"));
+					v.setNROPEDIDO(rs.getString("NROPEDIDO"));
+					v.setNROPRESUP(rs.getString("NROPRESUP"));
+					v.setNVIAJ(rs.getString("NVIAJ"));
+					v.setDIRECTA(rs.getString("DIRECTA"));
+					v.setREFERENCIA(rs.getString("REFERENCIA"));
+					v.setLIQUIDA(rs.getString("LIQUIDA"));
+					v.setCOMI_DIFE(rs.getString("COMI_DIFE"));
+					v.setINNCTACTE(rs.getString("INCCTACTE"));
+					v.setDESPACHA(rs.getString("DESPACHA"));
+					v.setTEXTLIB(rs.getString("TEXLIB"));
+					v.setTEXTO(rs.getDouble("TEXTO"));
+					v.setFLETE(rs.getDouble("FLETE"));
+					v.setCCOND_1(rs.getString("CCOND_1"));
+					v.setCCOND_2(rs.getString("CCOND_2"));
+					v.setCCOND_3(rs.getString("CCOND_3"));
+					v.setCCOND_4(rs.getString("CCOND_4"));
+					v.setPORDESCTO(rs.getDouble("PORDESCTO"));
+					v.setPORBONIF(rs.getDouble("PORBONIF"));
+					v.setVA_DTO(rs.getString("VA_DTO"));
+					v.setCODART(rs.getString("CODART"));
+					v.setTASA(rs.getDouble("TASA"));
+					v.setDESPACHO(rs.getString("DESPACHO"));
+					v.setTIVA(rs.getString("TIVA"));
+					v.setBONART(rs.getDouble("BONART"));
+					v.setBONART2(rs.getDouble("BONART2"));
+					v.setPRECIO(rs.getDouble("PRECIO"));
+					v.setUNIDADES(rs.getDouble("UNIDADES"));
+					v.setUBICAC1(rs.getString("UBICAC1"));
+					v.setUBICAC2(rs.getString("UBICAC2"));
+					v.setUBICAC3(rs.getString("UBICAC3"));
+					v.setANALISIS(rs.getString("ANALISIS"));
+					v.setFEC_DESDE((Date) rs.getDate("FEC_DESDE"));
+					v.setNROMOV(rs.getInt("NROMOV"));
+					v.setIMPCH(rs.getDouble("IMPCH"));
+					v.setCANCDEUANT(rs.getString("CANCDEUANT"));
+					v.setIMPCANCDEUANT(rs.getDouble("IMPCANCDEUANT"));
+					lista.add(v);
+				}
+			}
+		}
+		catch( SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista;
+	}
+	
+	public ArrayList<Venta> listarVentasPorFechas(java.util.Date fecIni, java.util.Date fecFin) throws ApplicationException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<Venta> lista = new ArrayList<>();
+		Venta v = null;
+		String sql = "SELECT * FROM VENTAS WHERE FCOMP BETWEEN ? AND ? ORDER NCOMP";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			stmt.setDate(1, cambiaFecha(fecIni));
+			stmt.setDate(2, cambiaFecha(fecFin));
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					v = new Venta();
+					v.setNCOMP(rs.getString("NCOMP"));
+					v.setTCOMP(rs.getString("TCOMP"));
+					v.setLETRA(rs.getString("LETRA"));
+					v.setCIA(rs.getString("CIA"));
+					v.setFCOMP((Date) rs.getDate("FCOMP"));
+					v.setNFACC(rs.getString("NFACC"));
+					v.setFVTO((Date) rs.getDate("FVTO"));
+					v.setCODCLI(rs.getString("CODCLI"));
+					v.setREGCLI(rs.getString("REGCLI"));
+					v.setOBSERV(rs.getString("OBSERV"));
+					v.setCPERS1(rs.getString("CPERS1"));
+					v.setCPERS2(rs.getString("CPERS2"));
+					v.setCPERS3(rs.getString("CPERS3"));
+					v.setCVTO(rs.getString("CVTO"));
+					v.setNROREMITO(rs.getString("NROREMITO"));
+					v.setNROPEDIDO(rs.getString("NROPEDIDO"));
+					v.setNROPRESUP(rs.getString("NROPRESUP"));
+					v.setNVIAJ(rs.getString("NVIAJ"));
+					v.setDIRECTA(rs.getString("DIRECTA"));
+					v.setREFERENCIA(rs.getString("REFERENCIA"));
+					v.setLIQUIDA(rs.getString("LIQUIDA"));
+					v.setCOMI_DIFE(rs.getString("COMI_DIFE"));
+					v.setINNCTACTE(rs.getString("INCCTACTE"));
+					v.setDESPACHA(rs.getString("DESPACHA"));
+					v.setTEXTLIB(rs.getString("TEXLIB"));
+					v.setTEXTO(rs.getDouble("TEXTO"));
+					v.setFLETE(rs.getDouble("FLETE"));
+					v.setCCOND_1(rs.getString("CCOND_1"));
+					v.setCCOND_2(rs.getString("CCOND_2"));
+					v.setCCOND_3(rs.getString("CCOND_3"));
+					v.setCCOND_4(rs.getString("CCOND_4"));
+					v.setPORDESCTO(rs.getDouble("PORDESCTO"));
+					v.setPORBONIF(rs.getDouble("PORBONIF"));
+					v.setVA_DTO(rs.getString("VA_DTO"));
+					v.setCODART(rs.getString("CODART"));
+					v.setTASA(rs.getDouble("TASA"));
+					v.setDESPACHO(rs.getString("DESPACHO"));
+					v.setTIVA(rs.getString("TIVA"));
+					v.setBONART(rs.getDouble("BONART"));
+					v.setBONART2(rs.getDouble("BONART2"));
+					v.setPRECIO(rs.getDouble("PRECIO"));
+					v.setUNIDADES(rs.getDouble("UNIDADES"));
+					v.setUBICAC1(rs.getString("UBICAC1"));
+					v.setUBICAC2(rs.getString("UBICAC2"));
+					v.setUBICAC3(rs.getString("UBICAC3"));
+					v.setANALISIS(rs.getString("ANALISIS"));
+					v.setFEC_DESDE((Date) rs.getDate("FEC_DESDE"));
+					v.setNROMOV(rs.getInt("NROMOV"));
+					v.setIMPCH(rs.getDouble("IMPCH"));
+					v.setCANCDEUANT(rs.getString("CANCDEUANT"));
+					v.setIMPCANCDEUANT(rs.getDouble("IMPCANCDEUANT"));
+					lista.add(v);
+				}
+			}
+		}
+		catch( SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista;
+	}
+	
+	public ArrayList<Venta> listarVentasPorFechasyModo(java.util.Date fecIni, java.util.Date fecFin, String modo) throws ApplicationException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<Venta> lista = new ArrayList<>();
+		Venta v = null;
+		String sql = "SELECT * FROM VENTAS WHERE FCOMP BETWEEN ? AND ? AND INCCTACTE = ? ORDER BY NCOMP";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			
+			stmt.setDate(1, cambiaFecha(fecIni));
+			stmt.setDate(2, cambiaFecha(fecFin));
+			stmt.setString(3, modo);
 			
 			rs = stmt.executeQuery();
 			
@@ -373,6 +553,11 @@ public class DataVenta {
 		}
 		finally { cerrar(stmt, rs);	}
 		return id;
+	}
+	
+	private java.sql.Date cambiaFecha(java.util.Date fecha) throws ApplicationException {
+		java.sql.Date fec = new java.sql.Date(fecha.getTime());
+		return fec;
 	}
 
 

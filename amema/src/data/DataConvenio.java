@@ -14,7 +14,8 @@ public class DataConvenio {
 	public DataConvenio() {}
 	
 	/* VARIABLES */
-	Conector conn = new Conector();
+	//Conector conn = new Conector();
+		ConectorMySQL conn = new ConectorMySQL();
 	
 	
 	/* METODOS */ 

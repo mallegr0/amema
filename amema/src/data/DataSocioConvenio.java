@@ -11,7 +11,8 @@ public class DataSocioConvenio {
 	
 	/* VARIABLES */
 	
-	Conector conn = new Conector();
+	//Conector conn = new Conector();
+		ConectorMySQL conn = new ConectorMySQL();
 	
 	/* COSTRUCTOR */ 
 	

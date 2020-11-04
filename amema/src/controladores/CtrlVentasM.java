@@ -17,7 +17,15 @@ public class CtrlVentasM {
 	/* METODOS */
 	
 	//alta
+	public boolean altaVentasM(VentasM vm) throws ApplicationException {
+		dvm = new DataVentasM();
+		return dvm.altaVentasM(vm);
+	}
 	//baja
+	public boolean bajaVentasMPorMovimiento(int nro) throws ApplicationException {
+		dvm = new DataVentasM();
+		return dvm.bajaVentasMPorMovimiento(nro);
+	}
 	//modificacion
 	
 	public VentasM consultaVentasM(String comp) throws ApplicationException {
@@ -39,4 +47,10 @@ public class CtrlVentasM {
 		dvm = new DataVentasM();
 		return dvm.listarVentasMSocio(cod);
 	}
+	
+	public String ultimoID() throws ApplicationException {
+		dvm = new DataVentasM();
+		return dvm.ultimoID();
+	}
+
 }

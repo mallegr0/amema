@@ -15,7 +15,8 @@ public class DataCtactecliente {
 	public DataCtactecliente() {}
 	
 	/* VARIABLES */
-	Conector conn = new Conector();
+	//Conector conn = new Conector();
+		ConectorMySQL conn = new ConectorMySQL();
 	
 	/* METODOS */
 	
@@ -36,13 +37,13 @@ public class DataCtactecliente {
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
 			stmt.setString(1, c.getCODCLI());
-			stmt.setDate(2, (java.sql.Date) c.getFMOV());
+			stmt.setDate(2, cambiaFecha(c.getFMOV()));
 			stmt.setString(3, c.getTMOV());
 			stmt.setString(4, c.getLCOMP());
 			stmt.setString(5, c.getPCOMP());
 			stmt.setString(6, c.getTCOMP());
 			stmt.setString(7, c.getNCOMP());
-			stmt.setDate(8, (java.sql.Date) c.getFCOMPORIG());
+			stmt.setDate(8, cambiaFecha(c.getFCOMPORIG()));
 			stmt.setString(9, c.getLCOMPORIG());
 			stmt.setString(10, c.getPCOMPORIG());
 			stmt.setNString(11, c.getTCOMPORIG());
@@ -83,10 +84,27 @@ public class DataCtactecliente {
 		String sql = "DELETE FROM CTACTECLI WHERE CODCLI = ? AND FMOV = ?";
 		
 		try {
-			System.out.println("codigo "+cod+" - fecha "+fec);
 			stmt = conn.abrirConn().prepareStatement(sql);
 			stmt.setString(1, cod);
-			stmt.setDate(2, (java.sql.Date) fec);
+			stmt.setDate(2, cambiaFecha(fec));
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else { return false; }
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally { cerrar(stmt, null); }
+	}
+	
+	public Boolean bajaCtaCtePorCompOrig(String comprobante) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "DELETE FROM CTACTECLI WHERE NCOMPORIG = ?";
+		
+		try {
+			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt.setString(1, comprobante);
 			
 			if(stmt.executeUpdate() > 0) { return true; }
 			else { return false; }
@@ -110,7 +128,7 @@ public class DataCtactecliente {
 			stmt.setString(3, c.getPCOMP());
 			stmt.setString(4, c.getTCOMP());
 			stmt.setString(5, c.getNCOMP());
-			stmt.setDate(6, (java.sql.Date) c.getFCOMPORIG());
+			stmt.setDate(6, cambiaFecha(c.getFCOMPORIG()));
 			stmt.setString(7, c.getLCOMPORIG());
 			stmt.setString(8, c.getPCOMPORIG());
 			stmt.setString(9, c.getTCOMPORIG());
@@ -118,7 +136,7 @@ public class DataCtactecliente {
 			stmt.setDouble(11, c.getDEBE());
 			stmt.setDouble(12, c.getHABER());
 			stmt.setString(13, c.getCODCLI());
-			stmt.setDate(14, (java.sql.Date) c.getFMOV());
+			stmt.setDate(14, cambiaFecha(c.getFMOV()));
 			
 			
 			if(stmt.executeUpdate() > 0) { return true; }
@@ -138,10 +156,10 @@ public class DataCtactecliente {
 		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ? AND FMOV = ?";
 		
 		try {
-			java.sql.Date fecha = new java.sql.Date(fec.getTime());
+			
 			stmt = conn.abrirConn().prepareStatement(sql);
 			stmt.setString(1, cod);
-			stmt.setDate(2, fecha);
+			stmt.setDate(2, cambiaFecha(fec));
 			
 			rs = stmt.executeQuery();
 			
@@ -217,10 +235,10 @@ public class DataCtactecliente {
 		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ? AND FMOV < ? ORDER BY FMOV, NCOMP";
 		
 		try {
-			java.sql.Date fecha = new java.sql.Date(fec.getTime());
+			
 			stmt = conn.abrirConn().prepareStatement(sql);
 			stmt.setString(1, cod);
-			stmt.setDate(2, fecha);
+			stmt.setDate(2, cambiaFecha(fec));
 			
 			rs = stmt.executeQuery();
 			if(rs != null) {
@@ -356,5 +374,10 @@ public class DataCtactecliente {
 		finally { cerrar(stmt, null); }
 
 		return cont;
+	}
+	
+	private java.sql.Date cambiaFecha(java.util.Date fecha) throws ApplicationException {
+		java.sql.Date fec = new java.sql.Date(fecha.getTime());
+		return fec;
 	}
 }

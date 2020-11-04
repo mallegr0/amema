@@ -1,22 +1,22 @@
 package pruebas;
 
-import java.text.DecimalFormat;
+
+import java.util.ArrayList;
+
+import controladores.CtrlGaranteMovFijo;
+import entidades.GaranteMovFijo;
+import util.ApplicationException;
 
 public class Prueba {
 
 	public static void main(String[] args) {
-
-		DecimalFormat df = new DecimalFormat("#0.00");
+		CtrlGaranteMovFijo cg = new CtrlGaranteMovFijo();
 		
-		double var = 1.0;
-		
-		
-		System.out.println(df.format(var));
-		
-		
-		double var2 = Math.round(var*100.00)/100.00;
-		
-		
-		System.out.println(var2);
-	}
-}
+		try {
+			ArrayList<GaranteMovFijo> l = cg.listarGarantesPorMovimientos(18037);
+			
+			if(l == null) { System.out.println("no hay nada"); }
+			else {System.out.println("hay algo");}
+		} catch (ApplicationException e) {e.printStackTrace();
+		}
+	}}

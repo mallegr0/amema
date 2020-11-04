@@ -11,7 +11,8 @@ import entidades.Cliente;
 public class DataCliente {
 	
 	/*VARIABLES*/
-	Conector conn = new Conector();
+	//Conector conn = new Conector();
+	ConectorMySQL conn = new ConectorMySQL();
 	
 	/*CONSTRUCTOR*/
 	public DataCliente() {}

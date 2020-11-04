@@ -15,7 +15,8 @@ public class DataFamilia {
 	public DataFamilia() {}
 		
 	/* VARIABLES*/
-	Conector conn = new Conector();
+	//Conector conn = new Conector();
+		ConectorMySQL conn = new ConectorMySQL();
 	
 	
 	/* METODOS */

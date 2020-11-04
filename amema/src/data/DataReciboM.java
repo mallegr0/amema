@@ -11,10 +11,11 @@ import util.ApplicationException;
 public class DataReciboM {
 	
 	/* VARIABLES */
-	Conector conn;
+	//Conector conn = new Conector();
+		ConectorMySQL conn = new ConectorMySQL();
 	
 	/* CONSTRUCTOR */
-	public DataReciboM() { conn = new Conector(); }
+	public DataReciboM() {}
 	
 	/* METODOS */
 	

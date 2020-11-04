@@ -3,21 +3,22 @@ package data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-import entidades.TpoComprobante;
+import entidades.Leyenda;
 import util.ApplicationException;
 
-public class DataTpoComprobante {
+public class DataLeyenda {
 	
-	/* CONSTRUCTOR */
-	public DataTpoComprobante() {}
-	
-	/* VARIABLES */
+	/* variables */
 	//Conector conn = new Conector();
 		ConectorMySQL conn = new ConectorMySQL();
 	
+	/* constructor */
+	public DataLeyenda() {}
 	
-	/* METODOS */
+	
+	/* metodos */
 	private void cerrar(PreparedStatement stmt, ResultSet rs) throws ApplicationException {
 		try {
 			if(stmt != null) stmt.close();
@@ -27,36 +28,26 @@ public class DataTpoComprobante {
 		catch(SQLException e) { e.printStackTrace(); }
 	}
 	
-	// alta
-	//baja
-	//modifica
-
-	public TpoComprobante consultaTComprobante(String cod) throws ApplicationException {
-		PreparedStatement stmt = null; 
+	
+	public ArrayList<Leyenda> listarLeyendas() throws ApplicationException {
+		PreparedStatement stmt = null;
 		ResultSet rs = null; 
-		TpoComprobante r = null;
-		String sql = "SELECT * FROM TIPOCOMPROB WHERE CTIPO = ?";
+		ArrayList<Leyenda> lista = new ArrayList<>();
+		Leyenda l = null;
+		String sql = "SELECT * FROM LEYENDAS";
 		
 		try {
 			stmt = conn.abrirConn().prepareStatement(sql);
-			
-			stmt.setString(1, cod);
-			
 			rs = stmt.executeQuery();
-			
 			if(rs != null) {
 				while(rs.next()) {
-					r = new TpoComprobante();
-					r.setCTIPO(rs.getString("CTIPO"));
-					r.setDESCTIPO(rs.getString("DESCTIPO"));
+					l = new Leyenda(rs.getString("CLEY"), rs.getString("NLEY"), rs.getString("TLEY"));
+					lista.add(l);
 				}
 			}
 		}
-		catch(SQLException e) { e.printStackTrace(); }
+		catch (SQLException e) { e.printStackTrace(); }
 		finally { cerrar(stmt, rs); }
-		return r;
-	} 
-	//listar
-	
-	
+		return lista;
+	}
 }

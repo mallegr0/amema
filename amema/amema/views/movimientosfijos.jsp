@@ -12,7 +12,7 @@
 		<%@ include file="../meta/metadata.jsp"%>
 	</head>
 	<body>
-		<%@ include file="../views/menu.jsp"%>
+		<%@ include file="../../views/menu.jsp"%>
 		
 		<!-- AREA DE TRABAJO -->
 		<div class="w3-container w3-padding-64">
@@ -43,6 +43,7 @@
 				<a href="buscamovfijos.jsp" class="w3-button w3-green w3-hover-indigo"><strong>VOLVER</strong></a>
 			</div>
 			<br><br>
+			<%@ include file="../errores/errMovimiento.jsp" %>
 			<div class="w3-container w3-card-4 w3-responsive">
 				<br>
 				<table class="w3-table w3-bordered">
@@ -60,7 +61,7 @@
 							<th>Cantidad Mensual</th>
 							<th>Modo</th>
 							<th>Estado</th>
-							<th colspan="2" class="w3-center">Acciones</th>
+							<th colspan="4" class="w3-center">Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -81,8 +82,19 @@
 								<td><%=a.getCANTMENS() %></td>
 								<td><%=a.getMODO() %></td>
 								<td><%=a.getESTADO() %></td>
-								<td><button class="w3-button w3-yellow w3-hover-indigo w3-text-white" onclick="abrirModalAdherente('id01','<%=a.getNROMC()%>')"><i class="fas fa-search fa-2x"></i></button></td>
-								<td><button class="w3-button w3-red w3-hover-indigo" onclick="abrirModalAdherente('id02','<%=c.getCODCLI()%> y movimiento <%=a.getNROMC()%>')"><i class="fas fa-minus fa-2x"></i></button></td>
+								<td>
+									<button class="w3-button w3-red w3-hover-indigo" onclick="abrirModalMovimiento('id02','<%=a.getNROMC()%>')">
+										<i class="fas fa-minus fa-lg"></i>
+									</button>
+								</td>
+								<td>
+									<a href="../forms/movfijos/modificaMovFijoForm.jsp?id=<%=a.getNROMC()%>" class="w3-button w3-green w3-hover-indigo"><i class=" fas fa-edit fa-lg"></i></a></td>
+								<td>
+									<button class="w3-button w3-yellow w3-hover-indigo w3-text-white" onclick="abrirModalMovimiento('id03','<%=a.getNROMC()%>')">
+										<i class="fas fa-search fa-lg"></i>
+									</button>
+								</td>
+								<td><button class="w3-button w3-purple w3-hover-indigo w3-text-white" onclick="abrirModalMovimiento('id04', '<%=a.getNROMC()%>')"><i class="fas fa-users fa-lg"></i></button></td>
 							</tr>
 							<%}%>
 						<%}
@@ -97,21 +109,22 @@
 			</div>
 			<br><br>	
 			<div class="w3-container w3-padding w3-center w3-card-4">
-				<div class="w3-container w3-half">
-					<button class="w3-button w3-green w3-hover-indigo" onclick="abrirModalMovimiento('id01','<%=c.getCODCLI()%>')">
+				<button class="w3-button w3-green w3-hover-indigo" onclick="abrirModalMovimiento('id01','<%=c.getCODCLI()%> - <%=c.getNOMCLI()%>')">
 						<i class="fas fa-plus fa-2x"></i>
 					</button>
-				</div>
-				<div class="w3-container w3-half">
-					<button class="w3-button w3-blue w3-hover-indigo"><strong>Garantes</strong></button>
-				</div>
 			</div>
 			
-			<!-- AREA DE MODAL DE VISTA -->
+			<!-- AREA DE MODALES -->
 
 			<%@include file="../modal/movimientos/modalAltaMovFijo.jsp"%>
 
-			<!-- FIN AREA DE MODAL DE VISTA -->
+			<%@include file="../modal/movimientos/modalBajaMovFijo.jsp"%>
+
+			<%@include file="../modal/movimientos/modalConsultaMovFijo.jsp"%>
+
+			<%@include file="../modal/movimientos/modalConsultaGaranteMovFijo.jsp"%>
+
+			<!-- FIN AREA DE MODALES -->
 
 				<%}%>
 		</div>
@@ -123,13 +136,20 @@
 
 		<script type="text/javascript">
 			function abrirModalMovimiento(modal, codigo){
-	alert(modal);
-	document.getElementById(modal).style.display='block';
-	if(modal == 'id01'){
-		document.getElementById("nro").innerHTML = codigo;
-		document.getElementById("dato").value = codigo;
-	}
-}	
+				document.getElementById(modal).style.display='block';
+				if(modal == 'id01'){
+					document.getElementById("socio").value = codigo;
+				}
+				if(modal == 'id02'){
+					document.getElementById("deletemovfijo").value = codigo;
+				}
+				if(modal == 'id03'){
+					document.getElementById("consultamov").value = codigo;
+				}
+				if(modal == 'id04'){
+					document.getElementById("consultagarantemov").value = codigo;
+				}
+			}	
 
 		</script>
 		

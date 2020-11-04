@@ -30,5 +30,6 @@
 	<classpathentry kind="lib" path="amema/WEB-INF/lib/poi-scratchpad-4.1.2.jar"/>
 	<classpathentry kind="lib" path="amema/WEB-INF/lib/xmlbeans-3.1.0.jar"/>
 	<classpathentry kind="lib" path="amema/WEB-INF/lib/hsqldb_6148.jar"/>
+	<classpathentry kind="lib" path="amema/WEB-INF/lib/mysql-connector-java-5.1.49.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

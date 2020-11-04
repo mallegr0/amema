@@ -10,29 +10,22 @@
 		switch(msj){
 			case "siAlta": clase = "w3-pale-green";
 						   titulo = "Éxito";
-						   msg = "La Familia  ha sido creado correctamente";
+						   msg = "El Garante ha sido agregado al Movimiento Fijo";
 						   break;
 			case "noAlta": clase = "w3-pale-red";
 		   				   titulo = "Fracaso";
-		   				   msg = "La Familia  no se ha podido crear";
+		   				   titulo = "Fracaso";
+		   				   msg = "El Garante no ha sido agregado al Movimiento Fijo";
 		   				   break;
 		   
 		    case "siBaja": clase = "w3-pale-green";
 		                   titulo = "Éxito";
-		                   msg = "La Familia  ha sido eliminado correctamente";
+		                   msg = "El Garante ha sido eliminado del Movimiento Fijo";
 		                   break;
 		    case "noBaja": clase = "w3-pale-red";
 			    	       titulo = "Fracaso";	
-			               msg = "La Familia  no se ha podido eliminar";
+			               msg = "El Garante no ha sido eliminado del Movimiento Fijo";
 						   break;
-			case "siModifica": clase = "w3-pale-green";
-						       titulo = "Éxito";
-							   msg = "La Familia  ha sido modificado correctamente";
-						       break;
-			case "noModifica": clase = "w3-pale-red";
-			                   titulo = "Fracaso";
-			                   msg = "La Familia  no se ha podido modificar";
-			                   break;
 			}%>
 		<div class="w3-panel <%=clase %> w3-display-container">
 			<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
