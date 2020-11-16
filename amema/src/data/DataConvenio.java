@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,8 +15,7 @@ public class DataConvenio {
 	public DataConvenio() {}
 	
 	/* VARIABLES */
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	
 	/* METODOS */ 
@@ -24,7 +24,7 @@ public class DataConvenio {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		} catch (Exception e) { e.printStackTrace();}
 	}
 	
@@ -45,7 +45,7 @@ public class DataConvenio {
 		
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			
 			rs = stmt.executeQuery();
@@ -70,7 +70,7 @@ public class DataConvenio {
 		
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			

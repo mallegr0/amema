@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Connection;
 import java.sql.Date;
 
 import entidades.Adherente;
@@ -12,8 +13,7 @@ import util.ApplicationException;
 public class DataAdherente {
 	
 	/* VARIABLES */
-	//Conector conn = new Conector();
-	ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	/* CONSTRUCTOR */
 	public DataAdherente() {}
@@ -23,7 +23,7 @@ public class DataAdherente {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch(SQLException e) { e.printStackTrace(); }
 	}
@@ -34,7 +34,7 @@ public class DataAdherente {
 				+ "(?,?,?,?,?,?,?,?,?)";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, a.getCODCLI());
 			stmt.setString(2, a.getNROADHERENTE());
@@ -61,7 +61,7 @@ public class DataAdherente {
 		String sql = "DELETE FROM ADHERENTE WHERE CODCLI = ? AND NROADHERENTE = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, cod);
 			stmt.setString(2, nro);
@@ -82,7 +82,7 @@ public class DataAdherente {
 				+ "WHERE CODCLI = ? AND NROADHERENTE = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, a.getAPEYNOM_AD());
 			stmt.setString(2, a.getDOMIC_AD());
@@ -111,7 +111,7 @@ public class DataAdherente {
 		String sql = "SELECT * FROM ADHERENTES WHERE CODCLI = ? AND NROADHERENTE = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			stmt.setString(2, nro);
 			
@@ -145,7 +145,7 @@ public class DataAdherente {
 		String sql = "SELECT * FROM ADHERENTES ORDER BY CODCLI, NROADHERENTE";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			
@@ -178,7 +178,7 @@ public class DataAdherente {
 		String sql = "SELECT * FROM ADHERENTES WHERE CODCLI = ? ORDER BY CODCLI, NROADHERENTE";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			
 			rs = stmt.executeQuery();
@@ -208,10 +208,10 @@ public class DataAdherente {
 		String id = "";
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT TOP 1 NROADHERENTE FROM ADHERENTES WHERE CODCLI = ? ORDER BY NROADHERENTE DESC ";
+		String sql = "SELECT NROADHERENTE FROM ADHERENTES WHERE CODCLI = ? ORDER BY NROADHERENTE DESC LIMIT 1";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			
 			rs = stmt.executeQuery();

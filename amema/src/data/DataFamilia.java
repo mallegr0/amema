@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +16,7 @@ public class DataFamilia {
 	public DataFamilia() {}
 		
 	/* VARIABLES*/
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	
 	/* METODOS */
@@ -25,7 +25,7 @@ public class DataFamilia {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch (Exception e) { e.printStackTrace(); }
 	}
@@ -36,7 +36,7 @@ public class DataFamilia {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, f.getCFAMI());
 			stmt.setString(2, f.getNFAMI());
@@ -57,7 +57,7 @@ public class DataFamilia {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, id);
 			
@@ -76,7 +76,7 @@ public class DataFamilia {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, f.getNFAMI());
 			stmt.setFloat(2, f.getBFAMI());
@@ -99,7 +99,7 @@ public class DataFamilia {
 		Familia f = null;
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, id);
 			
@@ -132,7 +132,7 @@ public class DataFamilia {
 		
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			

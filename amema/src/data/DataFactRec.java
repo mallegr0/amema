@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +12,7 @@ import util.ApplicationException;
 public class DataFactRec {
 	
 	/* VARIABLES */
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	/* CONSTRUCTOR */
 	public DataFactRec() {}
@@ -23,7 +23,7 @@ public class DataFactRec {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch (SQLException e) { e.printStackTrace(); }
 	}
@@ -33,7 +33,7 @@ public class DataFactRec {
 		String sql = "DELETE FROM FACT_REC WHERE NCOMP = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, comprobante);
 			
 			if(stmt.executeUpdate() > 0) { return true; }
@@ -53,7 +53,7 @@ public class DataFactRec {
 		String sql = "SELECT * FROM FACT_REC WHERE NRECIBO = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, recibo);
 			
@@ -91,7 +91,7 @@ public class DataFactRec {
 		String sql = "SELECT NCOMP FROM FACT_REC WHERE NRECIBO = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, recibo);
 			
@@ -115,7 +115,7 @@ public class DataFactRec {
 		String sql = "SELECT * FROM FACT_REC WHERE NCOMP = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, comprobante);
 			

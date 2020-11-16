@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,8 +14,7 @@ public class DataTpoComprobante {
 	public DataTpoComprobante() {}
 	
 	/* VARIABLES */
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	
 	/* METODOS */
@@ -22,7 +22,7 @@ public class DataTpoComprobante {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch(SQLException e) { e.printStackTrace(); }
 	}
@@ -38,7 +38,7 @@ public class DataTpoComprobante {
 		String sql = "SELECT * FROM TIPOCOMPROB WHERE CTIPO = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, cod);
 			

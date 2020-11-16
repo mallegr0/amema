@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +12,7 @@ import util.ApplicationException;
 public class DataLeyenda {
 	
 	/* variables */
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	/* constructor */
 	public DataLeyenda() {}
@@ -23,7 +23,7 @@ public class DataLeyenda {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch(SQLException e) { e.printStackTrace(); }
 	}
@@ -37,7 +37,7 @@ public class DataLeyenda {
 		String sql = "SELECT * FROM LEYENDAS";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			if(rs != null) {
 				while(rs.next()) {

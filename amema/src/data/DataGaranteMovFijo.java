@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +12,7 @@ import util.ApplicationException;
 public class DataGaranteMovFijo {
 	
 	/* VARIABLES */
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	/* CONSTRUCTOR */ 
 	public DataGaranteMovFijo() {}
@@ -22,7 +22,7 @@ public class DataGaranteMovFijo {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
 	
@@ -31,7 +31,7 @@ public class DataGaranteMovFijo {
 		String sql = "INSERT INTO GarantesMovFijos (NroGarante, NroMovimFijo) VALUES (?, ?)";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, g.getNroGarante());
 			stmt.setInt(2, g.getNroMovimFijo());
@@ -51,7 +51,7 @@ public class DataGaranteMovFijo {
 		String sql = "DELETE FROM GarantesMovFijos WHERE NroGarante = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, g);
 			
@@ -70,7 +70,7 @@ public class DataGaranteMovFijo {
 		String sql = "DELETE FROM GarantesMovFijos WHERE NroMovimFijo = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setInt(1, m);
 			
@@ -89,7 +89,7 @@ public class DataGaranteMovFijo {
 		String sql = "UPDATE GarantesMovFijos SET NroMovimFijo = ? WHERE NroGarante = ?)";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setInt(1, g.getNroMovimFijo());
 			stmt.setString(2, g.getNroGarante());
@@ -111,7 +111,7 @@ public class DataGaranteMovFijo {
 		String sql = "SELECT * FROM GarantesMovimF WHERE NroGarante = ? AND NroMovimFijo = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, g.getNroGarante());
 			stmt.setInt(2, g.getNroMovimFijo());
@@ -136,7 +136,7 @@ public class DataGaranteMovFijo {
 		String sql = "SELECT NroGarante FROM GarantesMovimF WHERE NroMovimFijo = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setInt(1, movimiento);
 			
@@ -161,7 +161,7 @@ public class DataGaranteMovFijo {
 		String sql = "SELECT * FROM GarantesMovFijos ORDER BY NroGarante, NroMovimFijo";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			
@@ -185,7 +185,7 @@ public class DataGaranteMovFijo {
 		String sql = "SELECT * FROM GarantesMovFijos WHERE NroGarante = ? ORDER BY NroMovimFijo";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, g);
 			
 			rs = stmt.executeQuery();
@@ -210,7 +210,7 @@ public class DataGaranteMovFijo {
 		String sql = "SELECT * FROM GarantesMovFijos WHERE NroMovimFijo = ? ORDER BY NroGarante";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, m);
 			
 			rs = stmt.executeQuery();

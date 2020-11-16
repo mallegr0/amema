@@ -70,7 +70,6 @@ public class MovimientoFijo extends HttpServlet {
 	private String urlGMovFijo = "/amema/forms/movfijos/ABCGarantesForm.jsp";
 	private String urlAMovFijo = "/amema/views/actualizaMovFijos.jsp";
 	private String urlEMovFijo = "/amema/views/eliminaMovFijos.jsp";
-	private String urlCMovFijo = "/amema/forms/movfijos/EliminaMovFijoForm.jsp";
 	
 	private CtrlVenta cVentas = null;
 	private CtrlCliente cCliente = null; 

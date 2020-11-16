@@ -43,6 +43,7 @@ public class CtrlCliente {
 	public String ultimoID() throws ApplicationException{
 		dc = new DataCliente();
 		int nro = Integer.parseInt(dc.ultimoID());
+		System.out.println("Muestro el ultimo Nro de ID: "+nro+" en integer");
 		nro += 1;
 		return Integer.toString(nro);
 	}
@@ -75,6 +76,11 @@ public class CtrlCliente {
 	public ArrayList<Cliente> listarClienteEstado(String estado) throws ApplicationException {
 		dc = new DataCliente();
 		return dc.listarClienteEstado(estado);
+	}
+	
+	public String buscoCodigo(String legajo) throws ApplicationException {
+		dc = new DataCliente();
+		return dc.buscoCodigo(legajo);
 	}
 	
 	

@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +12,7 @@ import util.ApplicationException;
 public class DataReciboM {
 	
 	/* VARIABLES */
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	/* CONSTRUCTOR */
 	public DataReciboM() {}
@@ -23,7 +23,7 @@ public class DataReciboM {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch (SQLException e) { e.printStackTrace(); }
 	}
@@ -46,7 +46,7 @@ public class DataReciboM {
 		String sql = "SELECT * FROM RECIBOSM ORDER BY NRECIBO";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			
@@ -192,7 +192,7 @@ public class DataReciboM {
 		String sql = "SELECT * FROM RECIBOSM WHERE CODCLI = ? ORDER BY NRECIBO";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			
 			rs = stmt.executeQuery();

@@ -46,12 +46,13 @@ public class Login extends HttpServlet {
 		pass = request.getParameter("password");	
 		
 		try {
-			if(session.getAttribute("usuarioActivo") == null) {				
+			if(session.getAttribute("usuarioActivo") == null) {		
 				if(cu.validaUsuario(user,pass) == true) {
 					
 					//ESTABLECER LA SESION
 					Usuario u = cu.consultaUsuario(request.getParameter("usuario"));
 					session.setAttribute("usuarioActivo", u);
+					request.getSession().setMaxInactiveInterval(-1); // Establezco que nunca se inactive la sesion.
 					request.getRequestDispatcher("/views/ppal.jsp").forward(request, response);
 				}
 				else {

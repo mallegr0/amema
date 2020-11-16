@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Connection;
 import java.sql.Date;
 
 import entidades.Venta;
@@ -12,8 +13,7 @@ import util.ApplicationException;
 public class DataVenta {
 	
 	/* VARIABLES */
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	/* CONSTRUCTOR */
 	public DataVenta() {}
@@ -24,7 +24,7 @@ public class DataVenta {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch (SQLException e) { e.printStackTrace(); }
 	}
@@ -40,7 +40,7 @@ public class DataVenta {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, v.getNCOMP());
 			stmt.setString(2, v.getTCOMP());
 			stmt.setString(3, v.getLETRA());
@@ -108,7 +108,7 @@ public class DataVenta {
 		String sql = "DELETE FROM VENTAS WHERE NROMOV = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setInt(1, mov);
 			
@@ -131,7 +131,7 @@ public class DataVenta {
 				+ "UBICAC2 = ?, UBICAC3 = ?, ANALISIS = ?, FEC_DESDE = ?, IMPCH = ?, CANCDEUANT = ?, IMPCANCDEUANT = ? WHERE CODCLI = ? AND NROMOV = ?";
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, v.getNCOMP());
 			stmt.setString(2, v.getTCOMP());
 			stmt.setString(3, v.getLETRA());
@@ -202,7 +202,7 @@ public class DataVenta {
 		String sql = "SELECT * FROM VENTAS WHERE NROMOV = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setInt(1, nroMov);
 			
@@ -279,7 +279,7 @@ public class DataVenta {
 		String sql ="SELECT * FROM VENTAS WHERE NROMOV = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, nro);
 			
 			rs = stmt.executeQuery();
@@ -305,7 +305,7 @@ public class DataVenta {
 		String sql = "SELECT * FROM VENTAS WHERE CODCLI = ? ORDER BY VA_DTO DESC, NROMOV ASC";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, cod);
 			
@@ -382,7 +382,7 @@ public class DataVenta {
 		String sql = "SELECT * FROM VENTAS WHERE FCOMP BETWEEN ? AND ? ORDER NCOMP";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setDate(1, cambiaFecha(fecIni));
 			stmt.setDate(2, cambiaFecha(fecFin));
@@ -460,7 +460,7 @@ public class DataVenta {
 		String sql = "SELECT * FROM VENTAS WHERE FCOMP BETWEEN ? AND ? AND INCCTACTE = ? ORDER BY NCOMP";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setDate(1, cambiaFecha(fecIni));
 			stmt.setDate(2, cambiaFecha(fecFin));
@@ -535,10 +535,10 @@ public class DataVenta {
 		int id = 0;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT TOP 1 NROMOV FROM VENTAS ORDER BY NROMOV DESC ";
+		String sql = "SELECT NROMOV FROM VENTAS ORDER BY NROMOV DESC LIMIT 1";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			

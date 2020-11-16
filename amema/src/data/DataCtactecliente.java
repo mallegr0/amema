@@ -1,6 +1,7 @@
 package data;
 
 import java.util.Date;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +16,7 @@ public class DataCtactecliente {
 	public DataCtactecliente() {}
 	
 	/* VARIABLES */
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	/* METODOS */
 	
@@ -24,7 +24,7 @@ public class DataCtactecliente {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch(SQLException e) { e.printStackTrace(); }
 	}
@@ -35,7 +35,7 @@ public class DataCtactecliente {
 				+ "TCOMPORIG, NCOMPORIG, DEBE, HABER) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, c.getCODCLI());
 			stmt.setDate(2, cambiaFecha(c.getFMOV()));
 			stmt.setString(3, c.getTMOV());
@@ -66,7 +66,7 @@ public class DataCtactecliente {
 		String sql = "DELETE FROM CTACTECLI WHERE CODCLI = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			
 			if(stmt.executeUpdate() > 0) { return true; }
@@ -84,7 +84,7 @@ public class DataCtactecliente {
 		String sql = "DELETE FROM CTACTECLI WHERE CODCLI = ? AND FMOV = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			stmt.setDate(2, cambiaFecha(fec));
 			
@@ -103,7 +103,7 @@ public class DataCtactecliente {
 		String sql = "DELETE FROM CTACTECLI WHERE NCOMPORIG = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, comprobante);
 			
 			if(stmt.executeUpdate() > 0) { return true; }
@@ -122,7 +122,7 @@ public class DataCtactecliente {
 				+ " LCOMPORIG = ?, PCOMPORIG = ?, TCOMPORIG = ?, NCOMPORIG = ?, DEBE = ?, HABER = ? WHERE CODCLI = ?, FMOV = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, c.getTMOV());
 			stmt.setString(2, c.getLCOMP());
 			stmt.setString(3, c.getPCOMP());
@@ -157,7 +157,7 @@ public class DataCtactecliente {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			stmt.setDate(2, cambiaFecha(fec));
 			
@@ -196,7 +196,7 @@ public class DataCtactecliente {
 		String sql = "SELECT * FROM CTACTECLI WHERE NCOMP = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			
 			rs = stmt.executeQuery();
@@ -232,11 +232,11 @@ public class DataCtactecliente {
 		ResultSet rs = null;
 		Ctactecliente c = null; 
 		ArrayList<Ctactecliente> lista = new ArrayList<>();
-		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ? AND FMOV < ? ORDER BY FMOV, NCOMP";
+		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ? AND FMOV BETWEEN DATE_SUB(NOW(),INTERVAL 2 YEAR) AND ? ORDER BY FMOV, NCOMP";
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			stmt.setDate(2, cambiaFecha(fec));
 			
@@ -272,10 +272,10 @@ public class DataCtactecliente {
 		ResultSet rs = null;
 		Ctactecliente c = null; 
 		ArrayList<Ctactecliente> lista = new ArrayList<>();
-		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ?";
+		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ? AND DATE_SUB(NOW(),INTERVAL 2 YEAR)";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			
 			rs = stmt.executeQuery();
@@ -313,7 +313,7 @@ public class DataCtactecliente {
 		String sql = "SELECT * FROM CTACTECLI ORDER BY CODCLI";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			if(rs != null) {
@@ -347,7 +347,7 @@ public class DataCtactecliente {
 		String sql = "SELECT COUNT(*) FROM CTACTECLI";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			if(stmt.executeUpdate() == 0) { return true; }
 			else { return false; }
@@ -364,7 +364,7 @@ public class DataCtactecliente {
 		String sql = "SELECT COUNT(*) FROM CTACTECLI WHERE CODCLI = ?";
 		int cont = 0;
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			
 			rs = stmt.executeQuery(); 

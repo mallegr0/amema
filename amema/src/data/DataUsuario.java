@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,18 +17,16 @@ public class DataUsuario {
 	public DataUsuario(){}
 	
 	/*  variables  */
-	//ConectorSeguridad conn = new ConectorSeguridad();
-
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	/*  METODOS  */
 	
-	private void cerrar(PreparedStatement stmt, ResultSet rs){
+	private void cerrar(PreparedStatement stmt, ResultSet rs) throws ApplicationException {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
-		} catch (Exception e) { e.printStackTrace(); }
+			PoolConection.getInstance().cerrarConexion(conn);
+		} catch (SQLException e) { e.printStackTrace(); }
 		
 	}
 	
@@ -37,7 +36,7 @@ public class DataUsuario {
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, u.getNroUsuario());
 			stmt.setString(2, u.getNomUs());
 			stmt.setString(3, u.getLogIn());
@@ -66,7 +65,7 @@ public class DataUsuario {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, user);
 			
@@ -89,7 +88,7 @@ public class DataUsuario {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, u.getNroUsuario());
 			stmt.setString(2, u.getNomUs());
@@ -121,7 +120,7 @@ public class DataUsuario {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, user);
 			
@@ -156,7 +155,7 @@ public class DataUsuario {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			
@@ -190,7 +189,7 @@ public class DataUsuario {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, pass);
 			stmt.setString(2, user);
@@ -207,14 +206,14 @@ public class DataUsuario {
 		}
 	}
 	
-	public String ultimoID() {
+	public String ultimoID() throws ApplicationException {
 		String id = "";
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT TOP 1 NroUsuario FROM Usuarios ORDER BY NroUsuario DESC ";
+		String sql = "SELECT NroUsuario FROM Usuarios ORDER BY NroUsuario DESC LIMIT 1";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			
@@ -231,7 +230,7 @@ public class DataUsuario {
 		return id;
 	}
 
-	public String consultaPerfil(String nro) {
+	public String consultaPerfil(String nro) throws ApplicationException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null; 
 		String r = "";
@@ -239,7 +238,7 @@ public class DataUsuario {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, nro);
 			
 			rs = stmt.executeQuery();

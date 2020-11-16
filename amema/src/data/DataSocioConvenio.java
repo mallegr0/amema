@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,9 +11,7 @@ import util.ApplicationException;
 public class DataSocioConvenio {
 	
 	/* VARIABLES */
-	
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	/* COSTRUCTOR */ 
 	
@@ -24,7 +23,7 @@ public class DataSocioConvenio {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch(SQLException e) { e.printStackTrace(); }
 	}
@@ -36,7 +35,7 @@ public class DataSocioConvenio {
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, s.getCODCLI());
 			stmt.setString(2, s.getConVta());
@@ -65,7 +64,7 @@ public class DataSocioConvenio {
 		String sql = "DELETE FROM SociosConv WHERE CODCLI = ? AND ConVta = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, cod);
 			stmt.setString(2, cpto);
@@ -86,7 +85,7 @@ public class DataSocioConvenio {
 				+ " Genint = ?, TasaInt = ?, CODARTINT = ? WHERE CODCLI = ? AND ConVta = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, s.getConc1());
 			stmt.setDouble(2, s.getTope1());
@@ -117,7 +116,7 @@ public class DataSocioConvenio {
 		String sql = "SELECT * FROM SociosConv WHERE CODCLI =? AND ConVta = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, cod);
 			stmt.setString(2, cpto);

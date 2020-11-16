@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,8 +11,7 @@ import entidades.VentasD;
 public class DataVentasD {
 
 	// Variables
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 
 	// constructor
 	public DataVentasD() {
@@ -25,7 +25,7 @@ public class DataVentasD {
 				stmt.close();
 			if (rs != null)
 				rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -37,7 +37,7 @@ public class DataVentasD {
 				+ "PBONIF2, PVENTA, DESPACHO, ADUANA, BONART) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 
 			stmt.setString(1, v.getPREFIJO());
 			stmt.setString(2, v.getNCOMP());
@@ -71,7 +71,7 @@ public class DataVentasD {
 		String sql = "DELETE FROM VENTASD WHERE NCOMP = ?";
 
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 
 			stmt.setString(1, nro);
 
@@ -94,7 +94,7 @@ public class DataVentasD {
 				+ "PBONIF = ?, PBONIF2 = ?, PVENTA = ?, DESPACHO = ?, ADUANA = ?, BONART = ?) WHERE NCOMP = ?";
 
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 
 			stmt.setString(1, v.getPREFIJO());
 			stmt.setString(2, v.getTCOMP());
@@ -130,7 +130,7 @@ public class DataVentasD {
 		String sql = "SELECT * FROM VENTASD WHERE NCOMP = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, nro);
 			
 			rs = stmt.executeQuery();

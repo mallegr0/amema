@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +12,7 @@ import entidades.Cliente;
 public class DataCliente {
 	
 	/*VARIABLES*/
-	//Conector conn = new Conector();
-	ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	/*CONSTRUCTOR*/
 	public DataCliente() {}
@@ -22,7 +22,7 @@ public class DataCliente {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch (Exception e) { e.printStackTrace();}
 	}
@@ -38,7 +38,7 @@ public class DataCliente {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 				
 			stmt.setString(1, c.getMARCA());
 			stmt.setString(2, c.getCODCLI());
@@ -104,7 +104,7 @@ public class DataCliente {
 		String sql = "DELETE FROM CLIENTES WHERE CODCLI = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, id);
 			
@@ -127,7 +127,7 @@ public class DataCliente {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, c.getMARCA());
 			stmt.setString(2, c.getNOMCLI());
@@ -193,7 +193,7 @@ public class DataCliente {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, id);
 			
@@ -255,6 +255,29 @@ public class DataCliente {
 		return c;
 	}
 	
+	public String buscoCodigo(String legajo) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null; 
+		String codcli = "";
+		String sql = "SELECT * FROM clientes WHERE DNRP = ?";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, legajo);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while (rs.next()) {
+					codcli = rs.getString("CODCLI");
+				}
+			}
+		}
+		catch (SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return codcli;
+	}
+	
 	public Cliente consultaClientePorDNI(String doc) throws ApplicationException{
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -263,7 +286,7 @@ public class DataCliente {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, doc);
 			
@@ -335,7 +358,7 @@ public class DataCliente {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			
@@ -407,7 +430,7 @@ public class DataCliente {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, estado);
 			stmt.setString(2, conv);
 			
@@ -482,7 +505,7 @@ public class DataCliente {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, conv);
 			
 			rs = stmt.executeQuery();
@@ -555,7 +578,7 @@ public class DataCliente {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, estado);
 			
@@ -629,7 +652,7 @@ public class DataCliente {
 		
 		try {
 			
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, nombre);
 			
 			rs = stmt.executeQuery();
@@ -698,10 +721,10 @@ public class DataCliente {
 		String id = "";
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT TOP 1 CODCLI FROM CLIENTES ORDER BY CODCLI DESC ";
+		String sql = "SELECT CODCLI FROM CLIENTES ORDER BY CODCLI DESC LIMIT 1";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			
@@ -726,7 +749,7 @@ public class DataCliente {
 		String sql = "SELECT LOCALIDAD FROM LOCALIDADES WHERE CODPOS = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setInt(1, id);
 			

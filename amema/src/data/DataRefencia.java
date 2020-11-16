@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +12,7 @@ import entidades.Referencia;
 public class DataRefencia {
 	
 	/* variables */
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	/* constructor */
 	public DataRefencia() {}
@@ -23,7 +23,7 @@ public class DataRefencia {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch (SQLException e) { e.printStackTrace();}
 	}
@@ -37,7 +37,7 @@ public class DataRefencia {
 		String sql = "SELECT * FROM REFERENCIA WHERE CREF = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setNString(1, cod);
 			rs = stmt.executeQuery();
 			
@@ -63,7 +63,7 @@ public class DataRefencia {
 		String sql = "SELECT * FROM REFERENCIA";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			

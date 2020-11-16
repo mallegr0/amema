@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Connection;
 import java.sql.Date;
 
 import entidades.Articulo;
@@ -12,8 +13,7 @@ import util.ApplicationException;
 public class DataArticulo {
 	
 	/* VARIABLES */
-	//Conector conn = new Conector();
-	ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 	
 	
 	/* CONSTRUCTOR */
@@ -25,7 +25,7 @@ public class DataArticulo {
 		try {
 			if(stmt != null) stmt.close();
 			if(rs != null) rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		}
 		catch(SQLException e) { e.printStackTrace(); }
 	}
@@ -41,7 +41,7 @@ public class DataArticulo {
 		String sql ="SELECT * FROM ARTICULO WHERE CGRUPO = ? AND CSUBF = ? AND NROART = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1 , cod);
 			stmt.setString(2 , scod);
 			stmt.setString(3 , art);
@@ -112,7 +112,7 @@ public class DataArticulo {
 		String sql ="SELECT * FROM ARTICULO ORDER BY DESART";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			rs = stmt.executeQuery();
 			

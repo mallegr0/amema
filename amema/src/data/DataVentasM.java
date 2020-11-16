@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,8 +13,7 @@ import util.ApplicationException;
 public class DataVentasM {
 
 	/* VARIABLES */
-	//Conector conn = new Conector();
-		ConectorMySQL conn = new ConectorMySQL();
+	Connection conn = PoolConection.getInstance().abrirConexion();
 
 	/* CONSTRUCTOR */
 	public DataVentasM() {
@@ -26,7 +26,7 @@ public class DataVentasM {
 				stmt.close();
 			if (rs != null)
 				rs.close();
-			conn.cerrarConn();
+			PoolConection.getInstance().cerrarConexion(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -45,7 +45,7 @@ public class DataVentasM {
 				+ "?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, v.getPREFIJO());
 			stmt.setString(2, v.getNCOMP());
@@ -126,7 +126,7 @@ public class DataVentasM {
 		String sql = "DELETE FROM VENTASM WHERE NROMOVPLANIF = ?";
 		
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, nro);
 			
 			if(stmt.executeUpdate() > 0) { return true; }
@@ -149,7 +149,7 @@ public class DataVentasM {
 		String sql = "SELECT * FROM VENTASM WHERE NCOMP = ?";
 
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, comp);
 
 			rs = stmt.executeQuery();
@@ -236,7 +236,7 @@ public class DataVentasM {
 		String sql = "SELECT * FROM VENTASM WHERE NROMOVPLANIF = ? ORDER BY NCOMP";
 
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, mov);
 
 			rs = stmt.executeQuery();
@@ -322,7 +322,7 @@ public class DataVentasM {
 		String sql = "SELECT * FROM VENTASM";
 
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 
 			rs = stmt.executeQuery();
 
@@ -407,7 +407,7 @@ public class DataVentasM {
 		String sql = "SELECT * FROM VENTASM WHERE CODCLI = ?";
 
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cod);
 			rs = stmt.executeQuery();
 
@@ -487,11 +487,11 @@ public class DataVentasM {
 	public String ultimoID() throws ApplicationException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT TOP 1 NCOMP FROM VENTASM ORDER BY NCOMP DESC";
+		String sql = "SELECT NCOMP FROM VENTASM ORDER BY NCOMP DESC LIMIT 1";
 		String r = "";
 
 		try {
-			stmt = conn.abrirConn().prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			if (rs != null) {
 				while (rs.next()) {

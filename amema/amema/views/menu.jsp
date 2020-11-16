@@ -2,8 +2,8 @@
 <%@ page import="entidades.Usuario"%>
 
 <% if(session.getAttribute("usuarioActivo") == null){ response.sendRedirect("../"); }	%>
-<% Usuario user = (Usuario) session.getAttribute("usuarioActivo"); %>
 
+<% Usuario user = (Usuario) session.getAttribute("usuarioActivo"); %>
 
 
 
@@ -59,7 +59,7 @@
 					<button class="w3-button" title="Generar Recibos desde archivo">Generar Recibos desde Archivo <i class="fas fa-angle-down"></i></button>
 					<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="left: 100px;">
 						<a href="/amema/views/actualizaPagosMasivo.jsp" class="w3-bar-item w3-button">Nueva importación de datos desde archivo</a>
-						<a href="" class="w3-bar-item w3-button">opc2</a>
+						<a href="/amema/views/listaPagosMasivos.jsp" class="w3-bar-item w3-button">Listar importación de datos desde archivo</a>
 						<a href="" class="w3-bar-item w3-button">opc3</a>
 					</div>
 				</div>
@@ -82,7 +82,11 @@
 		<div class="w3-dropdown-click w3-hide-small w3-right">
 			<button class="w3-button" title="Perfil"><i class="fas fa-user fa-lg"></i></button>     
 			<div id="menu" class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="right: 0">
-				<p class="w3-bar-item"><%= user.getNomUs()%></p>
+				<p class="w3-bar-item">
+				<%
+					if(user.getNomUs() == null){ response.sendRedirect("../"); } 
+					else {%><%= user.getNomUs()%></p><%}
+				%>
 				<button class="w3-bar-item w3-button" onclick="abroModalUsuario('id02','<%=user.getLogIn()%>')">Cambiar Contraseña</button>
 				<a href="/amema/Logout" class="w3-bar-item w3-button">Salir <i class="fas fa-sign-out-alt"></i></a>
 			</div>
