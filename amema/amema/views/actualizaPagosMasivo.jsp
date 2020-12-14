@@ -31,8 +31,8 @@
 				<% if(errores != null){%> 
 				<table class="w3-table w3-bordered">
 					<thead>
-						<tr class="w3-indigo w3-center">
-							<td colspan="3">Detalle del error</td>
+						<tr class="w3-indigo">
+							<td colspan="3" class="w3-center"><strong>Detalle del error</strong></td>
 						</tr>
 					</thead>
 					<tbody>

@@ -1,6 +1,7 @@
 package controladores;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import data.DataPeriodoDeudaGen;
 import entidades.PeriodoDeudaGen;
@@ -33,6 +34,12 @@ public class CtrlPeriodoDeudaGen {
 	public PeriodoDeudaGen consultaPeriodoDeudaGen(String periodo, String convenio) throws ApplicationException {
 		dpg = new DataPeriodoDeudaGen();
 		return dpg.consultaPeriodoDeudaGen(periodo, convenio);
+
+	}
+	
+	public int consultaNroDeudaPorPeriodoyConvenio(String periodo, String convenio, Date fecha) throws ApplicationException {
+		dpg = new DataPeriodoDeudaGen();
+		return dpg.consultaNroDeudaPorPeriodoyConvenio(periodo, convenio, fecha);
 	}
 		
 	public ArrayList<PeriodoDeudaGen> listarPeriodoDeudaGen() throws ApplicationException {

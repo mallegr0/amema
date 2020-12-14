@@ -61,6 +61,45 @@ public class DataConvenio {
 		return r;
 	}
 	
+	public Convenio consultaConvenio(String convenio) throws ApplicationException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Convenio c = null;
+		String sql = "SELECT * FROM CONVTA WHERE ccond = ?";
+		
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					c = new Convenio();
+					c.setCCOND(rs.getString("CCOND"));
+					c.setDESCOND(rs.getString("DESCOND"));
+					c.setTIPOVTO(rs.getString("TIPOVTO"));
+					c.setDIAS(rs.getInt("DIAS"));
+					c.setFECVTO(rs.getDate("FECVTO"));
+					c.setPORBONIF(rs.getDouble("PORBONIF"));
+					c.setConc1(rs.getString("Conc1"));
+					c.setConc2(rs.getString("Conc2"));
+					c.setConc3(rs.getString("Conc3"));
+					c.setTope1(rs.getDouble("Tope1"));
+					c.setTope2(rs.getDouble("Tope2"));
+					c.setTope3(rs.getDouble("Tope3"));
+					c.setGenInt(rs.getString("GenInt"));
+					c.setTasaInt(rs.getDouble("TasaInt"));
+					c.setCODARTINT(rs.getString("CODARTINT"));
+					c.setIngCobro(rs.getString("IngCobro"));
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace();}
+		finally { cerrar(stmt, rs); }
+		return c;
+	}
+	
 	public ArrayList<Convenio> listarConvenio() throws ApplicationException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

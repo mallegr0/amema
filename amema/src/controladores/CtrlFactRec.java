@@ -1,5 +1,8 @@
 package controladores;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import data.DataFactRec;
 import entidades.FactRec;
 import util.ApplicationException;
@@ -14,6 +17,10 @@ public class CtrlFactRec {
 	public CtrlFactRec() {}
 	
 	/* METODO */
+	public boolean altaFactura(FactRec f) throws ApplicationException {
+		dfr = new DataFactRec();
+		return dfr.altaFactura(f);
+	}
 	
 	public boolean bajaFacturaPorComprobante(String comprobante) throws ApplicationException {
 		dfr = new DataFactRec();
@@ -33,6 +40,16 @@ public class CtrlFactRec {
 	public FactRec consultarFacturaPorNroComprobante(String comprobante) throws ApplicationException {
 		dfr = new DataFactRec();
 		return dfr.consultarFacturaPorNroComprobante(comprobante);
+	}
+	
+	public String devolverNroFactura(String nroComp) throws ApplicationException {
+		dfr = new DataFactRec();
+		return dfr.devolverNroFactura(nroComp);
+	}
+	
+	public ArrayList<FactRec> listarFacturasPorFechaySocio(Date fecha, String codcli) throws ApplicationException {
+		dfr = new DataFactRec();
+		return dfr.listarFacturasPorFechaySocio(fecha, codcli);
 	}
 }
 

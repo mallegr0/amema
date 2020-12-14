@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 import javax.servlet.ServletException;
@@ -16,11 +18,21 @@ import javax.servlet.http.HttpServletResponse;
 import controladores.CtrlAuxAnDeudaCli;
 import controladores.CtrlAuxListaMasivo;
 import controladores.CtrlCliente;
+import controladores.CtrlCtactecliente;
+import controladores.CtrlFactRec;
 import controladores.CtrlPeriodoDeudaArch;
+import controladores.CtrlPeriodoDeudaGen;
+import controladores.CtrlReciboM;
+import controladores.CtrlVentasM;
 import entidades.AuxAnDeudaCli;
 import entidades.AuxListaMasivo;
+import entidades.Ctactecliente;
 import entidades.Entrada;
+import entidades.FactRec;
 import entidades.PeriodoDeudaArch;
+import entidades.PeriodoDeudaGen;
+import entidades.ReciboM;
+import entidades.VentasM;
 import util.ApplicationException;
 
 /**
@@ -33,10 +45,16 @@ public class IOMasivo extends HttpServlet {
 	private CtrlAuxAnDeudaCli cAuxCliente = null; 
 	private CtrlCliente cCliente = null; 
 	private CtrlPeriodoDeudaArch cPeriodoArch = null; 
+	private CtrlPeriodoDeudaGen cPeriodoGen = null;
 	private CtrlAuxListaMasivo cListarAux = null; 
+	private CtrlReciboM cReciboM = null; 
+	private CtrlFactRec cFactura = null; 
+	private CtrlVentasM cVentasM = null; 
+	private CtrlCtactecliente cCtacte = null; 
 	private DecimalFormat df = null; //formato para el importe
 	private String urlAMasivo = "/amema/views/actualizaPagosMasivo.jsp";
 	private String urlLMasivo = "/amema/views/listaPagosMasivos.jsp";
+	private String urlGRecibos = "/amema/views/generaRecibos.jsp";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -63,10 +81,17 @@ public class IOMasivo extends HttpServlet {
 		
 		if(request.getParameter("evento_buscar") != null) {
 			try {
-				listarMasivo(request, response);
+				listarMasivo(request);
 				response.sendRedirect(urlLMasivo);
 			}
 			catch(ApplicationException | ParseException e) { e.printStackTrace(); }
+		}
+		if(request.getParameter("evento_generaRecibos") != null) {
+			try {
+				generaRecibos(request); 
+				response.sendRedirect(urlGRecibos);
+			}
+			catch (ApplicationException |ParseException e) { e.printStackTrace(); }
 		}
 	}
 	
@@ -120,7 +145,6 @@ public class IOMasivo extends HttpServlet {
 			if(ingresos.get(0).getConcepto().equals("jub")) {
 				listadoAuxCli = cAuxCliente.listarAuxAnDeudaCliJubilados(periodo, convenio);
 			}
-			
 		}
 		
 		//Calculo los importes del txt y lo asigno a mensaje
@@ -137,13 +161,24 @@ public class IOMasivo extends HttpServlet {
 		cPeriodoArch = new CtrlPeriodoDeudaArch();
 		cPeriodoArch.altaPeriodoDeudaArch(p);
 		
+		cPeriodoGen = new CtrlPeriodoDeudaGen();
+		PeriodoDeudaGen g = cPeriodoGen.consultaPeriodoDeudaGen(periodo, convenio);
+		g.setRecibos_gen("S");
+		cPeriodoGen.modificaPeriodoDeudaGen(g);
+		
+		// Pongo en null los controladores para liberar memoria
+		cAuxCliente = null; 
+		cPeriodoArch = null; 
+		cPeriodoGen = null; 
+		
+		
 		//Ahora actualizo los importes de AuxAnDeudaCli para luego generar los recibos. y lo seteo en el request
 		req.getSession().setAttribute("errores", actualizoAuxiliar(ingresos, listadoAuxCli));
 		req.getSession().setAttribute("mensaje", mensaje);
 
 	}
 	
-	private void listarMasivo(HttpServletRequest req, HttpServletResponse res) throws ApplicationException, ParseException {
+	private void listarMasivo(HttpServletRequest req) throws ApplicationException, ParseException {
 		//Declaro las variables que voy a usar
 		String periodo, convenio; 
 		ArrayList<AuxListaMasivo> lista = new ArrayList<>(); 
@@ -164,7 +199,49 @@ public class IOMasivo extends HttpServlet {
 		req.getSession().setAttribute("listado", lista);
 	}
 	
-	
+	private void generaRecibos(HttpServletRequest req) throws ApplicationException, ParseException {
+		//Declaro las variables que voy a usar
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		cAuxCliente = new CtrlAuxAnDeudaCli();
+		cPeriodoGen = new CtrlPeriodoDeudaGen();
+		cReciboM = new CtrlReciboM();
+		String nrecibo = cReciboM.ultimoID();
+		
+		//Recupero los datos del form
+		String periodo = req.getParameter("periodo");
+		String convenio = req.getParameter("convenio");
+		Date fecha = df.parse(req.getParameter("fecha"));
+		
+		//Recupero de aux todos los datos que se ingresaron
+		ArrayList<AuxAnDeudaCli> listado = cAuxCliente.listarAuxAnDeudaCliPeriodoyConvenio(periodo, convenio);
+		
+		ArrayList<ReciboM> eRecibos = generoRecibosM(listado, fecha, nrecibo);
+		ArrayList<FactRec> eFacturas = generoFact_rec(listado, fecha, nrecibo);
+		ArrayList<VentasM> eVentasM = actualizoVentasM(listado, fecha);
+		ArrayList<Ctactecliente> eCtacte = actualizoCtaCte(listado, fecha, nrecibo);
+		
+		// Modifico la letra de genera recibos en la tabla
+		cambiaLetraPeriodo(periodo, convenio);
+		//Muestro los valores para ver porque me tira null
+		/*System.out.println("Periodo ingresado: "+periodo);
+		System.out.println("Convenio ingresado: "+convenio);
+		
+		PeriodoDeudaGen p = cPeriodoGen.consultaPeriodoDeudaGen(periodo, convenio);
+		
+		if(p == null) { System.out.println("no devuelve nada en la consulta a los periodos"); }
+		p.setRecibos_gen("S");
+		cPeriodoGen.modificaPeriodoDeudaGen(p);*/
+		
+		// Pongo en null los controladores para liberar espacio
+		cAuxCliente = null; 
+		cPeriodoGen = null;
+		
+		//Inicializo las variables de sesion para devolver los errores
+		req.getSession().setAttribute("erecibos", eRecibos);
+		req.getSession().setAttribute("efacturas", eFacturas);
+		req.getSession().setAttribute("eventasm", eVentasM);
+		req.getSession().setAttribute("ectacte", eCtacte);
+	}
 	
 	
 	// METODOS SECUNDARIOS
@@ -285,7 +362,170 @@ public class IOMasivo extends HttpServlet {
 		
 	}
 
+	private ArrayList<ReciboM> generoRecibosM (ArrayList<AuxAnDeudaCli> lista, Date fecha, String nrecibo) throws ApplicationException {
+		//declaro las variables que voy a usar
+		cReciboM = new CtrlReciboM();
+		cPeriodoGen = new CtrlPeriodoDeudaGen();
+		ReciboM rm = null;
+		ArrayList<ReciboM> error = new ArrayList<>();
+		
+		for(AuxAnDeudaCli a: lista) {
+			nrecibo = calculoRecibo(nrecibo);
+			rm = new ReciboM();
+			rm.setNRECIBO(nrecibo);
+			rm.setCIA("1");
+			rm.setPREFIJO("0006");
+			rm.setFRECIBO(fecha);
+			rm.setTRECIBO("1");
+			rm.setCODCLI(a.getCODCLI());
+			rm.setNVIAJ("00");
+			rm.setLIQUIDA("N");
+			rm.setEFECTIVO(a.getIMPORTEPAGADO());
+			rm.setCHEQUE(0);
+			rm.setA_CTA(0);
+			rm.setCERRADA("N");
+			rm.setCOMI_DIFE("N");
+			rm.setREFERENCIA(a.getREF());
+			rm.setTCOMP01("1");
+			rm.setNFACT01(a.getNCOMP().substring(7));
+			rm.setIFACT01(a.getIMPORTEPAGADO());
+			rm.setDESCUENTOS(0);
+			rm.setRETENCION(0);
+			rm.setUSADO(0);
+			rm.setNROGENDEUDA(cPeriodoGen.consultaNroDeudaPorPeriodoyConvenio(a.getPERIODO(), a.getCONVENIO(), fecha));
+			rm.setDIFDSPAGO(0);
+			
+			if(cReciboM.altaReciboM(rm) != true) { error.add(rm); }
+		}
+		
+		// Pongo en null las varaibles para liberar espacio
+		cReciboM = null;
+		cPeriodoGen = null; 
+		rm = null; 
+		
+		return error;
+	}
+	
+	private ArrayList<FactRec> generoFact_rec(ArrayList<AuxAnDeudaCli> lista, Date fecha, String nroRecibo) throws ApplicationException {
+		//declaro las variables que voy a usar
+		cFactura = new CtrlFactRec();
+		cPeriodoGen = new CtrlPeriodoDeudaGen();
+		FactRec f = null;
+		ArrayList<FactRec> error = new ArrayList<>();
+			
+		for(AuxAnDeudaCli a: lista) {
+			nroRecibo = calculoRecibo(nroRecibo);
+			f = new FactRec();
+			f.setPREFIJO(a.getNCOMP().substring(2,6));
+			f.setNCOMP(a.getNCOMP().substring(7));
+			f.setTCOMP("1");
+			f.setLETRA(a.getNCOMP().substring(0,1));
+			f.setCIA("1");
+			f.setNRECIBO(nroRecibo);
+			f.setFECREC(fecha);
+			f.setMONTO_A(a.getIMPORTEPAGADO());
+			f.setMONTO_D(a.getIMPORTEPAGADO());
+			f.setDESCUENT_A(0);
+					
+			if(cFactura.altaFactura(f) != true) { error.add(f); }
+		}
+				
+		// Pongo en null las varaibles para liberar espacio
+		cFactura = null;
+		cPeriodoGen = null; 
+		f = null; 
+				
+		return error;
+	}
+	
+	private ArrayList<VentasM> actualizoVentasM(ArrayList<AuxAnDeudaCli> lista, Date fecha) throws ApplicationException {
+		//declaro las variables que voy a usar
+		cVentasM = new CtrlVentasM(); 
+		cPeriodoGen = new CtrlPeriodoDeudaGen();
+		VentasM v = null; 
+		ArrayList<VentasM> error = new ArrayList<>();
+		double imp = 0;
+			
+		for(AuxAnDeudaCli a: lista) {
+			v = new VentasM();
+			imp = a.getIMPORTE() - a.getIMPORTEPAGADO();
+			if(imp < 0.01 ) { v.setPAGADO("S"); }
+			else { v.setPAGADO("N"); }
+			
+			imp = v.getA_CUENTA() + a.getIMPORTEPAGADO(); 
+			v.setA_CUENTA(imp);
+			
+			v.setPREFIJO(a.getNCOMP().substring(2,6));
+			v.setNCOMP(a.getNCOMP().substring(7));
+			v.setTCOMP("1");
+			v.setLETRA(a.getNCOMP().substring(0,1));
+			v.setCODCLI(a.getCODCLI());
 
+			if(cVentasM.modificaVentasMImporte(v) != true) { error.add(v); }
+			
+		}
+				
+		// Pongo en null las varaibles para liberar espacio
+		cVentasM = null;
+		cPeriodoGen = null; 
+		v = null; 
+				
+		return error;
+	}
+	
+	private ArrayList<Ctactecliente> actualizoCtaCte(ArrayList<AuxAnDeudaCli> lista, Date fecha, String nroRecibo) throws ApplicationException {
+		//declaro las variables que voy a usar
+		cCtacte = new CtrlCtactecliente();
+		Ctactecliente c = null; 
+		ArrayList<Ctactecliente> error = new ArrayList<>();
+			
+		for(AuxAnDeudaCli a: lista) {
+			nroRecibo = calculoRecibo(nroRecibo);
+			c = new Ctactecliente();
+			c.setCODCLI(a.getCODCLI());
+			c.setFMOV(fecha);
+			c.setTMOV("7");
+			c.setLCOMP(null);
+			c.setPCOMP(null);
+			c.setNCOMP(nroRecibo);
+			c.setFCOMPORIG(fecha);
+			c.setLCOMPORIG(a.getNCOMP().substring(0,1));
+			c.setPCOMPORIG(a.getNCOMP().substring(2,6));
+			c.setTCOMPORIG("1");
+			c.setNCOMPORIG(a.getNCOMP().substring(7));
+			c.setHABER(0);
+			c.setDEBE(a.getIMPORTEPAGADO());
+			
+			if(cCtacte.altaCtaCte(c) != true) { error.add(c); }
+		}
+				
+		// Pongo en null las varaibles para liberar espacio
+		cCtacte = null;
+		c = null; 
+				
+		return error;
+	}
+	
+	private String calculoRecibo(String nroRecibo) throws ApplicationException {
+		int nro = Integer.parseInt(nroRecibo);
+		nro = nro +1;
+		return Integer.toString(nro);
+	}
+	
+	private void cambiaLetraPeriodo(String p, String c) throws ApplicationException {
+		
+		//entra al metodo
+		cPeriodoGen = new CtrlPeriodoDeudaGen();
+		PeriodoDeudaGen pdg = cPeriodoGen.consultaPeriodoDeudaGen(p, c);
+		pdg.setRecibos_gen("S");
+		cPeriodoGen.modificaPeriodoDeudaGen(pdg);
+		
+		//anulo las variables
+		cPeriodoGen = null; 
+		pdg = null; 
+	}
+	
+	
 }
 
 /*

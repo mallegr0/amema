@@ -228,7 +228,7 @@ public class DataAuxAnDeudaCli {
 		ResultSet rs = null;
 		AuxAnDeudaCli a = null; 
 		ArrayList<AuxAnDeudaCli> lista = new ArrayList<>();
-		String sql = "SELECT * FROM auxandeudacli WHERE periodo = ? AND convenio = ? ORDER BY codcli";
+		String sql = "SELECT * FROM auxandeudacli WHERE periodo = ? AND convenio = ? AND importepagado > 0 ORDER BY codcli";
 		
 		try {
 			stmt = conn.prepareStatement(sql);
@@ -303,6 +303,46 @@ public class DataAuxAnDeudaCli {
 	}
 	
 	public ArrayList<AuxAnDeudaCli> listarAuxAnDeudaCliJubilados(String periodo, String convenio) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null;
+		AuxAnDeudaCli a = null; 
+		ArrayList<AuxAnDeudaCli> lista = new ArrayList<>();
+		String sql = "SELECT * FROM auxandeudacli WHERE periodo = ? AND convenio = ? AND importepagado = 0 ORDER BY codcli, analisis DESC";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, periodo);
+			stmt.setString(2, convenio);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					a = new AuxAnDeudaCli();
+					a.setCODCLI(rs.getString("codcli"));
+					a.setNOMCLI(rs.getString("nomcli"));
+					a.setTIPOMOV(rs.getString("tipomov"));
+					a.setFCOMP(rs.getDate("fcomp"));
+					a.setNCOMP(rs.getString("ncomp"));
+					a.setTCOMP(rs.getString("tcomp"));
+					a.setIMPORTE(rs.getDouble("importe"));
+					a.setNVIAJ(rs.getString("nviaj"));
+					a.setREF(rs.getString("ref"));
+					a.setCONVENIO(rs.getString("convenio"));
+					a.setANALISIS(rs.getInt("analisis"));
+					a.setPERIODO(rs.getString("periodo"));
+					a.setSALDO(rs.getString("saldo"));
+					a.setIMPORTEPAGADO(rs.getDouble("importepagado"));
+					lista.add(a);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista;
+	}
+	
+	public ArrayList<AuxAnDeudaCli> listarDeudoresPeriodoyConvenio(String convenio, String periodo) throws ApplicationException {
 		PreparedStatement stmt = null; 
 		ResultSet rs = null;
 		AuxAnDeudaCli a = null; 

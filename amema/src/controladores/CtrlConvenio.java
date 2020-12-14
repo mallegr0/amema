@@ -28,6 +28,11 @@ public class CtrlConvenio {
 		return dc.buscaDescripcion(cod);
 	}
 	
+	public Convenio consultaConvenio(String convenio) throws ApplicationException {
+		dc = new DataConvenio();
+		return dc.consultaConvenio(convenio);
+	}
+	
 	public ArrayList<Convenio> listarConvenio() throws ApplicationException {
 		dc = new DataConvenio();
 		return dc.listarConvenio();

@@ -58,4 +58,9 @@ public class CtrlAuxAnDeudaCli {
 		da = new DataAuxAnDeudaCli();
 		return da.listarAuxAnDeudaCliJubilados(periodo, convenio);
 	}
+	
+	public ArrayList<AuxAnDeudaCli> listarDeudoresPeriodoyConvenio(String convenio, String periodo) throws ApplicationException {
+		da = new DataAuxAnDeudaCli();
+		return da.listarDeudoresPeriodoyConvenio(convenio, periodo);
+	}
 }

@@ -11,13 +11,13 @@
 			<div class="w3-row w3-section">
 		  		<div class="w3-col" style="width:120px"><label>Password: </label></div>
 		    	<div class="w3-rest">
-		    		<input class="w3-input w3-border" name="password" type="password" minlength="6" maxlength="20" required>
+		    		<input class="w3-input w3-border" name="password" type="password" min="6" maxlength="20" required>
 		    	</div>
 			</div>
 			<div class="w3-row w3-section">
 		  		<div class="w3-col" style="width:120px"><label>Repite Password: </label></div>
 		    	<div class="w3-rest">
-		    		<input class="w3-input w3-border" name="password2" type="password" minlength="6" maxlength="20" required>
+		    		<input class="w3-input w3-border" name="password2" type="password" min="6" maxlength="20" required>
 		    	</div>
 			</div>
 			<div class="w3-row w3-section">

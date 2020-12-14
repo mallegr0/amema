@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import entidades.PeriodoDeudaGen;
 import util.ApplicationException;
@@ -83,7 +84,7 @@ public class DataPeriodoDeudaGen {
 	
 	public boolean modificaPeriodoDeudaGen(PeriodoDeudaGen p) throws ApplicationException {
 		PreparedStatement stmt = null; 
-		String sql = "UPDATE FROM periodosdeudagen SET anulado = ?, fecha_gen = ?, nroconv = ?, periodo = ?, "
+		String sql = "UPDATE periodosdeudagen SET anulado = ?, fecha_gen = ?, nroconv = ?, periodo = ?, "
 				+ "inform_ingresada = ?, recibos_gen = ?, fechahasta = ? WHERE nro_gen_deuda = ?";
 		
 		try {
@@ -108,17 +109,45 @@ public class DataPeriodoDeudaGen {
 		finally { cerrar(stmt, null); }
 	}
 	
-	public PeriodoDeudaGen consultaPeriodoDeudaGen(String periodo, String convenio) throws ApplicationException {
+	public int consultaNroDeudaPorPeriodoyConvenio(String periodo, String convenio, Date fecha) throws ApplicationException {
 		PreparedStatement stmt = null; 
 		ResultSet rs = null;
-		String sql = "SELECT * FROM periodosdeudagen WHERE nroconv = ? AND periodo = ?";
-		PeriodoDeudaGen p = null;
+		String sql = "SELECT nro_gen_deuda FROM periodosdeudagen WHERE nroconv = ? AND periodo = ? AND fecha_gen <= ?";
+		int nro = 0; 
 		
 		try {
 			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, convenio);
 			stmt.setString(2, periodo);
+			stmt.setDate(3, cambiaFecha(fecha));
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					nro = rs.getInt("nro_gen_deuda");
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, null); }
+		return nro;
+	}
+	
+	
+	public PeriodoDeudaGen consultaPeriodoDeudaGen(String periodo, String convenio) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null;
+		//String sql = "SELECT * FROM periodosdeudagen WHERE nroconv = ? AND periodo = ?";
+		String sql = "SELECT * FROM periodosdeudagen WHERE periodo = ? AND nroconv = ?";
+		PeriodoDeudaGen p = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+		
+			stmt.setString(1, periodo);
+			stmt.setString(2, convenio);
 			
 			rs = stmt.executeQuery();
 			

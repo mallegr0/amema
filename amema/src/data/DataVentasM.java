@@ -1,11 +1,11 @@
 package data;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import entidades.VentasM;
 import util.ApplicationException;
@@ -141,6 +141,53 @@ public class DataVentasM {
 	
 	
 	// modifica
+	public boolean modificaVentasMImporte(VentasM v) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "UPDATE ventasm SET a_cuenta = ?, pagado = ? WHERE prefijo = ? AND ncomp = ? AND tcomp = ? AND "
+				+ "letra = ? AND codcli = ?";		
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			
+			stmt.setDouble(1, v.getA_CUENTA());
+			stmt.setString(2, v.getPAGADO());
+			stmt.setString(3, v.getPREFIJO());
+			stmt.setString(4, v.getNCOMP());
+			stmt.setString(5, v.getTCOMP());
+			stmt.setString(6, v.getLETRA());
+			stmt.setString(7, v.getCODCLI());
+			
+			
+			int i = stmt.executeUpdate();
+			
+			if(i > 0) { return true; }
+			else { return false; }
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally { cerrar(stmt, null); }
+	}
+	
+	public boolean modificoLetraPagado(String comp) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "UPDATE ventasm SET pagado = 'S' WHERE ncomp = ?"; 
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, comp);
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else { return false; }
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false; 
+		}
+		finally { cerrar(stmt, null); }
+	}
+	
 	// consulta
 	public VentasM consultaVentaM(String comp) throws ApplicationException {
 		PreparedStatement stmt = null;
@@ -224,6 +271,53 @@ public class DataVentasM {
 			cerrar(stmt, rs);
 		}
 		return v;
+	}
+	
+	
+	public double obtengoImporte(String comp) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null; 
+		String sql = "SELECT subtotal FROM ventasm WHERE ncomp = ?"; 
+		double imp = 0.0;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, comp);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					imp = rs.getDouble("subtotal");
+				}
+			}
+		}
+		catch (SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return imp;
+	}
+	
+	public String obtengoCliente(String comp) throws ApplicationException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		String codcli = "";
+		String sql = "SELECT codcli FROM ventasm WHERE ncomp = ?"; 
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, comp);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					codcli = rs.getString("codcli");
+				}
+			}
+			
+		}
+		catch( SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return codcli; 
 	}
 
 	// lista
@@ -483,6 +577,176 @@ public class DataVentasM {
 		}
 		return lista;
 	}
+	
+	public ArrayList<VentasM> listarVentasMPendientes(String cod) throws ApplicationException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		VentasM v = null;
+		ArrayList<VentasM> lista = new ArrayList<>();
+		String sql = "SELECT * FROM VENTASM WHERE CODCLI = ? AND (TCOMP = '1' OR TCOMP ='4') AND PAGADO ='N' AND ANULADO = 'N'";
+
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, cod);
+			rs = stmt.executeQuery();
+
+			if (rs != null) {
+				while (rs.next()) {
+					v = new VentasM();
+					v.setPREFIJO(rs.getString("PREFIJO"));
+					v.setNCOMP(rs.getString("NCOMP"));
+					v.setTCOMP(rs.getString("TCOMP"));
+					v.setLETRA(rs.getString("LETRA"));
+					v.setCIA(rs.getString("CIA"));
+					v.setFMOV(rs.getDate("FMOV"));
+					v.setNFACC(rs.getString("NFACC"));
+					v.setCODCLI(rs.getString("CODCLI"));
+					v.setCVTO(rs.getString("CVTO"));
+					v.setTASA(rs.getDouble("TASA"));
+					v.setPAGADO(rs.getString("PAGADO"));
+					v.setANULADO(rs.getString("ANULADO"));
+					v.setPORAJUSTE(rs.getString("PORAJUSTE"));
+					v.setRECHAZADO(rs.getString("RECHAZADO"));
+					v.setPORDESCUEN(rs.getString("PORDESCUEN"));
+					v.setCERRADA(rs.getString("CERRADA"));
+					v.setREFERENCIA(rs.getString("REFERENCIA"));
+					v.setDIRECTA(rs.getString("DIRECTA"));
+					v.setCOMI_DIFE(rs.getString("COMI_DIFE"));
+					v.setFECVTO(rs.getDate("FECVTO"));
+					v.setPORDESCTO(rs.getDouble("PORDESCTO"));
+					v.setPORBONIF(rs.getDouble("PORBONIF"));
+					v.setCCOND_1(rs.getString("CCOND_1"));
+					v.setCCOND_2(rs.getString("CCOND_2"));
+					v.setCCOND_3(rs.getString("CCOND_3"));
+					v.setCCOND_4(rs.getString("CCOND_4"));
+					v.setNVIAJ(rs.getString("NVIAJ"));
+					v.setLIQUIDA(rs.getString("LIQUIDA"));
+					v.setLIQ_VIA(rs.getDouble("LIQ_VIA"));
+					v.setLIQ_TOT(rs.getDouble("LIQ_TOT"));
+					v.setNROPEDIDO(rs.getString("NROPEDIDO"));
+					v.setNROREMITO(rs.getString("NROREMITO"));
+					v.setNROPRESUP(rs.getString("NROPRESUP"));
+					v.setOBSERVAC(rs.getString("OBSERVAC"));
+					v.setDESPACHADO(rs.getString("DESPACHADO"));
+					v.setFLETE(rs.getDouble("FLETE"));
+					v.setSUBTOTAL(rs.getDouble("SUBTOTAL"));
+					v.setA_CUENTA(rs.getDouble("A_CUENTA"));
+					v.setA_CUENTAD(rs.getDouble("A_CUENTAD"));
+					v.setIMPPAG(rs.getDouble("IMPPAG"));
+					v.setIMPPAGD(rs.getDouble("IMPPAGD"));
+					v.setIMPDESCTO(rs.getDouble("IMPDESCTO"));
+					v.setIMPBONIF(rs.getDouble("IMPBONIF"));
+					v.setIMPIVA_1(rs.getDouble("IMPIVA_1"));
+					v.setIMPIVA_2(rs.getDouble("IMPIVA_2"));
+					v.setIMPIVA_3(rs.getDouble("IMPIVA_3"));
+					v.setTDOLAR(rs.getDouble("TDOLAR"));
+					v.setDOLAR(rs.getDouble("DOLAR"));
+					v.setTEXTO(rs.getDouble("TEXTO"));
+					v.setTEXTLIB(rs.getString("TEXLIB"));
+					v.setVA_DTO(rs.getString("VA_DTO"));
+					v.setCUENTA(rs.getString("CUENTA"));
+					v.setCPERS1(rs.getString("CPERS1"));
+					v.setCPERS2(rs.getString("CPERS2"));
+					v.setCPERS3(rs.getString("CPERS3"));
+					v.setANALISIS(rs.getString("ANALISIS"));
+					v.setNROMOVPLANIF(rs.getInt("NROMOVPLANIF"));
+					v.setOBSERV(rs.getString("OBSERV"));
+					v.setNROACTUALIZ(rs.getInt("NROACTUALIZ"));
+					lista.add(v);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			cerrar(stmt, rs);
+		}
+		return lista;
+	}
+	
+	public ArrayList<VentasM> listarVentasMporFecha(Date fecha) throws ApplicationException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		VentasM v = null;
+		ArrayList<VentasM> lista = new ArrayList<>();
+		String sql = "SELECT * FROM VENTASM WHERE FMOV = ? AND PAGADO ='N' AND ANULADO = 'N'";
+
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, cambiaFecha(fecha));
+			rs = stmt.executeQuery();
+
+			if (rs != null) {
+				while (rs.next()) {
+					v = new VentasM();
+					v.setPREFIJO(rs.getString("PREFIJO"));
+					v.setNCOMP(rs.getString("NCOMP"));
+					v.setTCOMP(rs.getString("TCOMP"));
+					v.setLETRA(rs.getString("LETRA"));
+					v.setCIA(rs.getString("CIA"));
+					v.setFMOV(rs.getDate("FMOV"));
+					v.setNFACC(rs.getString("NFACC"));
+					v.setCODCLI(rs.getString("CODCLI"));
+					v.setCVTO(rs.getString("CVTO"));
+					v.setTASA(rs.getDouble("TASA"));
+					v.setPAGADO(rs.getString("PAGADO"));
+					v.setANULADO(rs.getString("ANULADO"));
+					v.setPORAJUSTE(rs.getString("PORAJUSTE"));
+					v.setRECHAZADO(rs.getString("RECHAZADO"));
+					v.setPORDESCUEN(rs.getString("PORDESCUEN"));
+					v.setCERRADA(rs.getString("CERRADA"));
+					v.setREFERENCIA(rs.getString("REFERENCIA"));
+					v.setDIRECTA(rs.getString("DIRECTA"));
+					v.setCOMI_DIFE(rs.getString("COMI_DIFE"));
+					v.setFECVTO(rs.getDate("FECVTO"));
+					v.setPORDESCTO(rs.getDouble("PORDESCTO"));
+					v.setPORBONIF(rs.getDouble("PORBONIF"));
+					v.setCCOND_1(rs.getString("CCOND_1"));
+					v.setCCOND_2(rs.getString("CCOND_2"));
+					v.setCCOND_3(rs.getString("CCOND_3"));
+					v.setCCOND_4(rs.getString("CCOND_4"));
+					v.setNVIAJ(rs.getString("NVIAJ"));
+					v.setLIQUIDA(rs.getString("LIQUIDA"));
+					v.setLIQ_VIA(rs.getDouble("LIQ_VIA"));
+					v.setLIQ_TOT(rs.getDouble("LIQ_TOT"));
+					v.setNROPEDIDO(rs.getString("NROPEDIDO"));
+					v.setNROREMITO(rs.getString("NROREMITO"));
+					v.setNROPRESUP(rs.getString("NROPRESUP"));
+					v.setOBSERVAC(rs.getString("OBSERVAC"));
+					v.setDESPACHADO(rs.getString("DESPACHADO"));
+					v.setFLETE(rs.getDouble("FLETE"));
+					v.setSUBTOTAL(rs.getDouble("SUBTOTAL"));
+					v.setA_CUENTA(rs.getDouble("A_CUENTA"));
+					v.setA_CUENTAD(rs.getDouble("A_CUENTAD"));
+					v.setIMPPAG(rs.getDouble("IMPPAG"));
+					v.setIMPPAGD(rs.getDouble("IMPPAGD"));
+					v.setIMPDESCTO(rs.getDouble("IMPDESCTO"));
+					v.setIMPBONIF(rs.getDouble("IMPBONIF"));
+					v.setIMPIVA_1(rs.getDouble("IMPIVA_1"));
+					v.setIMPIVA_2(rs.getDouble("IMPIVA_2"));
+					v.setIMPIVA_3(rs.getDouble("IMPIVA_3"));
+					v.setTDOLAR(rs.getDouble("TDOLAR"));
+					v.setDOLAR(rs.getDouble("DOLAR"));
+					v.setTEXTO(rs.getDouble("TEXTO"));
+					v.setTEXTLIB(rs.getString("TEXLIB"));
+					v.setVA_DTO(rs.getString("VA_DTO"));
+					v.setCUENTA(rs.getString("CUENTA"));
+					v.setCPERS1(rs.getString("CPERS1"));
+					v.setCPERS2(rs.getString("CPERS2"));
+					v.setCPERS3(rs.getString("CPERS3"));
+					v.setANALISIS(rs.getString("ANALISIS"));
+					v.setNROMOVPLANIF(rs.getInt("NROMOVPLANIF"));
+					v.setOBSERV(rs.getString("OBSERV"));
+					v.setNROACTUALIZ(rs.getInt("NROACTUALIZ"));
+					lista.add(v);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			cerrar(stmt, rs);
+		}
+		return lista;
+	}
 
 	public String ultimoID() throws ApplicationException {
 		PreparedStatement stmt = null;
@@ -507,7 +771,7 @@ public class DataVentasM {
 	}
 	
 	private java.sql.Date cambiaFecha(java.util.Date fecha) throws ApplicationException {
-		java.sql.Date fec = new Date(fecha.getTime());
+		java.sql.Date fec = (java.sql.Date) new Date(fecha.getTime());
 		return fec;
 	}
 
