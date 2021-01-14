@@ -146,7 +146,7 @@ public class CobroSocio extends HttpServlet {
 	}
 
 	private void verDetalle(HttpServletRequest req) throws ApplicationException {
-		
+		System.out.println("veo detalles jajaj");
 	}
 	
 	private void eliminarPago(HttpServletRequest req) throws ApplicationException {
