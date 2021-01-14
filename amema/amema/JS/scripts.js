@@ -58,3 +58,7 @@ function abroModalSocio(id, socio){
 	}
 }
 
+function abrospinner(){
+	document.getElementById('spinner').style.display='block'; 
+}
+

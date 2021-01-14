@@ -1,5 +1,7 @@
 package controladores;
 
+import java.util.ArrayList;
+
 import data.DataPeriodoDeudaArch;
 import entidades.PeriodoDeudaArch;
 import util.ApplicationException;
@@ -31,6 +33,11 @@ public class CtrlPeriodoDeudaArch {
 	public PeriodoDeudaArch consultaPeriodoDeudaArchPorNombreArchivo(String nombre) throws ApplicationException {
 		dp = new DataPeriodoDeudaArch();
 		return dp.consultaPeriodoDeudaArchPorNombreArchivo(nombre);
+	}
+	
+	public ArrayList<PeriodoDeudaArch> ListarDatosPorPeriodoyConvenio(String convenio, String periodo) throws ApplicationException {
+		dp = new DataPeriodoDeudaArch();
+		return dp.ListarDatosPorPeriodoyConvenio(convenio, periodo);
 	}
 	
 }

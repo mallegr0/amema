@@ -118,6 +118,7 @@ public class IOMasivo extends HttpServlet {
 		String modo = req.getParameter("modo"); //Que tipo de archivo ingreso en forma masiva (1)
 		String nombre = ""; // Nombre de la ruta para mostrar y asignar a la tabla peridosGeneradosArch
 		df = new DecimalFormat("#0.00"); //formato para el importe
+
 		
 		if(ruta.substring(17).length() == 10) { nombre = ruta.substring(17,23); }
 		else { nombre = ruta.substring(17,44); }
@@ -222,15 +223,6 @@ public class IOMasivo extends HttpServlet {
 		
 		// Modifico la letra de genera recibos en la tabla
 		cambiaLetraPeriodo(periodo, convenio);
-		//Muestro los valores para ver porque me tira null
-		/*System.out.println("Periodo ingresado: "+periodo);
-		System.out.println("Convenio ingresado: "+convenio);
-		
-		PeriodoDeudaGen p = cPeriodoGen.consultaPeriodoDeudaGen(periodo, convenio);
-		
-		if(p == null) { System.out.println("no devuelve nada en la consulta a los periodos"); }
-		p.setRecibos_gen("S");
-		cPeriodoGen.modificaPeriodoDeudaGen(p);*/
 		
 		// Pongo en null los controladores para liberar espacio
 		cAuxCliente = null; 
@@ -320,7 +312,6 @@ public class IOMasivo extends HttpServlet {
 						
 						if(importe > 0) { d.setIMPORTEPAGADO(d.getIMPORTE()); }
 						if(importe <= 0) { d.setIMPORTEPAGADO(saldo); }
-
 						
 						if(cAuxCliente.modificaAuxAnDeudaCli(d) == false) { errores.add(d); }
 						if(importe > 0) { saldo = importe; }

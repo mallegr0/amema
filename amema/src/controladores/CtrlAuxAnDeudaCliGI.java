@@ -48,6 +48,6 @@ public class CtrlAuxAnDeudaCliGI {
 	
 	public ArrayList<AuxAnDeudaCliGI> listarDeudaTotal(String convenio, String periodo) throws ApplicationException {
 		daux = new DataAuxAnDeudaCliGI();
-		return daux.listarDeudaToal(convenio, periodo);
+		return daux.listarDeudaTotal(convenio, periodo);
 	}
 }

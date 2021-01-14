@@ -7,7 +7,7 @@
 	CtrlConvenio cc = new CtrlConvenio();
 	ArrayList<Convenio> convenios = cc.listarConvenio();
 %>
-<form action="/amema/GeneraInteres" method="post">
+<form action="/amema/GeneraIntereses" name="GeneraIntereses" method="post">
 	<div class="w3-container w3-padding w3-card-4">
 		<br>
 		<h3 class="w3-center w3-text-indigo"> Generar Intereses por Convenio </h3>

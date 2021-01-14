@@ -75,6 +75,25 @@
 						<a href="/amema/views/generaInteres.jsp" class="w3-bar-item w3-button">Genera Intereses</a>
 					</div>
 				</div>
+				<div class="w3-dropdown-click w3-hide-small">
+					<button class="w3-button" title="Generar Archivos"> Generar Archivo <i class="fas fa-angle-down"></i></button>
+					<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="left: 100px;">
+						<a href="/amema/views/generaTXT.jsp" class="w3-bar-item w3-button">Generar  Archivos de descuentos por Convenio</a>
+						<a href="/amema/views/periodosDeuda.jsp" class="w3-bar-item w3-button">Consultar Periodos de Deuda Generados</a>
+					</div>
+				</div>
+				<div class="w3-dropdown-click w3-hide-small">
+					<button class="w3-button" title="AnalisisDeuda"> Analisis de Deuda <i class="fas fa-angle-down"></i></button>
+					<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="left: 100px;">
+						<a href="/amema/views/analisisDeuda.jsp" class="w3-bar-item w3-button">Analisis de Deuda</a>
+					</div>
+				</div>
+				<div class="w3-dropdown-click w3-hide-small">
+					<button class="w3-button" title="Consultar cobro Socio"> Consultar Cobro a Socio <i class="fas fa-angle-down"></i></button>
+					<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="left: 100px;">
+						<a href="/amema/views/consultaCobroSocio.jsp" class="w3-bar-item w3-button">Consultar cobro a Socio</a>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="w3-dropdown-click">

@@ -216,7 +216,7 @@ public class DataAuxAnDeudaCliGI {
 		return lista; 
 	}
 	
-	public ArrayList<AuxAnDeudaCliGI> listarDeudaToal(String convenio, String periodo) throws ApplicationException {
+	public ArrayList<AuxAnDeudaCliGI> listarDeudaTotal(String convenio, String periodo) throws ApplicationException {
 		PreparedStatement stmt = null; 
 		ResultSet rs = null; 
 		AuxAnDeudaCliGI a = null; 

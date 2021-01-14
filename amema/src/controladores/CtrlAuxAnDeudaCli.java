@@ -24,9 +24,19 @@ public class CtrlAuxAnDeudaCli {
 		return da.bajaAuxAnDeudaCli(periodo);
 	}
 	
+	public boolean eliminaPeriodoyConvenio(String convenio, String periodo) throws ApplicationException {
+		da = new DataAuxAnDeudaCli();
+		return da.eliminaPeriodoyConvenio(convenio, periodo);
+	}
+	
 	public boolean modificaAuxAnDeudaCli(AuxAnDeudaCli a) throws ApplicationException {
 		da = new DataAuxAnDeudaCli();
 		return da.modificaAuxAnDeudaCli(a);
+	}
+	
+	public boolean hayDatosEnPeriodoyConvenio(String periodo, String convenio) throws ApplicationException {
+		da = new DataAuxAnDeudaCli();
+		return da.hayDatosEnPeriodoyConvenio(periodo, convenio);
 	}
 	
 	public ArrayList<AuxAnDeudaCli> listarAuxAnDeudaCli(String periodo) throws ApplicationException {
@@ -62,5 +72,10 @@ public class CtrlAuxAnDeudaCli {
 	public ArrayList<AuxAnDeudaCli> listarDeudoresPeriodoyConvenio(String convenio, String periodo) throws ApplicationException {
 		da = new DataAuxAnDeudaCli();
 		return da.listarDeudoresPeriodoyConvenio(convenio, periodo);
+	}
+	
+	public ArrayList<AuxAnDeudaCli> totalDeudaPeriodoyConvenio(String convenio, String periodo) throws ApplicationException {
+		da = new DataAuxAnDeudaCli();
+		return da.totalDeudaPeriodoyConvenio(convenio, periodo);
 	}
 }

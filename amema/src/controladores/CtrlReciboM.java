@@ -21,6 +21,31 @@ public class CtrlReciboM {
 		return drm.altaReciboM(rm);
 	}
 	
+	public boolean bajaReciboPorNroRecibo(String nro) throws ApplicationException {
+		drm = new DataReciboM();
+		return drm.bajaReciboPorNroRecibo(nro);
+	}
+	
+	public boolean modificaActa(double acta, String comp, String tcomp, String codcli) throws ApplicationException {
+		drm = new DataReciboM();
+		return drm.modificaActa(acta, comp, tcomp, codcli);
+	}
+	
+	public ReciboM consultaRecibo(String nroRecibo) throws ApplicationException {
+		drm = new DataReciboM();
+		return drm.consultaRecibo(nroRecibo);
+	}
+	
+	public ReciboM consultaReciboPorNroyPrefijo(String prefijo, String nroRecibo) throws ApplicationException {
+		drm = new DataReciboM();
+		return drm.consultaReciboPorNroyPrefijo(prefijo, nroRecibo);
+	}
+	
+	public ReciboM consultaReciboPorTipo(String nroRecibo, String tRecibo) throws ApplicationException {
+		drm = new DataReciboM();
+		return drm.consultaReciboPorTipo(nroRecibo, tRecibo);
+	}
+	
 	public ArrayList<ReciboM> listarRecibosM() throws ApplicationException {
 		drm = new DataReciboM();
 		return drm.listarRecibosM();

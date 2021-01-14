@@ -38,6 +38,11 @@ public class CtrlVentasM {
 		return dvm.consultaVentaM(comp);
 	}
 	
+	public VentasM consultaVentaPorTipoComp(String comprobante, String tcomprobante) throws ApplicationException {
+		dvm = new DataVentasM(); 
+		return dvm.consultaVentaPorTipoComp(comprobante, tcomprobante);
+	}
+	
 	public boolean modificoLetraPagado(String comp) throws ApplicationException {
 		dvm = new DataVentasM();
 		return dvm.modificoLetraPagado(comp);
@@ -76,6 +81,16 @@ public class CtrlVentasM {
 	public ArrayList<VentasM> listarVentasMporFecha(Date fecha) throws ApplicationException {
 		dvm = new DataVentasM();
 		return dvm.listarVentasMporFecha(fecha);
+	}
+	
+	public ArrayList<VentasM> listarVentasParatablaAux(String convenio, Date fecha) throws ApplicationException {
+		dvm = new DataVentasM();
+		return dvm.listarVentasParatablaAux(convenio, fecha);
+	}
+	
+	public ArrayList<VentasM> listarDeudasPorSocio(String codcli) throws ApplicationException {
+		dvm = new DataVentasM();
+		return dvm.listarDeudasPorSocio(codcli);
 	}
 	
 	public String ultimoID() throws ApplicationException {

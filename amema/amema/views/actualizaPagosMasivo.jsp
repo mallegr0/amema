@@ -69,10 +69,7 @@
 				var ruta = "C:/Municipalidad/"+nombre.substring(12);
 				document.getElementById("ruta").value = ruta;
 			}
-			
-			function abrospinner(){
-				document.getElementById('spinner').style.display='block'; 
-			}
+
 		</script>
 
 		<% 

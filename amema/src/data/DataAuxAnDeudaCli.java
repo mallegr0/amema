@@ -85,6 +85,25 @@ public class DataAuxAnDeudaCli {
 		finally { cerrar(stmt, null); }
 	}
 	
+	public boolean eliminaPeriodoyConvenio(String convenio, String periodo) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "DELETE FROM auxandeudacli WHERE periodo = ? AND convenio = ?";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, periodo);
+			stmt.setString(2, convenio);
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else { return false; }
+		}
+		catch( SQLException e) {
+			e.printStackTrace();
+			return false; 
+		}
+		finally { cerrar(stmt, null); }
+	}
+	
 	public boolean modificaAuxAnDeudaCli(AuxAnDeudaCli a) throws ApplicationException {
 		PreparedStatement stmt = null; 
 		String sql = "UPDATE auxandeudacli SET importepagado = ? WHERE ncomp = ?";
@@ -102,6 +121,26 @@ public class DataAuxAnDeudaCli {
 			return false; 
 		}
 		finally { cerrar(stmt, null); }
+	}
+	
+	public boolean hayDatosEnPeriodoyConvenio(String periodo, String convenio) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null; 
+		String sql = "SELECT * FROM auxandeudacli WHERE periodo = ? AND convenio = ?"; 
+		boolean rta = false;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, periodo);
+			stmt.setString(2, convenio);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) { rta = true; }
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return rta;
 	}
 	
 	public ArrayList<AuxAnDeudaCli> listarAuxAnDeudaCli(String periodo) throws ApplicationException {
@@ -373,6 +412,34 @@ public class DataAuxAnDeudaCli {
 					a.setPERIODO(rs.getString("periodo"));
 					a.setSALDO(rs.getString("saldo"));
 					a.setIMPORTEPAGADO(rs.getDouble("importepagado"));
+					lista.add(a);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista;
+	}
+	
+	public ArrayList<AuxAnDeudaCli> totalDeudaPeriodoyConvenio(String convenio, String periodo) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null;
+		AuxAnDeudaCli a = null; 
+		ArrayList<AuxAnDeudaCli> lista = new ArrayList<>();
+		String sql = "SELECT codcli, SUM(importe) AS deuda FROM auxandeudacli WHERE convenio = ? AND periodo = ? AND importepagado = 0 GROUP BY codcli";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, convenio);
+			stmt.setString(2, periodo);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					a = new AuxAnDeudaCli();
+					a.setCODCLI(rs.getString("codcli"));
+					a.setIMPORTE(rs.getDouble("deuda"));
 					lista.add(a);
 				}
 			}

@@ -41,6 +41,11 @@ public class CtrlPeriodoDeudaGen {
 		dpg = new DataPeriodoDeudaGen();
 		return dpg.consultaNroDeudaPorPeriodoyConvenio(periodo, convenio, fecha);
 	}
+	
+	public PeriodoDeudaGen consultaDatosPeriodoPorNro(int nroDeuda) throws ApplicationException {
+		dpg = new DataPeriodoDeudaGen();
+		return dpg.consultaDatosPeriodoPorNro(nroDeuda);
+	}
 		
 	public ArrayList<PeriodoDeudaGen> listarPeriodoDeudaGen() throws ApplicationException {
 		dpg = new DataPeriodoDeudaGen();

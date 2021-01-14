@@ -3,20 +3,22 @@ package pruebas;
 
 import java.util.ArrayList;
 
-import controladores.CtrlGaranteMovFijo;
-import entidades.GaranteMovFijo;
+import controladores.CtrlAuxAnDeudaCli;
+import entidades.AuxAnDeudaCli;
 import util.ApplicationException;
+
 
 public class Prueba {
 
 	public static void main(String[] args) {
-		CtrlGaranteMovFijo cg = new CtrlGaranteMovFijo();
+		CtrlAuxAnDeudaCli a = new CtrlAuxAnDeudaCli();
+		ArrayList<AuxAnDeudaCli> listado = new ArrayList<AuxAnDeudaCli>();
 		
 		try {
-			ArrayList<GaranteMovFijo> l = cg.listarGarantesPorMovimientos(18037);
-			
-			if(l == null) { System.out.println("no hay nada"); }
-			else {System.out.println("hay algo");}
-		} catch (ApplicationException e) {e.printStackTrace();
-		}
-	}}
+			listado = a.totalDeudaPeriodoyConvenio("20", "062020");
+			for(AuxAnDeudaCli l: listado) {
+				System.out.println(l.getCODCLI()+" - "+l.getIMPORTE());
+			}
+		} catch (ApplicationException e) { e.printStackTrace(); } 
+	}
+}

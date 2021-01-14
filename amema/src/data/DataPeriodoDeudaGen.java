@@ -170,6 +170,38 @@ public class DataPeriodoDeudaGen {
 		return p;
 	}
 	
+	public PeriodoDeudaGen consultaDatosPeriodoPorNro(int nroDeuda) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null;
+		String sql = "SELECT * FROM periodosdeudagen WHERE nro_gen_deuda = ?";
+		PeriodoDeudaGen p = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+		
+			stmt.setInt(1, nroDeuda);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					p = new PeriodoDeudaGen();
+					p.setNro_gen_deuda(rs.getInt("nro_gen_deuda"));
+					p.setAnulado(rs.getString("anulado"));
+					p.setFecha_gen(rs.getDate("fecha_gen"));
+					p.setNroconv(rs.getString("nroconv"));
+					p.setPeriodo(rs.getString("periodo"));
+					p.setInform_ingresada(rs.getString("inform_ingresada"));
+					p.setRecibos_gen(rs.getString("recibos_gen"));
+					p.setFechaHasta(rs.getDate("fechahasta"));
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, null); }
+		return p;
+	}
+	
 	public ArrayList<String> listarPeriodos() throws ApplicationException {
 		PreparedStatement stmt = null; 
 		ResultSet rs = null;
@@ -229,7 +261,7 @@ public class DataPeriodoDeudaGen {
 	public int ultimoID() throws ApplicationException {
 		PreparedStatement stmt = null; 
 		ResultSet rs = null; 
-		String sql = "SELECT MAX(nro_gen_deuda) FROM periodosdeudagen";
+		String sql = "SELECT MAX(nro_gen_deuda) AS nro FROM periodosdeudagen";
 		int nro = 0;
 		
 		try {
@@ -239,7 +271,7 @@ public class DataPeriodoDeudaGen {
 			
 			if(rs != null) {
 				while(rs.next()) {
-					nro = rs.getInt("nro_gen_deuda");
+					nro = rs.getInt("nro");
 				}
 			}
 		}

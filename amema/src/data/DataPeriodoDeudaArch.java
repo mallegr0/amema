@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import entidades.PeriodoDeudaArch;
 import util.ApplicationException;
@@ -110,5 +111,31 @@ public class DataPeriodoDeudaArch {
 		catch(SQLException e) { e.printStackTrace(); }
 		finally { cerrar(stmt, rs); }
 		return p;
+	}
+	
+	public ArrayList<PeriodoDeudaArch> ListarDatosPorPeriodoyConvenio(String convenio, String periodo) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null; 
+		PeriodoDeudaArch p = null;
+		ArrayList<PeriodoDeudaArch> lista = new ArrayList<>();
+		String sql = "SELECT * FROM periodosdeudaarch WHERE nroconv = ? AND periodo = ?";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, convenio);
+			stmt.setString(2, periodo);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					p = new PeriodoDeudaArch(rs.getInt("nro_gen_deuda"), rs.getString("nroconv"), rs.getString("periodo"), rs.getString("nomb_archivo"));
+					lista.add(p);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista;
 	}
 }

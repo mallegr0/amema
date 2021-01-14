@@ -1,4 +1,6 @@
 <%@page import="entidades.VentasM"%>
+<%@page import="entidades.Cliente"%>
+<%@page import="java.util.ArrayList" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -14,7 +16,7 @@
 		<%@ include file="menu.jsp"%>
 		<div class="w3-container w3-padding-64">
 			<!-- AREA DE BUSQUEDA -->
-			<%@ include file="../forms/pagosSocio/buscaSocio.jsp"%>
+			<%@ include file="../forms/socio/buscaSocioForm.jsp"%>
 			<% 
 			Cliente cli = (Cliente) request.getSession().getAttribute("socio");
 			   if(cli != null){%>

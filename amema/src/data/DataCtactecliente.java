@@ -115,6 +115,24 @@ public class DataCtactecliente {
 		}
 		finally { cerrar(stmt, null); }
 	}
+	
+	public Boolean bajaCtaCtePorComprobante(String comprobante) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "DELETE FROM CTACTECLI WHERE NCOMP = ?";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, comprobante);
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else { return false; }
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally { cerrar(stmt, null); }
+	}
 
 	public Boolean modificaCtaCte(Ctactecliente c) throws ApplicationException {
 		PreparedStatement stmt = null; 

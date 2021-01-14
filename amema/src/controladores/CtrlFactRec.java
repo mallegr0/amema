@@ -51,5 +51,10 @@ public class CtrlFactRec {
 		dfr = new DataFactRec();
 		return dfr.listarFacturasPorFechaySocio(fecha, codcli);
 	}
+	
+	public ArrayList<FactRec> listarFacturasPorNroRecibo(String nroRecibo) throws ApplicationException {
+		dfr = new DataFactRec();
+		return dfr.listarFacturasPorNroRecibo(nroRecibo);
+	}
 }
 

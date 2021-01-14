@@ -70,7 +70,7 @@ public class DataConvenio {
 		
 		try {
 			stmt = conn.prepareStatement(sql);
-			
+			stmt.setString(1, convenio);
 			rs = stmt.executeQuery();
 			
 			if(rs != null) {
