@@ -228,11 +228,14 @@ public class IOMasivo extends HttpServlet {
 		cAuxCliente = null; 
 		cPeriodoGen = null;
 		
+		//Valido para devolver el mensaje
+		
 		//Inicializo las variables de sesion para devolver los errores
 		req.getSession().setAttribute("erecibos", eRecibos);
 		req.getSession().setAttribute("efacturas", eFacturas);
 		req.getSession().setAttribute("eventasm", eVentasM);
 		req.getSession().setAttribute("ectacte", eCtacte);
+		req.getSession().setAttribute("mensaje", "Se han generado correctamente los recibos");
 	}
 	
 	

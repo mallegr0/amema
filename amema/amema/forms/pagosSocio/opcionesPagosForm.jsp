@@ -18,7 +18,7 @@
 	CtrlCliente cCliente = new CtrlCliente();
 			
 	if(rec != null){
-		txtRecibo = rec.getTRECIBO()+" - "+rec.getNRECIBO();
+		txtRecibo = rec.getPREFIJO()+" - "+rec.getNRECIBO();
 		txtTipoPago = rec.getTRECIBO();
 		fecImputacion = format.format(rec.getFRECIBO());
 		Cliente cli = cCliente.consultaCliente(rec.getCODCLI()); 

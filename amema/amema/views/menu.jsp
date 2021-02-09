@@ -52,7 +52,7 @@
 					<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="left: 100px;">
 						<a href="/amema/views/buscamovfijos.jsp" class="w3-bar-item w3-button">Grabar Movimientos Fijos</a>
 						<a href="/amema/views/actualizaMovFijos.jsp" class="w3-bar-item w3-button">Actualización de Movimientos Fijos</a>
-						<a href="/amema/views/eliminaMovFijos.jsp" class="w3-bar-item w3-button">Eliminación de Movimientos Fijos</a>
+						<a href="/amema/views/eliminaMovFijos.jsp" class="w3-bar-item w3-button">Baja de Movimientos Fijos</a>
 					</div>
 				</div>
 				<div class="w3-dropdown-click w3-hide-small">
@@ -94,6 +94,13 @@
 						<a href="/amema/views/consultaCobroSocio.jsp" class="w3-bar-item w3-button">Consultar cobro a Socio</a>
 					</div>
 				</div>
+				<div class="w3-dropdown-click w3-hide-small">
+					<button class="w3-button" title="Listados"> Listados <i class="fas fa-angle-down"></i></button>
+					<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="left: 100px;">
+						<a href="/amema/views/analisisSaldo.jsp" class="w3-bar-item w3-button">Analisis de Saldos de Socio</a>
+						<a href="/amema/views/reporteMovFijos.jsp" class="w3-bar-item w3-button">Reportes Movimientos Fijos por Período</a>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="w3-dropdown-click">
@@ -102,7 +109,12 @@
 				<a href="/amema/views/buscactactes.jsp" class="w3-bar-item w3-button">Cuenta Corriente</a>
 			</div>
 		</div>
-		
+		<div class="w3-dropdown-click">
+			<button class="w3-button" title="Convenios">Convenio <i class="fas fa-angle-down"></i></button>     
+			<div id="menu" class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide">
+				<a href="/amema/views/convenio.jsp" class="w3-bar-item w3-button">Convenio</a>
+			</div>
+		</div>
 		<div class="w3-dropdown-click w3-hide-small">
 			<button class="w3-button" title="usuarios">Usuarios <i class="fas fa-angle-down"></i></button>     
 			<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide">
@@ -133,3 +145,12 @@
 </div>
 
 
+<%@ include file="../modal/socio/modalCambioPass.jsp"%>
+
+<script>
+	function abroModalUsuario(id, usuario){
+		document.getElementById(id).style.display='block';
+		document.getElementById("user").value = usuario;
+	}
+
+</script>

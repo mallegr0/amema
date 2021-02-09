@@ -28,12 +28,95 @@ public class DataConvenio {
 		} catch (Exception e) { e.printStackTrace();}
 	}
 	
+	//METODOS PUBLICOS
 	
 	//alta
 	
+	public boolean altaConvenio(Convenio c) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "INSERT INTO convta (ccond, descond, conc1, conc2, conc3, tope1, tope2, tope3, "
+				+ "genint, tasaint, codartint, ingcobro) VALUES "
+				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, c.getCCOND());
+			stmt.setString(2, c.getDESCOND());
+			stmt.setString(3, c.getConc1());
+			stmt.setString(4, c.getConc2());
+			stmt.setString(5, c.getConc3());
+			stmt.setDouble(6, c.getTope1());
+			stmt.setDouble(7, c.getTope2());
+			stmt.setDouble(8, c.getTope3());
+			stmt.setString(9, c.getGenInt());
+			stmt.setDouble(10, c.getTasaInt());
+			stmt.setString(11, c.getCODARTINT());
+			stmt.setString(12, c.getIngCobro());
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else { return false; }
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false; 
+		}
+		finally { cerrar(stmt, null); }
+	}
+	
 	//baja
 	
+	public boolean bajaConvenioPorCodigo(String codigo) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "DELETE FROM convta WHERE ccond = ?"; 
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, codigo);
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else { return false; }
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally { cerrar(stmt, null); }
+	}
+	
+	
 	//modificacion
+	
+	public boolean modificaConvenio(Convenio c) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		String sql = "UPDATE convta SET descond = ?, conc1 = ?, conc2 = ?, conc3 = ?, tope1 = ?, "
+				+ "tope2 = ?, tope3 = ?, genint = ?, tasaint = ?, codartint = ?, ingcobro = ?"
+				+ "WHERE ccond = ?"; 
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, c.getDESCOND());
+			stmt.setString(2, c.getConc1());
+			stmt.setString(3, c.getConc2());
+			stmt.setString(4, c.getConc3());
+			stmt.setDouble(5, c.getTope1());
+			stmt.setDouble(6, c.getTope2());
+			stmt.setDouble(7, c.getTope3());
+			stmt.setString(8, c.getGenInt());
+			stmt.setDouble(9, c.getTasaInt());
+			stmt.setString(10, c.getCODARTINT());
+			stmt.setString(11, c.getIngCobro());
+			stmt.setString(12, c.getCCOND());
+			
+			if(stmt.executeUpdate() > 0) { return true; }
+			else { return false; }
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false; 
+		}
+		finally { cerrar(stmt, null); }		
+	}
+	
 	
 	//consulta
 	

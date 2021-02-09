@@ -52,6 +52,7 @@
 					<tbody>
 						<% for(Familia f : listaFlias){%>
 							<tr class="w3-hover-light-blue">
+								<td><%=f.getCFAMI() %></td>
 								<td><%=f.getNFAMI() %></td>
 								<td><%=f.getBFAMI() %></td>
 								<td><a href="../forms/producto/modificaProductoForm.jsp?id=<%=f.getCFAMI()%>" class="fas fa-edit w3-button w3-hover-indigo w3-text-blue" ></a></td>

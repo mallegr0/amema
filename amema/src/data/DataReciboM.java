@@ -519,7 +519,7 @@ public class DataReciboM {
 		ResultSet rs = null; 
 		ReciboM rm = null; 
 		String sql = "SELECT * FROM recibosm WHERE prefijo = ? AND nrecibo = ?";
-		
+
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, prefijo);

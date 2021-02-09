@@ -93,6 +93,16 @@ public class CtrlVentasM {
 		return dvm.listarDeudasPorSocio(codcli);
 	}
 	
+	public ArrayList<VentasM> listarAnalisisDeuda() throws ApplicationException {
+		dvm = new DataVentasM();
+		return dvm.listarAnalisisDeuda();
+	}
+	
+	public ArrayList<VentasM> listarAnalisisDeudaConvenio(String convenio) throws ApplicationException {
+		dvm = new DataVentasM();
+		return dvm.listarAnalisisDeudaConvenio(convenio);
+	}
+	
 	public String ultimoID() throws ApplicationException {
 		dvm = new DataVentasM();
 		return dvm.ultimoID();

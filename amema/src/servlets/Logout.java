@@ -28,7 +28,7 @@ public class Logout extends HttpServlet {
 		
 		if(session.getAttribute("usuarioActivo") != null) {
 			session.invalidate();
-			String msg = "Se ha desconectado correctamente!!";
+			String msg = "siLogout";
 			request.setAttribute("msg", msg);
 			request.getRequestDispatcher("/").forward(request, response);
 		}

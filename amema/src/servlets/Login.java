@@ -57,7 +57,8 @@ public class Login extends HttpServlet {
 				}
 				else {
 					session.removeAttribute("usuarioActivo");
-					msg = "El usuario o la Contraseña es incorrecta!!";
+					msg = "noPass"; 
+					//msg = "El usuario o la Contraseña es incorrecta!!";
 					request.setAttribute("msg", msg);
 					RequestDispatcher rd = request.getRequestDispatcher("/");
 					rd.forward(request, response);

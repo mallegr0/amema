@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>AMEMA web - Eliminación de Movimientos Fijos</title>
+	<title>AMEMA web - Baja de Movimientos Fijos</title>
 	<%@ include file="../meta/metadata.jsp"%>
 </head>
 <body>

@@ -73,70 +73,54 @@
 				</table>
 				<br>
 				<div class="w3-container w3-padding">
-					<p>
-						<div class="w3-container w3-padding w3-quarter">
-							<label class="w3-text-indigo w3-light-gray"><strong>Total Adeudado ........... $</strong></label>
-						</div>
-						<div class="w3-container w3-padding w3-rest">
-							<input type="text" value="<%=df.format(st)%>">
-						</div>
-					</p>
-					<p>
-						<div class="w3-container w3-padding w3-quarter">
-							<label class="w3-text-indigo"><strong>Anticipos no aplicados ... $</strong></label>
-						</div>
-						<div class="w3-container w3-padding w3-rest">
-							<input type="text" value="0.00">
-						</div>
-					</p>
-					<p>
-						<div class="w3-container w3-padding w3-quarter">
-							<label class="w3-text-indigo"><strong>Créditos no Desc ......... $</strong></label>
-						</div>
-						<div class="w3-container w3-padding w3-rest">
-							<input type="text" value="0.00">
-						</div>
-					</p>
-					<p>
-						<div class="w3-container w3-padding w3-quarter">
-							<label class="w3-text-indigo"><strong>Constancias de retencion . $</strong></label>
-						</div>
-						<div class="w3-container w3-padding w3-rest">
-							<input type="text" value="0.00">
-						</div>
-					</p>
-					<p>
-						<div class="w3-container w3-padding w3-quarter">
-							<label class="w3-text-indigo w3-light-gray"><strong>Saldo .................... $</strong></label>
-						</div>
-						<div class="w3-container w3-padding w3-rest">
-							<input type="text" value="<%=df.format(st)%>">
-						</div>
-					</p>
-					<p>
-						<div class="w3-container w3-padding w3-quarter">
-							<label class="w3-text-indigo"><strong>Cheques diferidos ........ $</strong></label>
-						</div>
-						<div class="w3-container w3-padding w3-rest">
-							<input type="text" value="0.00"> 
-						</div>
-					</p>
-					<p>
-						<div class="w3-container w3-padding w3-quarter">
-							<label class="w3-text-indigo w3-pale-yellow"><strong>Crédito máx. permitidos .. $</strong></label>
-						</div>
-						<div class="w3-container w3-padding w3-rest">
-							<input type="text" value="0.00">
-						</div>
-					</p>
-					<p>
-						<div class="w3-container w3-padding w3-quarter">
-							<label class="w3-text-indigo w3-light-gray"><strong>Excendencia de crédito ........ $</strong></label>
-						</div>
-						<div class="w3-container w3-padding w3-rest">
-							<input type="text" value="<%=df.format(st)%>">
-						</div>
-					</p>
+					<div class="w3-container w3-padding w3-quarter">
+						<label class="w3-text-indigo w3-light-gray"><strong>Total Adeudado ........... $</strong></label>
+					</div>
+					<div class="w3-container w3-padding w3-rest">
+						<input type="text" value="<%=df.format(st)%>">
+					</div>
+					<div class="w3-container w3-padding w3-quarter">
+						<label class="w3-text-indigo"><strong>Anticipos no aplicados ... $</strong></label>
+					</div>
+					<div class="w3-container w3-padding w3-rest">
+						<input type="text" value="0.00">
+					</div>
+					<div class="w3-container w3-padding w3-quarter">
+						<label class="w3-text-indigo"><strong>Créditos no Desc ......... $</strong></label>
+					</div>
+					<div class="w3-container w3-padding w3-rest">
+						<input type="text" value="0.00">
+					</div>
+					<div class="w3-container w3-padding w3-quarter">
+						<label class="w3-text-indigo"><strong>Constancias de retencion . $</strong></label>
+					</div>
+					<div class="w3-container w3-padding w3-rest">
+						<input type="text" value="0.00">
+					</div>
+					<div class="w3-container w3-padding w3-quarter">
+						<label class="w3-text-indigo w3-light-gray"><strong>Saldo .................... $</strong></label>
+					</div>
+					<div class="w3-container w3-padding w3-rest">
+						<input type="text" value="<%=df.format(st)%>">
+					</div>
+					<div class="w3-container w3-padding w3-quarter">
+						<label class="w3-text-indigo"><strong>Cheques diferidos ........ $</strong></label>
+					</div>
+					<div class="w3-container w3-padding w3-rest">
+						<input type="text" value="0.00"> 
+					</div>
+					<div class="w3-container w3-padding w3-quarter">
+						<label class="w3-text-indigo w3-pale-yellow"><strong>Crédito máx. permitidos .. $</strong></label>
+					</div>
+					<div class="w3-container w3-padding w3-rest">
+						<input type="text" value="0.00">
+					</div>
+					<div class="w3-container w3-padding w3-quarter">
+						<label class="w3-text-indigo w3-light-gray"><strong>Excendencia de crédito ........ $</strong></label>
+					</div>
+					<div class="w3-container w3-padding w3-rest">
+						<input type="text" value="<%=df.format(st)%>">
+					</div>
 				</div>
 			</div>
 			<br>

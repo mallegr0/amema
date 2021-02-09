@@ -905,7 +905,78 @@ public class DataVentasM {
 		finally { cerrar(stmt, rs); }
 		return lista; 
 	}
-
+	
+	public ArrayList<VentasM> listarAnalisisDeuda() throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null; 
+		ArrayList<VentasM> lista = new ArrayList<>();
+		VentasM v = null; 
+		String sql = "SELECT codcli, ncomp, fmov, subtotal, a_cuenta, tcomp, letra, prefijo, referencia, texlib FROM ventasm "
+				+ "WHERE (tcomp = '1' OR tcomp = '4') AND pagado = 'N' AND anulado = 'N' AND subtotal > 0 "
+				+ "AND (subtotal > a_cuenta OR a_cuenta IS NULL)";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentasM();
+					v.setCODCLI(rs.getString("codcli"));
+					v.setNCOMP(rs.getString("ncomp"));
+					v.setFMOV(rs.getDate("fmov"));
+					v.setSUBTOTAL(rs.getDouble("subtotal"));
+					v.setA_CUENTA(rs.getDouble("a_cuenta"));
+					v.setTCOMP(rs.getString("tcomp"));
+					v.setLETRA(rs.getString("letra"));
+					v.setPREFIJO(rs.getString("prefijo"));
+					v.setREFERENCIA(rs.getString("referencia"));
+					v.setTEXTLIB(rs.getString("texlib"));
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista;
+	}
+	
+	public ArrayList<VentasM> listarAnalisisDeudaConvenio(String convenio) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null; 
+		ArrayList<VentasM> lista = new ArrayList<>();
+		VentasM v = null; 
+		String sql = "SELECT codcli, ncomp, fmov, subtotal, a_cuenta, tcomp, letra, prefijo, referencia, texlib FROM ventasm "
+				+ "WHERE (tcomp = '1' OR tcomp = '4') AND pagado = 'N' AND anulado = 'N' AND subtotal > 0 "
+				+ "AND (subtotal > a_cuenta OR a_cuenta IS NULL) AND ccond_1 = ?";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setNString(1, convenio);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentasM();
+					v.setCODCLI(rs.getString("codcli"));
+					v.setNCOMP(rs.getString("ncomp"));
+					v.setFMOV(rs.getDate("fmov"));
+					v.setSUBTOTAL(rs.getDouble("subtotal"));
+					v.setA_CUENTA(rs.getDouble("a_cuenta"));
+					v.setTCOMP(rs.getString("tcomp"));
+					v.setLETRA(rs.getString("letra"));
+					v.setPREFIJO(rs.getString("prefijo"));
+					v.setREFERENCIA(rs.getString("referencia"));
+					v.setTEXTLIB(rs.getString("texlib"));
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista;
+	}
+	
 	public String ultimoID() throws ApplicationException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -927,6 +998,5 @@ public class DataVentasM {
 		}
 		return r;
 	}
-
 	
 }

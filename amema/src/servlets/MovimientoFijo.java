@@ -355,10 +355,15 @@ public class MovimientoFijo extends HttpServlet {
 	private void bajaMovimiento(HttpServletRequest req, HttpServletResponse res) throws ApplicationException, IOException {
 		// Creo las variables que necesito
 		int nromov = Integer.parseInt(req.getParameter("codigo"));
-		String msj = "";
-		String codcli = "";
-		cVentas = new CtrlVenta();
+		String msj, codcli; 
 		
+		
+		cVentas = new CtrlVenta();
+		cCliente = new CtrlCliente();
+		Cliente cli = null; 
+		
+		
+		System.out.println("NRO MOV "+nromov);
 		//Recupero el codigo de cliente asociado al movimiento
 		codcli = cVentas.consultarClientePorNroMov(nromov);
 		
@@ -366,14 +371,16 @@ public class MovimientoFijo extends HttpServlet {
 		//Realizo la baja y pregunto si salio todo bien, y de eso depende el mensaje que voy a mostrar en pantalla
 		if(cVentas.bajaVenta(nromov) == true) { msj = "siBaja"; }
 		else { msj = "noBaja"; }
+		
+		cli = cCliente.consultaCliente(codcli);
 	
 		//Finalizo las variables
 		cVentas = null;
-		
+		cCliente = null; 
 		
 		//devuelvo los valores.
 		req.getSession().setAttribute("msj", msj);
-		muestraDatos(req, res, cCliente.consultaCliente(codcli));
+		muestraDatos(req, res, cli);
 	}
 	
 	private void modificaMovimiento(HttpServletRequest req, HttpServletResponse res) throws ApplicationException, ParseException, IOException {

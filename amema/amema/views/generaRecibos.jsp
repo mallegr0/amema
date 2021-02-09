@@ -22,6 +22,7 @@
 		
 		<!-- Cuerpo -->
 		<div class="w3-container w3-padding-64">
+			
 			<div class="w3-container w3-padding w3-card-4">
 				<%@include file="../forms/actualizacionesPagos/generaRecibosForm.jsp"%>
 			</div>

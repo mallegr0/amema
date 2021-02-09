@@ -21,6 +21,8 @@
 			else {%> 
 			<br>
 			<%@ include file="../forms/pagosSocio/consultaCobroSocioForm.jsp"%> <%}%>
+			
+			<%@ include file="../errores/errConsultaCobro.jsp"%>
 			<br>
 			<%@ include file="../forms/pagosSocio/opcionesPagosForm.jsp"%>
 		</div>

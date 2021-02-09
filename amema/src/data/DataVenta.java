@@ -5,9 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 
 import entidades.Venta;
+import entidades.VentaReporte;
 import util.ApplicationException;
 
 public class DataVenta {
@@ -554,6 +555,547 @@ public class DataVenta {
 		finally { cerrar(stmt, rs);	}
 		return id;
 	}
+	
+	public ArrayList<VentaReporte> listarAmbosUnaFlia(Date fd, Date fh, String fam1) throws ApplicationException {
+		//variables
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<VentaReporte> lista = new ArrayList<>();
+		VentaReporte v = null; 
+		String sql = "SELECT CLIENTES.CPCCP AS 'empresa', CLIENTES.DNRP AS 'legajo', CLIENTES.NOMCLI AS 'nombre', CLIENTES.DOMCLI AS 'domicilio', CLIENTES.FECHA_NAC AS 'fecNac', " + 
+				"CLIENTES.TIPO_DOC AS 'tdoc', CLIENTES.CUITCLI AS 'ndoc', CLIENTES.TELCLI_1 AS 'telefono', VENTAS.CODART AS 'codart', ARTICULO.DESART AS 'desart', " + 
+				"ARTICULO.UNIDAD AS 'unidad', VENTAS.PRECIO AS 'precio', VENTAS.VA_DTO AS 'estado', Ventas.IMPCH AS 'impch', VENTAS.UBICAC1 AS 'ubicac1', VENTAS.UBICAC2 AS 'ubicac2', " + 
+				"VENTAS.FEC_DESDE AS 'fdesde', VENTAS.CANCDEUANT AS 'cancela', VENTAS.IMPCANCDEUANT AS 'importeCancela' " + 
+				"FROM ((VENTAS LEFT JOIN CLIENTES ON VENTAS.CODCLI = CLIENTES.CODCLI) LEFT JOIN ART_IND ON VENTAS.CODART = ART_IND.CODART) LEFT JOIN ARTICULO ON (ART_IND.CGRUPO = ARTICULO.CGRUPO) " + 
+				"AND (ART_IND.CSUBF = ARTICULO.CSUBF) AND (ART_IND.NROART = ARTICULO.NROART) WHERE VENTAS.FCOMP BETWEEN ? AND ? AND VENTAS.CODART LIKE CONCAT(?,'_%') ORDER BY CLIENTES.CPCCP, CLIENTES.DNRP, VENTAS.FEC_DESDE"; 
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, cambiaFecha(fd));
+			stmt.setDate(2, cambiaFecha(fh));
+			stmt.setString(3, fam1);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentaReporte();
+					v.setCpccp(rs.getString("empresa"));
+					v.setDnrp(rs.getString("legajo"));
+					v.setNomcli(rs.getString("nombre"));
+					v.setDomcli(rs.getString("domicilio"));
+					v.setFecha_nac(rs.getDate("fecNac"));
+					v.setTipo_doc(rs.getString("tdoc"));
+					v.setCuitcli(rs.getString("ndoc"));
+					v.setTelcli_1(rs.getString("telefono"));
+					v.setCodart(rs.getString("codart"));
+					v.setDesart(rs.getString("desart"));
+					v.setUnidad(rs.getDouble("unidad"));
+					v.setPrecio(rs.getDouble("precio"));
+					v.setVa_dto(rs.getString("estado"));
+					v.setImpch(rs.getDouble("impch"));
+					v.setUbicac1(rs.getString("ubicac1"));
+					v.setUbicac2(rs.getString("ubicac2"));
+					v.setFec_desde(rs.getDate("fdesde"));
+					v.setCancdeuant(rs.getString("cancela"));
+					v.setImpcancdeuant(rs.getDouble("importeCancela"));
+					
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }	
+		return lista;
+	}
+	
+	public ArrayList<VentaReporte> listarAmbosDosFlia(Date fd, Date fh, String fam1, String fam2) throws ApplicationException {
+		//variables
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<VentaReporte> lista = new ArrayList<>();
+		VentaReporte v = null; 
+		String sql = "SELECT CLIENTES.CPCCP AS 'empresa', CLIENTES.DNRP AS 'legajo', CLIENTES.NOMCLI AS 'nombre', CLIENTES.DOMCLI AS 'domicilio', CLIENTES.FECHA_NAC AS 'fecNac', " + 
+			"CLIENTES.TIPO_DOC AS 'tdoc', CLIENTES.CUITCLI AS 'ndoc', CLIENTES.TELCLI_1 AS 'telefono', VENTAS.CODART AS 'codart', ARTICULO.DESART AS 'desart', " + 
+			"ARTICULO.UNIDAD AS 'unidad', VENTAS.PRECIO AS 'precio', VENTAS.VA_DTO AS 'estado', Ventas.IMPCH AS 'impch', VENTAS.UBICAC1 AS 'ubicac1', VENTAS.UBICAC2 AS 'ubicac2', " + 
+			"VENTAS.FEC_DESDE AS 'fdesde', VENTAS.CANCDEUANT AS 'cancela', VENTAS.IMPCANCDEUANT AS 'importeCancela' " + 
+			"FROM ((VENTAS LEFT JOIN CLIENTES ON VENTAS.CODCLI = CLIENTES.CODCLI) LEFT JOIN ART_IND ON VENTAS.CODART = ART_IND.CODART) LEFT JOIN ARTICULO ON (ART_IND.CGRUPO = ARTICULO.CGRUPO) " + 
+			"AND (ART_IND.CSUBF = ARTICULO.CSUBF) AND (ART_IND.NROART = ARTICULO.NROART) WHERE VENTAS.FCOMP BETWEEN ? AND ? AND (VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%')) ORDER BY CLIENTES.CPCCP, CLIENTES.DNRP, VENTAS.FEC_DESDE"; 
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, cambiaFecha(fd));
+			stmt.setDate(2, cambiaFecha(fh));
+			stmt.setString(3, fam1);
+			stmt.setString(4, fam2);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentaReporte();
+					v.setCpccp(rs.getString("empresa"));
+					v.setDnrp(rs.getString("legajo"));
+					v.setNomcli(rs.getString("nombre"));
+					v.setDomcli(rs.getString("domicilio"));
+					v.setFecha_nac(rs.getDate("fecNac"));
+					v.setTipo_doc(rs.getString("tdoc"));
+					v.setCuitcli(rs.getString("ndoc"));
+					v.setTelcli_1(rs.getString("telefono"));
+					v.setCodart(rs.getString("codart"));
+					v.setDesart(rs.getString("desart"));
+					v.setUnidad(rs.getDouble("unidad"));
+					v.setPrecio(rs.getDouble("precio"));
+					v.setVa_dto(rs.getString("estado"));
+					v.setImpch(rs.getDouble("impch"));
+					v.setUbicac1(rs.getString("ubicac1"));
+					v.setUbicac2(rs.getString("ubicac2"));
+					v.setFec_desde(rs.getDate("fdesde"));
+					v.setCancdeuant(rs.getString("cancela"));
+					v.setImpcancdeuant(rs.getDouble("importeCancela"));
+					
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }		
+		return lista;
+	}
+	
+	public ArrayList<VentaReporte> listarAmbosTresFlia(Date fd, Date fh, String fam1, String fam2, String fam3) throws ApplicationException {
+		//variables
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<VentaReporte> lista = new ArrayList<>();
+		VentaReporte v = null; 
+		String sql = "SELECT CLIENTES.CPCCP AS 'empresa', CLIENTES.DNRP AS 'legajo', CLIENTES.NOMCLI AS 'nombre', CLIENTES.DOMCLI AS 'domicilio', CLIENTES.FECHA_NAC AS 'fecNac', " + 
+			"CLIENTES.TIPO_DOC AS 'tdoc', CLIENTES.CUITCLI AS 'ndoc', CLIENTES.TELCLI_1 AS 'telefono', VENTAS.CODART AS 'codart', ARTICULO.DESART AS 'desart', " + 
+			"ARTICULO.UNIDAD AS 'unidad', VENTAS.PRECIO AS 'precio', VENTAS.VA_DTO AS 'estado', Ventas.IMPCH AS 'impch', VENTAS.UBICAC1 AS 'ubicac1', VENTAS.UBICAC2 AS 'ubicac2', " + 
+			"VENTAS.FEC_DESDE AS 'fdesde', VENTAS.CANCDEUANT AS 'cancela', VENTAS.IMPCANCDEUANT AS 'importeCancela' " + 
+			"FROM ((VENTAS LEFT JOIN CLIENTES ON VENTAS.CODCLI = CLIENTES.CODCLI) LEFT JOIN ART_IND ON VENTAS.CODART = ART_IND.CODART) LEFT JOIN ARTICULO ON (ART_IND.CGRUPO = ARTICULO.CGRUPO) " + 
+			"AND (ART_IND.CSUBF = ARTICULO.CSUBF) AND (ART_IND.NROART = ARTICULO.NROART) WHERE VENTAS.FCOMP BETWEEN ? AND ? AND (VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%')) "
+			+ "ORDER BY CLIENTES.CPCCP, CLIENTES.DNRP, VENTAS.FEC_DESDE"; 
+				
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, cambiaFecha(fd));
+			stmt.setDate(2, cambiaFecha(fh));
+			stmt.setString(3, fam1);
+			stmt.setString(4, fam2);
+			stmt.setString(5, fam3);
+					
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentaReporte();
+					v.setCpccp(rs.getString("empresa"));
+					v.setDnrp(rs.getString("legajo"));
+					v.setNomcli(rs.getString("nombre"));
+					v.setDomcli(rs.getString("domicilio"));
+					v.setFecha_nac(rs.getDate("fecNac"));
+					v.setTipo_doc(rs.getString("tdoc"));
+					v.setCuitcli(rs.getString("ndoc"));
+					v.setTelcli_1(rs.getString("telefono"));
+					v.setCodart(rs.getString("codart"));
+					v.setDesart(rs.getString("desart"));
+					v.setUnidad(rs.getDouble("unidad"));
+					v.setPrecio(rs.getDouble("precio"));
+					v.setVa_dto(rs.getString("estado"));
+					v.setImpch(rs.getDouble("impch"));
+					v.setUbicac1(rs.getString("ubicac1"));
+					v.setUbicac2(rs.getString("ubicac2"));
+					v.setFec_desde(rs.getDate("fdesde"));
+					v.setCancdeuant(rs.getString("cancela"));
+					v.setImpcancdeuant(rs.getDouble("importeCancela"));
+						
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }		
+		return lista;
+	}
+	
+	public ArrayList<VentaReporte> listarAmbosCuatroFlia(Date fd, Date fh, String fam1, String fam2, String fam3, String fam4) throws ApplicationException {
+		//variables
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<VentaReporte> lista = new ArrayList<>();
+		VentaReporte v = null; 
+		String sql = "SELECT CLIENTES.CPCCP AS 'empresa', CLIENTES.DNRP AS 'legajo', CLIENTES.NOMCLI AS 'nombre', CLIENTES.DOMCLI AS 'domicilio', CLIENTES.FECHA_NAC AS 'fecNac', " + 
+			"CLIENTES.TIPO_DOC AS 'tdoc', CLIENTES.CUITCLI AS 'ndoc', CLIENTES.TELCLI_1 AS 'telefono', VENTAS.CODART AS 'codart', ARTICULO.DESART AS 'desart', " + 
+			"ARTICULO.UNIDAD AS 'unidad', VENTAS.PRECIO AS 'precio', VENTAS.VA_DTO AS 'estado', Ventas.IMPCH AS 'impch', VENTAS.UBICAC1 AS 'ubicac1', VENTAS.UBICAC2 AS 'ubicac2', " + 
+			"VENTAS.FEC_DESDE AS 'fdesde', VENTAS.CANCDEUANT AS 'cancela', VENTAS.IMPCANCDEUANT AS 'importeCancela' " + 
+			"FROM ((VENTAS LEFT JOIN CLIENTES ON VENTAS.CODCLI = CLIENTES.CODCLI) LEFT JOIN ART_IND ON VENTAS.CODART = ART_IND.CODART) LEFT JOIN ARTICULO ON (ART_IND.CGRUPO = ARTICULO.CGRUPO) " + 
+			"AND (ART_IND.CSUBF = ARTICULO.CSUBF) AND (ART_IND.NROART = ARTICULO.NROART) WHERE VENTAS.FCOMP BETWEEN ? AND ? AND "
+			+ "(VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%')) "
+			+ "ORDER BY CLIENTES.CPCCP, CLIENTES.DNRP, VENTAS.FEC_DESDE"; 
+						
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, cambiaFecha(fd));
+			stmt.setDate(2, cambiaFecha(fh));
+			stmt.setString(3, fam1);
+			stmt.setString(4, fam2);
+			stmt.setString(5, fam3);
+			stmt.setNString(6, fam4);
+							
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentaReporte();
+					v.setCpccp(rs.getString("empresa"));
+					v.setDnrp(rs.getString("legajo"));
+					v.setNomcli(rs.getString("nombre"));
+					v.setDomcli(rs.getString("domicilio"));
+					v.setFecha_nac(rs.getDate("fecNac"));
+					v.setTipo_doc(rs.getString("tdoc"));
+					v.setCuitcli(rs.getString("ndoc"));
+					v.setTelcli_1(rs.getString("telefono"));
+					v.setCodart(rs.getString("codart"));
+					v.setDesart(rs.getString("desart"));
+					v.setUnidad(rs.getDouble("unidad"));
+					v.setPrecio(rs.getDouble("precio"));
+					v.setVa_dto(rs.getString("estado"));
+					v.setImpch(rs.getDouble("impch"));
+					v.setUbicac1(rs.getString("ubicac1"));
+					v.setUbicac2(rs.getString("ubicac2"));
+					v.setFec_desde(rs.getDate("fdesde"));
+					v.setCancdeuant(rs.getString("cancela"));
+					v.setImpcancdeuant(rs.getDouble("importeCancela"));
+						
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }		
+		return lista;
+	}
+	
+	public ArrayList<VentaReporte> listarAmbosTodasFlia(Date fd, Date fh) throws ApplicationException {
+		//variables
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<VentaReporte> lista = new ArrayList<>();
+		VentaReporte v = null; 
+		String sql = "SELECT CLIENTES.CPCCP AS 'empresa', CLIENTES.DNRP AS 'legajo', CLIENTES.NOMCLI AS 'nombre', CLIENTES.DOMCLI AS 'domicilio', CLIENTES.FECHA_NAC AS 'fecNac', " + 
+			"CLIENTES.TIPO_DOC AS 'tdoc', CLIENTES.CUITCLI AS 'ndoc', CLIENTES.TELCLI_1 AS 'telefono', VENTAS.CODART AS 'codart', ARTICULO.DESART AS 'desart', " + 
+			"ARTICULO.UNIDAD AS 'unidad', VENTAS.PRECIO AS 'precio', VENTAS.VA_DTO AS 'estado', Ventas.IMPCH AS 'impch', VENTAS.UBICAC1 AS 'ubicac1', VENTAS.UBICAC2 AS 'ubicac2', " + 
+			"VENTAS.FEC_DESDE AS 'fdesde', VENTAS.CANCDEUANT AS 'cancela', VENTAS.IMPCANCDEUANT AS 'importeCancela' " + 
+			"FROM ((VENTAS LEFT JOIN CLIENTES ON VENTAS.CODCLI = CLIENTES.CODCLI) LEFT JOIN ART_IND ON VENTAS.CODART = ART_IND.CODART) LEFT JOIN ARTICULO ON (ART_IND.CGRUPO = ARTICULO.CGRUPO) " + 
+			"AND (ART_IND.CSUBF = ARTICULO.CSUBF) AND (ART_IND.NROART = ARTICULO.NROART) WHERE VENTAS.FCOMP BETWEEN ? AND ? ORDER BY CLIENTES.CPCCP, CLIENTES.DNRP, VENTAS.FEC_DESDE"; 
+								
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, cambiaFecha(fd));
+			stmt.setDate(2, cambiaFecha(fh));
+								
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentaReporte();
+					v.setCpccp(rs.getString("empresa"));
+					v.setDnrp(rs.getString("legajo"));
+					v.setNomcli(rs.getString("nombre"));
+					v.setDomcli(rs.getString("domicilio"));
+					v.setFecha_nac(rs.getDate("fecNac"));
+					v.setTipo_doc(rs.getString("tdoc"));
+					v.setCuitcli(rs.getString("ndoc"));
+					v.setTelcli_1(rs.getString("telefono"));
+					v.setCodart(rs.getString("codart"));
+					v.setDesart(rs.getString("desart"));
+					v.setUnidad(rs.getDouble("unidad"));
+					v.setPrecio(rs.getDouble("precio"));
+					v.setVa_dto(rs.getString("estado"));
+					v.setImpch(rs.getDouble("impch"));
+					v.setUbicac1(rs.getString("ubicac1"));
+					v.setUbicac2(rs.getString("ubicac2"));
+					v.setFec_desde(rs.getDate("fdesde"));
+					v.setCancdeuant(rs.getString("cancela"));
+					v.setImpcancdeuant(rs.getDouble("importeCancela"));
+						
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }		
+		return lista;
+	}
+	
+	public ArrayList<VentaReporte> listarEstadoUnaFlia(Date fd, Date fh, String estado, String fam1) throws ApplicationException {
+		//variables
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<VentaReporte> lista = new ArrayList<>();
+		VentaReporte v = null; 
+		String sql = "SELECT CLIENTES.CPCCP AS 'empresa', CLIENTES.DNRP AS 'legajo', CLIENTES.NOMCLI AS 'nombre', CLIENTES.DOMCLI AS 'domicilio', CLIENTES.FECHA_NAC AS 'fecNac', " + 
+				"CLIENTES.TIPO_DOC AS 'tdoc', CLIENTES.CUITCLI AS 'ndoc', CLIENTES.TELCLI_1 AS 'telefono', VENTAS.CODART AS 'codart', ARTICULO.DESART AS 'desart', " + 
+				"ARTICULO.UNIDAD AS 'unidad', VENTAS.PRECIO AS 'precio', VENTAS.VA_DTO AS 'estado', Ventas.IMPCH AS 'impch', VENTAS.UBICAC1 AS 'ubicac1', VENTAS.UBICAC2 AS 'ubicac2', " + 
+				"VENTAS.FEC_DESDE AS 'fdesde', VENTAS.CANCDEUANT AS 'cancela', VENTAS.IMPCANCDEUANT AS 'importeCancela' " + 
+				"FROM ((VENTAS LEFT JOIN CLIENTES ON VENTAS.CODCLI = CLIENTES.CODCLI) LEFT JOIN ART_IND ON VENTAS.CODART = ART_IND.CODART) LEFT JOIN ARTICULO ON (ART_IND.CGRUPO = ARTICULO.CGRUPO) " + 
+				"AND (ART_IND.CSUBF = ARTICULO.CSUBF) AND (ART_IND.NROART = ARTICULO.NROART) WHERE VENTAS.FCOMP BETWEEN ? AND ? AND VENTAS.VA_DTO = ? AND VENTAS.CODART LIKE CONCAT(?,'_%') ORDER BY CLIENTES.CPCCP, CLIENTES.DNRP, VENTAS.FEC_DESDE"; 
+		
+		try {			
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, cambiaFecha(fd));
+			stmt.setDate(2, cambiaFecha(fh));
+			stmt.setString(3, estado);
+			stmt.setString(4, fam1);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentaReporte();
+					v.setCpccp(rs.getString("empresa"));
+					v.setDnrp(rs.getString("legajo"));
+					v.setNomcli(rs.getString("nombre"));
+					v.setDomcli(rs.getString("domicilio"));
+					v.setFecha_nac(rs.getDate("fecNac"));
+					v.setTipo_doc(rs.getString("tdoc"));
+					v.setCuitcli(rs.getString("ndoc"));
+					v.setTelcli_1(rs.getString("telefono"));
+					v.setCodart(rs.getString("codart"));
+					v.setDesart(rs.getString("desart"));
+					v.setUnidad(rs.getDouble("unidad"));
+					v.setPrecio(rs.getDouble("precio"));
+					v.setVa_dto(rs.getString("estado"));
+					v.setImpch(rs.getDouble("impch"));
+					v.setUbicac1(rs.getString("ubicac1"));
+					v.setUbicac2(rs.getString("ubicac2"));
+					v.setFec_desde(rs.getDate("fdesde"));
+					v.setCancdeuant(rs.getString("cancela"));
+					v.setImpcancdeuant(rs.getDouble("importeCancela"));
+					
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }		
+		return lista;
+	}
+	
+	public ArrayList<VentaReporte> listarEstadoDosFlia(Date fd, Date fh, String estado, String fam1, String fam2) throws ApplicationException {
+		//variables
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<VentaReporte> lista = new ArrayList<>();
+		VentaReporte v = null; 
+		String sql = "SELECT CLIENTES.CPCCP AS 'empresa', CLIENTES.DNRP AS 'legajo', CLIENTES.NOMCLI AS 'nombre', CLIENTES.DOMCLI AS 'domicilio', CLIENTES.FECHA_NAC AS 'fecNac', " + 
+			"CLIENTES.TIPO_DOC AS 'tdoc', CLIENTES.CUITCLI AS 'ndoc', CLIENTES.TELCLI_1 AS 'telefono', VENTAS.CODART AS 'codart', ARTICULO.DESART AS 'desart', " + 
+			"ARTICULO.UNIDAD AS 'unidad', VENTAS.PRECIO AS 'precio', VENTAS.VA_DTO AS 'estado', Ventas.IMPCH AS 'impch', VENTAS.UBICAC1 AS 'ubicac1', VENTAS.UBICAC2 AS 'ubicac2', " + 
+			"VENTAS.FEC_DESDE AS 'fdesde', VENTAS.CANCDEUANT AS 'cancela', VENTAS.IMPCANCDEUANT AS 'importeCancela' " + 
+			"FROM ((VENTAS LEFT JOIN CLIENTES ON VENTAS.CODCLI = CLIENTES.CODCLI) LEFT JOIN ART_IND ON VENTAS.CODART = ART_IND.CODART) LEFT JOIN ARTICULO ON (ART_IND.CGRUPO = ARTICULO.CGRUPO) " + 
+			"AND (ART_IND.CSUBF = ARTICULO.CSUBF) AND (ART_IND.NROART = ARTICULO.NROART) WHERE VENTAS.FCOMP BETWEEN ? AND ? AND VENTAS.VA_DTO = ? AND (VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%')) ORDER BY CLIENTES.CPCCP, CLIENTES.DNRP, VENTAS.FEC_DESDE"; 
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, cambiaFecha(fd));
+			stmt.setDate(2, cambiaFecha(fh));
+			stmt.setString(3, estado);
+			stmt.setString(4, fam1);
+			stmt.setString(5, fam2);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentaReporte();
+					v.setCpccp(rs.getString("empresa"));
+					v.setDnrp(rs.getString("legajo"));
+					v.setNomcli(rs.getString("nombre"));
+					v.setDomcli(rs.getString("domicilio"));
+					v.setFecha_nac(rs.getDate("fecNac"));
+					v.setTipo_doc(rs.getString("tdoc"));
+					v.setCuitcli(rs.getString("ndoc"));
+					v.setTelcli_1(rs.getString("telefono"));
+					v.setCodart(rs.getString("codart"));
+					v.setDesart(rs.getString("desart"));
+					v.setUnidad(rs.getDouble("unidad"));
+					v.setPrecio(rs.getDouble("precio"));
+					v.setVa_dto(rs.getString("estado"));
+					v.setImpch(rs.getDouble("impch"));
+					v.setUbicac1(rs.getString("ubicac1"));
+					v.setUbicac2(rs.getString("ubicac2"));
+					v.setFec_desde(rs.getDate("fdesde"));
+					v.setCancdeuant(rs.getString("cancela"));
+					v.setImpcancdeuant(rs.getDouble("importeCancela"));
+					
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }		
+		return lista;
+	}
+	
+	public ArrayList<VentaReporte> listarEstadoTresFlia(Date fd, Date fh, String estado, String fam1, String fam2, String fam3) throws ApplicationException {
+		//variables
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<VentaReporte> lista = new ArrayList<>();
+		VentaReporte v = null; 
+		String sql = "SELECT CLIENTES.CPCCP AS 'empresa', CLIENTES.DNRP AS 'legajo', CLIENTES.NOMCLI AS 'nombre', CLIENTES.DOMCLI AS 'domicilio', CLIENTES.FECHA_NAC AS 'fecNac', " + 
+			"CLIENTES.TIPO_DOC AS 'tdoc', CLIENTES.CUITCLI AS 'ndoc', CLIENTES.TELCLI_1 AS 'telefono', VENTAS.CODART AS 'codart', ARTICULO.DESART AS 'desart', " + 
+			"ARTICULO.UNIDAD AS 'unidad', VENTAS.PRECIO AS 'precio', VENTAS.VA_DTO AS 'estado', Ventas.IMPCH AS 'impch', VENTAS.UBICAC1 AS 'ubicac1', VENTAS.UBICAC2 AS 'ubicac2', " + 
+			"VENTAS.FEC_DESDE AS 'fdesde', VENTAS.CANCDEUANT AS 'cancela', VENTAS.IMPCANCDEUANT AS 'importeCancela' " + 
+			"FROM ((VENTAS LEFT JOIN CLIENTES ON VENTAS.CODCLI = CLIENTES.CODCLI) LEFT JOIN ART_IND ON VENTAS.CODART = ART_IND.CODART) LEFT JOIN ARTICULO ON (ART_IND.CGRUPO = ARTICULO.CGRUPO) " + 
+			"AND (ART_IND.CSUBF = ARTICULO.CSUBF) AND (ART_IND.NROART = ARTICULO.NROART) WHERE VENTAS.FCOMP BETWEEN ? AND ? AND VENTAS.VA_DTO = ? AND (VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%')) "
+			+ "ORDER BY CLIENTES.CPCCP, CLIENTES.DNRP, VENTAS.FEC_DESDE"; 
+				
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, cambiaFecha(fd));
+			stmt.setDate(2, cambiaFecha(fh));
+			stmt.setString(3, estado);
+			stmt.setString(4, fam1);
+			stmt.setString(5, fam2);
+			stmt.setString(6, fam3);
+					
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentaReporte();
+					v.setCpccp(rs.getString("empresa"));
+					v.setDnrp(rs.getString("legajo"));
+					v.setNomcli(rs.getString("nombre"));
+					v.setDomcli(rs.getString("domicilio"));
+					v.setFecha_nac(rs.getDate("fecNac"));
+					v.setTipo_doc(rs.getString("tdoc"));
+					v.setCuitcli(rs.getString("ndoc"));
+					v.setTelcli_1(rs.getString("telefono"));
+					v.setCodart(rs.getString("codart"));
+					v.setDesart(rs.getString("desart"));
+					v.setUnidad(rs.getDouble("unidad"));
+					v.setPrecio(rs.getDouble("precio"));
+					v.setVa_dto(rs.getString("estado"));
+					v.setImpch(rs.getDouble("impch"));
+					v.setUbicac1(rs.getString("ubicac1"));
+					v.setUbicac2(rs.getString("ubicac2"));
+					v.setFec_desde(rs.getDate("fdesde"));
+					v.setCancdeuant(rs.getString("cancela"));
+					v.setImpcancdeuant(rs.getDouble("importeCancela"));
+						
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }		
+		return lista;
+	}
+	
+	public ArrayList<VentaReporte> listarEstadoCuatroFlia(Date fd, Date fh, String estado, String fam1, String fam2, String fam3, String fam4) throws ApplicationException {
+		//variables
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<VentaReporte> lista = new ArrayList<>();
+		VentaReporte v = null; 
+		String sql = "SELECT CLIENTES.CPCCP AS 'empresa', CLIENTES.DNRP AS 'legajo', CLIENTES.NOMCLI AS 'nombre', CLIENTES.DOMCLI AS 'domicilio', CLIENTES.FECHA_NAC AS 'fecNac', " + 
+			"CLIENTES.TIPO_DOC AS 'tdoc', CLIENTES.CUITCLI AS 'ndoc', CLIENTES.TELCLI_1 AS 'telefono', VENTAS.CODART AS 'codart', ARTICULO.DESART AS 'desart', " + 
+			"ARTICULO.UNIDAD AS 'unidad', VENTAS.PRECIO AS 'precio', VENTAS.VA_DTO AS 'estado', Ventas.IMPCH AS 'impch', VENTAS.UBICAC1 AS 'ubicac1', VENTAS.UBICAC2 AS 'ubicac2', " + 
+			"VENTAS.FEC_DESDE AS 'fdesde', VENTAS.CANCDEUANT AS 'cancela', VENTAS.IMPCANCDEUANT AS 'importeCancela' " + 
+			"FROM ((VENTAS LEFT JOIN CLIENTES ON VENTAS.CODCLI = CLIENTES.CODCLI) LEFT JOIN ART_IND ON VENTAS.CODART = ART_IND.CODART) LEFT JOIN ARTICULO ON (ART_IND.CGRUPO = ARTICULO.CGRUPO) " + 
+			"AND (ART_IND.CSUBF = ARTICULO.CSUBF) AND (ART_IND.NROART = ARTICULO.NROART) WHERE VENTAS.FCOMP BETWEEN ? AND ? AND VENTAS.VA_DTO = ? AND "
+			+ "(VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%') OR VENTAS.CODART LIKE CONCAT(?,'_%')) "
+			+ "ORDER BY CLIENTES.CPCCP, CLIENTES.DNRP, VENTAS.FEC_DESDE"; 
+						
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, cambiaFecha(fd));
+			stmt.setDate(2, cambiaFecha(fh));
+			stmt.setString(3, estado);
+			stmt.setString(4, fam1);
+			stmt.setString(5, fam2);
+			stmt.setString(6, fam3);
+			stmt.setString(7, fam4);
+							
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentaReporte();
+					v.setCpccp(rs.getString("empresa"));
+					v.setDnrp(rs.getString("legajo"));
+					v.setNomcli(rs.getString("nombre"));
+					v.setDomcli(rs.getString("domicilio"));
+					v.setFecha_nac(rs.getDate("fecNac"));
+					v.setTipo_doc(rs.getString("tdoc"));
+					v.setCuitcli(rs.getString("ndoc"));
+					v.setTelcli_1(rs.getString("telefono"));
+					v.setCodart(rs.getString("codart"));
+					v.setDesart(rs.getString("desart"));
+					v.setUnidad(rs.getDouble("unidad"));
+					v.setPrecio(rs.getDouble("precio"));
+					v.setVa_dto(rs.getString("estado"));
+					v.setImpch(rs.getDouble("impch"));
+					v.setUbicac1(rs.getString("ubicac1"));
+					v.setUbicac2(rs.getString("ubicac2"));
+					v.setFec_desde(rs.getDate("fdesde"));
+					v.setCancdeuant(rs.getString("cancela"));
+					v.setImpcancdeuant(rs.getDouble("importeCancela"));
+						
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }		
+		return lista;
+	}
+	
+	public ArrayList<VentaReporte> listarEstadoTodasFlia(Date fd, Date fh, String estado) throws ApplicationException {
+		//variables
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		ArrayList<VentaReporte> lista = new ArrayList<>();
+		VentaReporte v = null; 
+		String sql = "SELECT CLIENTES.CPCCP AS 'empresa', CLIENTES.DNRP AS 'legajo', CLIENTES.NOMCLI AS 'nombre', CLIENTES.DOMCLI AS 'domicilio', CLIENTES.FECHA_NAC AS 'fecNac', " + 
+			"CLIENTES.TIPO_DOC AS 'tdoc', CLIENTES.CUITCLI AS 'ndoc', CLIENTES.TELCLI_1 AS 'telefono', VENTAS.CODART AS 'codart', ARTICULO.DESART AS 'desart', " + 
+			"ARTICULO.UNIDAD AS 'unidad', VENTAS.PRECIO AS 'precio', VENTAS.VA_DTO AS 'estado', Ventas.IMPCH AS 'impch', VENTAS.UBICAC1 AS 'ubicac1', VENTAS.UBICAC2 AS 'ubicac2', " + 
+			"VENTAS.FEC_DESDE AS 'fdesde', VENTAS.CANCDEUANT AS 'cancela', VENTAS.IMPCANCDEUANT AS 'importeCancela' " + 
+			"FROM ((VENTAS LEFT JOIN CLIENTES ON VENTAS.CODCLI = CLIENTES.CODCLI) LEFT JOIN ART_IND ON VENTAS.CODART = ART_IND.CODART) LEFT JOIN ARTICULO ON (ART_IND.CGRUPO = ARTICULO.CGRUPO) " + 
+			"AND (ART_IND.CSUBF = ARTICULO.CSUBF) AND (ART_IND.NROART = ARTICULO.NROART) WHERE VENTAS.FCOMP BETWEEN ? AND ? AND VENTAS.VA_DTO = ? ORDER BY CLIENTES.CPCCP, CLIENTES.DNRP, VENTAS.FEC_DESDE"; 
+								
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, cambiaFecha(fd));
+			stmt.setDate(2, cambiaFecha(fh));
+			stmt.setString(3, estado);
+								
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					v = new VentaReporte();
+					v.setCpccp(rs.getString("empresa"));
+					v.setDnrp(rs.getString("legajo"));
+					v.setNomcli(rs.getString("nombre"));
+					v.setDomcli(rs.getString("domicilio"));
+					v.setFecha_nac(rs.getDate("fecNac"));
+					v.setTipo_doc(rs.getString("tdoc"));
+					v.setCuitcli(rs.getString("ndoc"));
+					v.setTelcli_1(rs.getString("telefono"));
+					v.setCodart(rs.getString("codart"));
+					v.setDesart(rs.getString("desart"));
+					v.setUnidad(rs.getDouble("unidad"));
+					v.setPrecio(rs.getDouble("precio"));
+					v.setVa_dto(rs.getString("estado"));
+					v.setImpch(rs.getDouble("impch"));
+					v.setUbicac1(rs.getString("ubicac1"));
+					v.setUbicac2(rs.getString("ubicac2"));
+					v.setFec_desde(rs.getDate("fdesde"));
+					v.setCancdeuant(rs.getString("cancela"));
+					v.setImpcancdeuant(rs.getDouble("importeCancela"));
+						
+					lista.add(v);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }		
+		return lista;
+	}
+	
 	
 	private java.sql.Date cambiaFecha(java.util.Date fecha) throws ApplicationException {
 		java.sql.Date fec = new java.sql.Date(fecha.getTime());

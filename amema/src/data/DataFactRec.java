@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import entidades.DatosCobroFact;
 import entidades.FactRec;
 import util.ApplicationException;
 
@@ -104,7 +105,7 @@ public class DataFactRec {
 					f.setLETRA(rs.getString("LETRA"));
 					f.setCIA(rs.getString("CIA"));
 					f.setNRECIBO(rs.getString("NRECIBO"));
-					f.setFECREC((Date) rs.getDate("FECREC"));
+					f.setFECREC((Date) rs.getDate("FECREB"));
 					f.setNMOV(rs.getString("NMOV"));
 					f.setMONTO_A(rs.getDouble("MONTO_A"));
 					f.setMONTO_D(rs.getDouble("MONTO_D"));
@@ -227,7 +228,7 @@ public class DataFactRec {
 					f.setLETRA(rs.getString("LETRA"));
 					f.setCIA(rs.getString("CIA"));
 					f.setNRECIBO(rs.getString("NRECIBO"));
-					f.setFECREC((Date) rs.getDate("FECREC"));
+					f.setFECREC((Date) rs.getDate("FECREB"));
 					f.setNMOV(rs.getString("NMOV"));
 					f.setMONTO_A(rs.getDouble("MONTO_A"));
 					f.setMONTO_D(rs.getDouble("MONTO_D"));
@@ -265,7 +266,7 @@ public class DataFactRec {
 					f.setLETRA(rs.getString("LETRA"));
 					f.setCIA(rs.getString("CIA"));
 					f.setNRECIBO(rs.getString("NRECIBO"));
-					f.setFECREC((Date) rs.getDate("FECREC"));
+					f.setFECREC((Date) rs.getDate("FECREB"));
 					f.setNMOV(rs.getString("NMOV"));
 					f.setMONTO_A(rs.getDouble("MONTO_A"));
 					f.setMONTO_D(rs.getDouble("MONTO_D"));
@@ -277,6 +278,47 @@ public class DataFactRec {
 			}
 		}
 		catch (SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista; 
+	}
+	
+	public ArrayList<DatosCobroFact> listarFacturasPorNroReciboDCobro(String comprobante, Date fecha) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null; 
+		ArrayList<DatosCobroFact> lista = new ArrayList<>();
+		DatosCobroFact f = null; 
+		String sql = "SELECT f.tcomp AS 'tcomp', f.letra AS 'letra', f.prefijo AS 'prefijo', "
+				+ "f.ncomp AS 'ncomp', v.fmov AS 'fmov', f.monto_a AS 'monto_a', "
+				+ "f.descuent_a AS 'descuent_a', v.tasa AS 'tasa', v.observ AS 'observ' "
+				+ "FROM fact_rec AS f INNER JOIN ventasm AS v "
+				+ "ON f.letra = v.letra AND f.tcomp = v.tcomp AND f.ncomp = v.ncomp AND"
+				+ " f.prefijo = v.prefijo WHERE f.nrecibo = ? AND f.fecreb = ? "
+				+ "ORDER BY f.tcomp, f.letra, f.prefijo, f.ncomp;";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, comprobante);
+			stmt.setDate(2, cambiaFecha(fecha));
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) { 
+				while(rs.next()) {
+					f = new DatosCobroFact();
+					f.setTcomp(rs.getString("tcomp"));
+					f.setLetra(rs.getString("letra"));
+					f.setPrefijo(rs.getString("prefijo"));
+					f.setNcomp(rs.getString("ncomp"));
+					f.setFecha(rs.getDate("fmov"));
+					f.setImppagado(rs.getDouble("monto_a"));
+					f.setDescuento(rs.getDouble("descuent_a"));
+					f.setTasa(rs.getDouble("tasa"));
+					f.setObs(rs.getString("observ"));
+					lista.add(f);
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
 		finally { cerrar(stmt, rs); }
 		return lista; 
 	}

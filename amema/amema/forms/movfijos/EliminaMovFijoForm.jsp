@@ -9,13 +9,11 @@
 	<h3 class="w3-center"><strong class="w3-text-indigo">Busqueda de los movimientos del socio</strong></h3>
 	<br>
 
-	<% 
-		String socio = (String) request.getSession().getAttribute("socio");
-		if(socio == null){
-			CtrlCliente c = new CtrlCliente();
-		    ArrayList<Cliente> lista = c.listarCliente();
-   	%>
-					
+	<%
+		CtrlCliente cCliente = new CtrlCliente();
+		ArrayList<Cliente> lista = cCliente.listarCliente(); 
+		ArrayList<Venta> ventas = (ArrayList<Venta>) request.getSession().getAttribute("ventas");
+	%>
 	<div class="w3-card-4">
 		<form action="/amema/MovimientoFijo" method="post">
 			<div class="w3-container w3-padding">
@@ -25,8 +23,8 @@
 				<div class="w3-container w3-padding w3-half">
 					<select class="w3-select" name="select" id="select" size="5" required>
 					<% for(Cliente l : lista){ %>
-	        			<option value="<%=l.getCODCLI()%>-<%=l.getNOMCLI() %>"><%=l.getNOMCLI() %></option>
-	            	<%} %>
+		       			<option value="<%=l.getCODCLI()%>-<%=l.getNOMCLI() %>"><%=l.getNOMCLI() %></option>
+		           	<%} %>
 					</select>
 				</div>
 				<div class="w3-container w3-padding w3-quarter">
@@ -35,29 +33,37 @@
 			</div>
 		</form>
 	</div>
-	<%}
-	else {
-		ArrayList<Venta> ventas = (ArrayList<Venta>) request.getSession().getAttribute("ventas");%>
-	<form action="/amema/MovimientoFijo" method="post">
-		<div class="w3-container w3-padding w3-card-4">
-			<div class="w3-container w3-padding w3-third">
-				<input type="text" name="nombreSocio" class="w3-input" value="<%=socio%>" readonly>
+	<br>
+	<% 
+		String socio = (String) request.getSession().getAttribute("socio");
+		if(socio != null && ventas != null){%>
+	<div class="w3-card-4">
+		<form action="/amema/MovimientoFijo" method="post">
+			<div class="w3-container w3-padding w3-card-4">
+				<div class="w3-container w3-padding w3-third">
+					<input type="text" name="nombreSocio" class="w3-input" value="<%=socio%>" readonly>
+				</div>
+				<div class="w3-container w3-padding w3-third">
+					<select class="w3-select" name="nroMov">
+					<%for(Venta v: ventas){%>
+						<option value="<%=v.getNROMOV()%>"><%=v.getNROMOV()%></option>
+					<%}%>
+					</select>
+				</div>
+				<div class="w3-container w3-padding w3-third">
+					<button class="w3-button w3-green w3-hover-indigo" name="evento_detalle"><i class="fas fa-search fa-2x"></i></button>
+				</div>
 			</div>
-			<div class="w3-container w3-padding w3-third">
-				<select class="w3-select" name="nroMov">
-				<%for(Venta v: ventas){%>
-					<option value="<%=v.getNROMOV()%>"><%=v.getNROMOV()%></option>
-				<%}%>
-				</select>
-			</div>
-			<div class="w3-container w3-padding w3-third">
-				<button class="w3-button w3-green w3-hover-indigo" name="evento_detalle"><i class="fas fa-search fa-2x"></i></button>
-			</div>
-		</div>
-	</form>
-	<%}%>
+		</form>
+	</div>
+	<%} %>
 </div>
 
+
+<%
+   request.getSession().removeAttribute("ventas");
+   request.getSession().removeAttribute("socio"); 
+%>
 
 <script>
 	function filter( keyword) {
@@ -70,6 +76,4 @@
 		}
 	}
 </script>
-<% request.getSession().removeAttribute("socio");
-   request.getSession().removeAttribute("ventas");%>
-			
+

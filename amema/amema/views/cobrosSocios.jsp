@@ -16,7 +16,7 @@
 		<%@ include file="menu.jsp"%>
 		<div class="w3-container w3-padding-64">
 			<!-- AREA DE BUSQUEDA -->
-			<%@ include file="../forms/socio/buscaSocioForm.jsp"%>
+			<%@ include file="../forms/pagosSocio/buscaSocioForm.jsp"%>
 			<% 
 			Cliente cli = (Cliente) request.getSession().getAttribute("socio");
 			   if(cli != null){%>

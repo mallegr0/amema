@@ -113,7 +113,8 @@
 				<%}%>
 		</div>
 		
-		<% request.getSession().removeAttribute("detalle"); %>
+		<% request.getSession().removeAttribute("detalle");
+		   request.getSession().removeAttribute("socio"); %>
 		<!-- FIN AREA DE TRABAJO -->
 
 		<%@ include file="footer.jsp" %>

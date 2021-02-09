@@ -40,7 +40,6 @@ function abroModalUsuario(id, usuario){
 }
 
 function abroModalProducto(id, producto){
-	console.log("codigo pasado como parametro: "+producto.codigo);
 	if(id === 'id02'){
 		document.getElementById('id02').style.display='block'; 
 		document.getElementById("deleteprod").value = producto;

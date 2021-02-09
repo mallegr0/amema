@@ -21,26 +21,13 @@
 		<!-- ACA VA EL CUERPO DE LAS ACCIONES -->
 		<div class="w3-container w3-padding-64"  >	
 
-			<!--<div class="w3-card w3-red">
-				<ol>
-					<li>Manejo de session -- Falta invalidar en el index</li>
-				</ol>
-			</div>-->
 			<div class="w3-row">
 				<div class="w3-col w3-container" style="width: 25%"></div>
 				<div class="w3-col w3-container" style="width: 50%">
 					<div class="w3-center w3-container w3-card-4 w3-padding-16">
 						
 						<!-- Error -->
-						<% String msg = (String) request.getAttribute("msg"); %>
-					
-						
-						<% if(msg != null){ %>
-							<div class="w3-panel w3-yellow w3-display-container">
-	  								<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
-	  								<p><%=msg  %></p>
-								</div>
-						<%} %>
+						<%@ include file="../errores/errLogin.jsp" %>
 	
 						<!-- Form del Login -->
 						<%@ include file="../forms/loginForm.jsp" %>

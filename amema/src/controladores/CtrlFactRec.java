@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import data.DataFactRec;
+import entidades.DatosCobroFact;
 import entidades.FactRec;
 import util.ApplicationException;
 
@@ -55,6 +56,11 @@ public class CtrlFactRec {
 	public ArrayList<FactRec> listarFacturasPorNroRecibo(String nroRecibo) throws ApplicationException {
 		dfr = new DataFactRec();
 		return dfr.listarFacturasPorNroRecibo(nroRecibo);
+	}
+	
+	public ArrayList<DatosCobroFact> listarFacturasPorNroReciboDCobro(String comprobante, Date fecha) throws ApplicationException {
+		dfr = new DataFactRec();
+		return dfr.listarFacturasPorNroReciboDCobro(comprobante, fecha);
 	}
 }
 

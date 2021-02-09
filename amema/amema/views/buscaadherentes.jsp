@@ -35,7 +35,8 @@
 			</div>
 		<%}%>
 			<% request.getSession().removeAttribute("lista"); 
-			   request.getSession().removeAttribute("movimientos");%>
+			   request.getSession().removeAttribute("movimientos");
+			   request.getSession().removeAttribute("socio");%>
 
 </div>
 	<%@ include file="footer.jsp" %>

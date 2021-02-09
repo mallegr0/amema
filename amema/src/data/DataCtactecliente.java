@@ -245,6 +245,9 @@ public class DataCtactecliente {
 		return c;
 	}
 	
+	public String consultarNroCompOriginal(String nroRecibo) {return ""; }
+	
+	
 	public ArrayList<Ctactecliente> listarCtaCtePorSocioYFec(String cod, Date fec) throws ApplicationException {
 		PreparedStatement stmt = null; 
 		ResultSet rs = null;

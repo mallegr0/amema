@@ -1,7 +1,10 @@
 package controladores;
 
+import java.util.ArrayList;
+
 import data.DataAnticC;
 import entidades.AnticC;
+import entidades.AnticipoAnalisisSaldo;
 import util.ApplicationException;
 
 public class CtrlAnticC {
@@ -21,5 +24,15 @@ public class CtrlAnticC {
 	public AnticC consultaAnticipoPorNroRecibo(String nrec) throws ApplicationException {
 		dac = new DataAnticC();
 		return dac.consultaAnticipoPorNroRecibo(nrec);
+	}
+	
+	public ArrayList<AnticipoAnalisisSaldo> listarAnticiposParaAnalisisSaldo() throws ApplicationException {
+		dac = new DataAnticC();
+		return dac.listarAnticiposParaAnalisisSaldo();
+	}
+	
+	public ArrayList<AnticipoAnalisisSaldo> listarAnticiposParaAnalisisSaldoConvenio(String convenio) throws ApplicationException {
+		dac = new DataAnticC();
+		return dac.listarAnticiposParaAnalisisSaldoConvenio(convenio);
 	}
 }

@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import entidades.Cheque;
+import entidades.ChequeAnalisisSaldo;
 import util.ApplicationException;
 
 public class DataCheque {
@@ -93,5 +95,66 @@ public class DataCheque {
 		catch (SQLException e) { e.printStackTrace(); }
 		finally { cerrar(stmt, rs); }
 		return cheque; 
+	}
+	
+	public ArrayList<ChequeAnalisisSaldo> listarChequesAnalisisSaldo() throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null; 
+		ArrayList<ChequeAnalisisSaldo> lista = new ArrayList<>();
+		ChequeAnalisisSaldo c = null; 
+		String sql = "SELECT CLIENTES.CODCLI AS 'codcli', CLIENTES.NOMCLI AS 'nomcli', CLIENTES.NVIAJ AS 'nviaj', "
+				+ "Sum(CHEQUES.IMPCHE) AS SumaDeIMPCHE FROM CHEQUES LEFT JOIN CLIENTES "
+				+ "ON CHEQUES.CODCLI = CLIENTES.CODCLI WHERE (((CHEQUES.CART_PAS)='C')) "
+				+ "GROUP BY CLIENTES.CODCLI, CLIENTES.NOMCLI, CLIENTES.NVIAJ";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					c = new ChequeAnalisisSaldo();
+					c.setCodcli(rs.getString("codcli"));
+					c.setNomcli(rs.getString("nomcli"));
+					c.setNviaj(rs.getString("nviaj"));
+					c.setMonto(rs.getDouble("SumaDeIMPCHE"));
+					lista.add(c);
+				}
+			}
+		}
+		catch (SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista; 
+	}
+	
+	public ArrayList<ChequeAnalisisSaldo> listarChequesAnalisisSaldoConvenio(String convenio) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null; 
+		ArrayList<ChequeAnalisisSaldo> lista = new ArrayList<>();
+		ChequeAnalisisSaldo c = null; 
+		String sql = "SELECT CLIENTES.CODCLI AS 'codcli', CLIENTES.NOMCLI AS 'nomcli', CLIENTES.NVIAJ AS 'nviaj', "
+				+ "Sum(CHEQUES.IMPCHE) AS SumaDeIMPCHE FROM CHEQUES LEFT JOIN CLIENTES "
+				+ "ON CHEQUES.CODCLI = CLIENTES.CODCLI WHERE (((CHEQUES.CART_PAS)='C')) AND CLIENTES.CCOND = ? "
+				+ "GROUP BY CLIENTES.CODCLI, CLIENTES.NOMCLI, CLIENTES.NVIAJ";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, convenio);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					c = new ChequeAnalisisSaldo();
+					c.setCodcli(rs.getString("codcli"));
+					c.setNomcli(rs.getString("nomcli"));
+					c.setNviaj(rs.getString("nviaj"));
+					c.setMonto(rs.getDouble("SumaDeIMPCHE"));
+					lista.add(c);
+				}
+			}
+		}
+		catch (SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista; 
 	}
 }

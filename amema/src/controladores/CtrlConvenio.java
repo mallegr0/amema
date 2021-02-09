@@ -16,10 +16,23 @@ public class CtrlConvenio {
 	
 	
 	//alta
+	public boolean altaConvenio(Convenio c) throws ApplicationException {
+		dc = new DataConvenio();
+		return dc.altaConvenio(c);
+	}
 	
 	//baja
+	public boolean bajaConvenioPorCodigo(String codigo) throws ApplicationException {
+		dc = new DataConvenio();
+		return dc.bajaConvenioPorCodigo(codigo);
+	}
 	
 	//modificacion
+	public boolean modificaConvenio(Convenio c) throws ApplicationException {
+		dc = new DataConvenio(); 
+		return dc.modificaConvenio(c);
+	}
+	
 	
 	//consulta
 	
