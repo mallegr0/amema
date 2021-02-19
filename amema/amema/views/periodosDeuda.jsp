@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="entidades.PeriodoDeudaArch"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -22,6 +23,7 @@
 				CtrlPeriodoDeudaGen cPeriodo = new CtrlPeriodoDeudaGen();
 				ArrayList<PeriodoDeudaGen> periodos = cPeriodo.listarPeriodoDeudaGen();
 				ArrayList<PeriodoGenGral> datos = (ArrayList<PeriodoGenGral>) request.getSession().getAttribute("datos");
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			%>
 			
 			<%if(datos == null) {%>
@@ -48,12 +50,12 @@
 						<tr>
 							<td><%=p.getNro_gen_deuda() %></td>
 							<td><%=p.getAnulado() %></td>
-							<td><%=p.getFecha_gen() %></td>
+							<td><%=sdf.format(p.getFecha_gen()) %></td>
 							<td><%=p.getNroconv() %></td>
 							<td><%=p.getPeriodo() %></td>
 							<td><%=p.getInform_ingresada() %></td>
 							<td><%=p.getRecibos_gen()%></td>
-							<td><%=p.getFechaHasta() %></td>
+							<td><%=sdf.format(p.getFechaHasta()) %></td>
 								<td><button class="w3-button w3-green w3-hover-indigo" onclick="abroModalPeriodo('modalPeriodo','<%=p.getNro_gen_deuda()%>')"><i class="fas fa-search fa-2x"></i></button></td>
 						</tr>
 						<%}%>

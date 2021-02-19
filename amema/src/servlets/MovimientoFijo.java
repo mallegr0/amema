@@ -551,7 +551,7 @@ public class MovimientoFijo extends HttpServlet {
 		
 		
 		//recupero las ventas que se ajusten a los criterios que recupere en el formulario
-		if(modo == "A") {  lVentas = cVentas.listarVentasPorFechas(fecIni, fecFin); }
+		if(modo.equals("A")) { lVentas = cVentas.listarVentasPorFechas(fecIni, fecFin); }
 		else { lVentas = cVentas.listarVentasPorFechasyModo(fecIni, fecFin, modo); }
 		
 		for(Venta v : lVentas) {

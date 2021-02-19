@@ -1,6 +1,8 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="entidades.Cliente" %>
+<%@page import="entidades.VentasM" %>
 <%@page import="entidades.CtacteGral"%>
 <%@page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -42,48 +44,117 @@
 				<br>
 			</div>
 			<br><br>
-			<div class="w3-container w3-card-4 w3-responsive">
-				<br>
-				<table class="w3-table w3-bordered">
-					<thead>
-						<tr class="w3-indigo">
-							<th>Fecha</th>
-							<th>Concepto</th>
-							<th>Nro Movimiento</th>
-							<th>Debe</th>
-							<th>haber</th>
-							<th>Saldo</th>
-							<th colspan="3" class="w3-center">Acciones</th>
-						</tr>
-					</thead>
-					<tbody>
-					<%
-						DecimalFormat df = new DecimalFormat("#0.00");
-						ArrayList<CtacteGral> lista = (ArrayList<CtacteGral>) request.getSession().getAttribute("movimientos");
-						if(lista != null){
-							for(CtacteGral a: lista){%>
-							<tr class="w3-hover-light-blue">
-								<td><%=a.getFMOV() %></td>
-								<td><%=a.getTMOV() %></td>
-								<td><%=a.getNCOMP() %></td>
-								<td><%=df.format(a.getDEBE()) %></td>
-								<td><%=df.format(a.getHABER()) %></td>
-								<td><%=df.format(a.getSALDO())%></td>
-								<td><button class="w3-button w3-green w3-hover-indigo" onclick="abrirModalCta('id01','<%=a.getNCOMP()%>')" name="evento_detalle"><i class="fas fa-search fa-2x"></i></button></td>
-								<td><button class="w3-button w3-orange w3-hover-indigo w3-text-white" onclick="abrirModalCta('id02','<%=a.getNCOMP()%>')"><i class="fas fa-print fa-2x"></i></button></td>
-								<td><button class="w3-button w3-purple w3-hover-indigo" onclick="abrirModalCta('id04','<%=a.getNCOMP()%>')"><i class="fas fa-users fa-2x"></i></button></td>
+			<% VentasM v = (VentasM) request.getSession().getAttribute("movimiento"); 
+			if(v == null){%>
+				<div class="w3-container w3-card-4 w3-responsive">
+					<br>
+					<table class="w3-table w3-bordered">
+						<thead>
+							<tr class="w3-indigo">
+								<th>Fecha</th>
+								<th>Concepto</th>
+								<th>Nro Movimiento</th>
+								<th>Debe</th>
+								<th>haber</th>
+								<th>Saldo</th>
+								<th colspan="3" class="w3-center">Acciones</th>
 							</tr>
+						</thead>
+						<tbody>
+						<%
+							DecimalFormat df = new DecimalFormat("#0.00");
+							ArrayList<CtacteGral> lista = (ArrayList<CtacteGral>) request.getSession().getAttribute("movimientos");
+							if(lista != null){
+								for(CtacteGral a: lista){%>
+								<tr class="w3-hover-light-blue">
+									<td><%=a.getFMOV()%></td>
+									<td><%=a.getTMOV() %></td>
+									<td><%=a.getNCOMP() %></td>
+									<td><%=df.format(a.getDEBE()) %></td>
+									<td><%=df.format(a.getHABER()) %></td>
+									<td><%=df.format(a.getSALDO())%></td>
+									<td>
+										<form action="/amema/Cuenta" method="post">
+											<button class="w3-button w3-green w3-hover-indigo" name="evento_detalle" value="<%=a.getNCOMP()%>"><i class="fas fa-search fa-2x"></i></button>
+										</form>
+									</td>
+									<td><button class="w3-button w3-orange w3-hover-indigo w3-text-white" onclick="abrirModalCta('id02','<%=a.getNCOMP()%>')"><i class="fas fa-print fa-2x"></i></button></td>
+									<td><button class="w3-button w3-purple w3-hover-indigo" onclick="abrirModalCta('id04','<%=a.getNCOMP()%>')"><i class="fas fa-users fa-2x"></i></button></td>
+								</tr>
+								<%}%>
+							<%}
+							else{%>
+								<tr>
+									<td colspan="14"><h3 class="w3-center  w3-text-indigo">No hay movimientos para el socio seleccionado.</h3></td>
+								</tr>
 							<%}%>
-						<%}
-						else{%>
-							<tr>
-								<td colspan="14"><h3 class="w3-center  w3-text-indigo">No hay movimientos para el socio seleccionado.</h3></td>
-							</tr>
-						<%}%>
-					</tbody>
-				</table>
-				<br>
-			</div>
+						</tbody>
+					</table>
+					<br>
+				</div>
+			<%}
+			else {%>
+				<div class="w3-container w3-padding w3-twothird">
+					<div class="w3-container w3-card-4 w3-responsive">
+						<br>
+						<table class="w3-table w3-bordered">
+							<thead>
+								<tr class="w3-indigo">
+									<th>Fecha</th>
+									<th>Concepto</th>
+									<th>Nro Movimiento</th>
+									<th>Debe</th>
+									<th>haber</th>
+									<th>Saldo</th>
+									<th colspan="3" class="w3-center">Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+							<%
+							DecimalFormat df = new DecimalFormat("#0.00");
+							ArrayList<CtacteGral> lista = (ArrayList<CtacteGral>) request.getSession().getAttribute("movimientos");
+							if(lista != null){
+								for(CtacteGral a: lista){%>
+								<tr class="w3-hover-light-blue">
+									<td><%=a.getFMOV()%></td>
+									<td><%=a.getTMOV() %></td>
+									<td><%=a.getNCOMP() %></td>
+									<td><%=df.format(a.getDEBE()) %></td>
+									<td><%=df.format(a.getHABER()) %></td>
+									<td><%=df.format(a.getSALDO())%></td>
+									<td>
+										<form action="/amema/Cuenta" method="post">
+											<button class="w3-button w3-green w3-hover-indigo" name="evento_detalle" value="<%=a.getNCOMP()%>"><i class="fas fa-search fa-2x"></i></button>
+										</form>
+									</td>
+									<td><button class="w3-button w3-orange w3-hover-indigo w3-text-white" onclick="abrirModalCta('id02','<%=a.getNCOMP()%>')"><i class="fas fa-print fa-2x"></i></button></td>
+									<td><button class="w3-button w3-purple w3-hover-indigo" onclick="abrirModalCta('id04','<%=a.getNCOMP()%>')"><i class="fas fa-users fa-2x"></i></button></td>
+								</tr>
+							<%}%>
+							</tbody>
+						</table>
+						<br>
+					</div>
+				</div>
+				<div class="w3-container w3-rest w3-responsive">
+					<h3 class="w3-center  w3-text-indigo"> Detalle del movimiento <%=v.getNCOMP()%></h3>
+					<br> 
+					<div class="w3-container w3-card-4">
+						<div class="w3-half">
+							<p style="width: 80%"><label class="w3-text-indigo"><strong>Origen del Movimiento: </strong></label><input class="w3-input" type="text" value="<%=v.getNCOMP()%>" readonly></p>
+							<p style="width: 80%"><label class="w3-text-indigo"><strong>Cantidad de Cuotas: </strong></label><input class="w3-input" type="text" value="<%=v.getOBSERV()%>" readonly></p>
+							<p style="width: 80%"><label class="w3-text-indigo"><strong>Referencia: </strong></label><input class="w3-input" type="text" value="<%=v.getREFERENCIA()%>" readonly></p>
+							<p style="width: 80%"><label class="w3-text-indigo"><strong>Nro Planificación: </strong></label><input class="w3-input" type="text" value="<%=v.getNROMOVPLANIF()%> (Nro Actualiz: <%=v.getNROACTUALIZ()%>)" readonly></p>
+						</div>
+						<div class="w3-half">
+							<p style="width: 80%"><label class="w3-text-indigo"><strong>Fec. Movimiento: </strong></label><input class="w3-input" type="date" value="<%=v.getFMOV()%>" readonly></p>
+							<p style="width: 80%"><label class="w3-text-indigo"><strong>Pagado?: </strong></label><input class="w3-input" type="text" value="<%=v.getPAGADO()%>" readonly></p>
+							<p style="width: 80%"><label class="w3-text-indigo"><strong>Anulado?: </strong></label><input class="w3-input" type="text" value="<%=v.getANULADO()%>" readonly></p>
+							<p style="width: 80%"><label class="w3-text-indigo"><strong>Observaciones: </strong></label><textarea class="w3-input" rows="6" cols="60" readonly><%=v.getTEXTLIB()%></textarea></p>
+						</div>
+					</div>
+				</div>
+				<%}}} %>
 			<br><br>
 			<div class="w3-container w3-card-4 w3-padding">
 				<div class="w3-container w3-third w3-center">
@@ -97,12 +168,6 @@
 				</div>
 			</div>
 			<br><br>
-			
-			<!-- AREA DE MODAL DE VISTA -->
-
-			<%@include file="../modal/ctacte/modalVistaCtacte.jsp"%>
-
-			<!-- FIN AREA DE MODAL DE VISTA -->
 
 			<!-- AREA DE MODAL DE IMPRESION DE MOVIMIENTO-->
 
@@ -129,7 +194,8 @@
 
 			<!-- FIN AREA DE MODAL DE RECONSTRUIR -->
 
-				<%}%>
+
+<%request.getSession().removeAttribute("movimiento"); %>
 		</div>
 
 		<!-- FIN AREA DE TRABAJO -->
@@ -138,10 +204,6 @@
 		<script type="text/javascript">
 			function abrirModalCta(modal, codigo){
 				document.getElementById(modal).style.display='block';
-				if(modal == 'id01'){
-					document.getElementById("nro").innerHTML = codigo;
-					document.getElementById("dato").value = codigo;
-				}
 				if(modal == 'id02'){
 					document.getElementById("printadherente").value = codigo;
 				}

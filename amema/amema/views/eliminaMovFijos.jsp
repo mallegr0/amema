@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -34,11 +35,12 @@
 				</thead>
 				<tbody>
 					<% MovimientoDetalleGral mov = (MovimientoDetalleGral) request.getSession().getAttribute("detalle");
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 					DecimalFormat df = new DecimalFormat("#0.00");
 					if(mov != null){%>
 					<tr>
 						<td><%=mov.getNroMov() %></td>
-						<td><%=mov.getFecMov() %></td>
+						<td><%=sdf.format(mov.getFecMov()) %></td>
 						<td><%=mov.getDescMov() %></td>
 						<td><%=df.format(mov.getSaldoDebe()) %></td>
 						<td><%=df.format(mov.getSaldoPago()) %></td>

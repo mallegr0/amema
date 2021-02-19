@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="entidades.VentasM"%>
 <%@page import="entidades.Cliente"%>
 <%@page import="java.util.ArrayList" %>
@@ -18,6 +19,7 @@
 			<!-- AREA DE BUSQUEDA -->
 			<%@ include file="../forms/pagosSocio/buscaSocioForm.jsp"%>
 			<% 
+			SimpleDateFormat sdFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Cliente cli = (Cliente) request.getSession().getAttribute("socio");
 			   if(cli != null){%>
 			   <br>
@@ -51,7 +53,7 @@
 								<tr>
 									<td><%=v.getTCOMP() %></td>
 									<td><%=v.getNCOMP() %></td>
-									<td><%=v.getFMOV() %></td>
+									<td><%=sdFormat.format(v.getFMOV()) %></td>
 									<td><%=v.getSUBTOTAL() %></td>
 									<td><%=v.getA_CUENTAD() %></td>
 									<td><%=v.getA_CUENTA() %></td>

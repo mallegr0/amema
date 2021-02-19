@@ -56,7 +56,6 @@ public class Cuenta extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static String urlCtacte = "/amema/views/ctactes.jsp";
 	private static String urlBCtacte = "/amema/views/buscactactes.jsp";
-	private static String urlDCtacte = "/amema/views/detalleCuenta.jsp";
 	private static String urlGCtacte = "/amema/views/detalleCuentaGarante.jsp";
 	private CtrlCliente cCliente;
 	private CtrlConvenio cConvenio;
@@ -210,17 +209,18 @@ public class Cuenta extends HttpServlet {
 	private void completaTabla(HttpServletRequest req, HttpServletResponse res) throws ApplicationException {
 		
 		try { 
-			String dato = req.getParameter("dato");
+			String[] dato = req.getParameterValues("evento_detalle");
 			String nro;
-			if(dato.length() == 8) {
+			
+			if(dato[0].length() == 8) {
 				CFactura = new  CtrlFactRec();
-				nro = CFactura.consultaNroComprobante(dato);
+				nro = CFactura.consultaNroComprobante(dato[0]);
 			}
 			else {
-				nro = dato.substring(4);
+				nro = dato[0].substring(4,12);
 			}
 			req.getSession().setAttribute("movimiento", consultaVentasM(nro));
-			res.sendRedirect(urlDCtacte); } 
+			res.sendRedirect(urlCtacte); } 
 		catch (IOException e) { e.printStackTrace(); }
 	}
 	

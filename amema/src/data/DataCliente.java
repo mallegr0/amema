@@ -352,7 +352,7 @@ public class DataCliente {
 	public ArrayList<Cliente> listarCliente() throws ApplicationException{
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql ="SELECT * FROM CLIENTES ORDER BY CODCLI";
+		String sql ="SELECT * FROM CLIENTES ORDER BY NOMCLI";
 		Cliente c = null;
 		ArrayList<Cliente> lista = new ArrayList<>();
 		
@@ -646,7 +646,7 @@ public class DataCliente {
 	public ArrayList<Cliente> buscarClientePorNombre(String nombre) throws ApplicationException{
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql ="SELECT * FROM CLIENTES WHERE NOMCLI LIKE CONCAT('%',?,'%') ORDER BY CODCLI";
+		String sql ="SELECT * FROM CLIENTES WHERE NOMCLI LIKE CONCAT('%',?,'%') ORDER BY NOMCLI";
 		Cliente c = null;
 		ArrayList<Cliente> lista = new ArrayList<>();
 		

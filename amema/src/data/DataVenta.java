@@ -380,8 +380,8 @@ public class DataVenta {
 		ResultSet rs = null; 
 		ArrayList<Venta> lista = new ArrayList<>();
 		Venta v = null;
-		String sql = "SELECT * FROM VENTAS WHERE FCOMP BETWEEN ? AND ? ORDER NCOMP";
-		
+		String sql = "SELECT * FROM VENTAS WHERE FCOMP BETWEEN ? AND ? ORDER BY NCOMP";
+
 		try {
 			stmt = conn.prepareStatement(sql);
 			

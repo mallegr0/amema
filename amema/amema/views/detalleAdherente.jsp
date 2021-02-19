@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="entidades.VentasM"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -33,13 +34,14 @@
 					<% 
 					ArrayList<VentasM> lista = (ArrayList<VentasM>) request.getSession().getAttribute("detalle");	
 					if(lista != null) {
+						SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 						DecimalFormat formato = new DecimalFormat("#0.00");
 						double total = 0.0;
 						double tfavor = 0.0;
 						double tdebe = 0.0;
 						for(VentasM v: lista) {%>
 					<tr class="w3-hover-light-blue">
-						<td><%=v.getFMOV()%></td>
+						<td><%=sdf.format(v.getFMOV())%></td>
 						<td><%=v.getNCOMP() %></td>
 						<td><%=formato.format(v.getSUBTOTAL()) %></td>
 						<td><%=formato.format(v.getA_CUENTA()) %></td>
