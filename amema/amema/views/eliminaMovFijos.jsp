@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>AMEMA web - Baja de Movimientos Fijos</title>
+	<title>AMEMA web - Cancelar Movim. Por Número de Movim. Fijo</title>
 	<%@ include file="../meta/metadata.jsp"%>
 </head>
 <body>

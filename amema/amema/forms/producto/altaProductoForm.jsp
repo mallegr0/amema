@@ -3,15 +3,15 @@
 <form action="/amema/Producto" name ="Producto" method="post">
 	<div class="w3-container">
 		<div class="w3-row w3-section">
-	  		<div class="w3-col" style="width:120px"><label>Código: </label></div>
+	  		<div class="w3-col" style="width:120px"><label class="w3-text-indigo"><strong>Código: </strong></label></div>
 	    	<div class="w3-rest"><input class="w3-input w3-border" name="codigo" type="text" required></div>
 		</div>
 		<div class="w3-row w3-section">
-	  		<div class="w3-col" style="width:120px"><label>Denominación: </label></div>
+	  		<div class="w3-col" style="width:120px"><label class="w3-text-indigo"><strong>Denominación: </strong></label></div>
 	    	<div class="w3-rest"><input class="w3-input w3-border" name="nombre" type="text" required></div>
 		</div>
 		<div class="w3-row w3-section">
-	  		<div class="w3-col" style="width:120px"><label>Bonificación: </label></div>
+	  		<div class="w3-col" style="width:120px"><label class="w3-text-indigo"><strong>Bonificación: </strong></label></div>
 	    	<div class="w3-rest"><input class="w3-input w3-border" name="bonificacion" type="text" required></div>
 		</div>
 		<div class="w3-row w3-section">

@@ -52,7 +52,7 @@
 					<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-hide" style="left: 100px;">
 						<a href="/amema/views/buscamovfijos.jsp" class="w3-bar-item w3-button">Grabar Movimientos Fijos</a>
 						<a href="/amema/views/actualizaMovFijos.jsp" class="w3-bar-item w3-button">Actualización de Movimientos Fijos</a>
-						<a href="/amema/views/eliminaMovFijos.jsp" class="w3-bar-item w3-button">Baja de Movimientos Fijos</a>
+						<a href="/amema/views/eliminaMovFijos.jsp" class="w3-bar-item w3-button">Cancelar Movim. Por Número de Movim. Fijo</a>
 					</div>
 				</div>
 				<div class="w3-dropdown-click w3-hide-small">

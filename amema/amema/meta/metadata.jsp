@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="/amema/static/w3.css">
 <link rel="stylesheet" type="text/css" href="/amema/static/w3-indigo.css">
 <link rel="stylesheet" type="text/css" href="/amema/static/fontawesome.css">
+
 <style>
 	.loader {
 		border: 16px solid #f3f3f3;
@@ -30,5 +31,31 @@
 	@keyframes spin {
 	  0% { transform: rotate(0deg); }
 	  100% { transform: rotate(360deg); }
+	}
+
+	#data {
+		width: 100%;
+		max-height: 650px;
+		float: left;
+		overflow: auto;
+	}
+
+	#detalle {
+		width: 25%;
+		height: 650px;
+		position: absolute;
+		right: 2%; 
+	}
+
+	#contenedor {
+		height: 700px;
+	}
+
+	tr, td {
+		border: 1px solid #ddd; 
+	}
+
+	th {
+		cursor: pointer;
 	}
 </style>

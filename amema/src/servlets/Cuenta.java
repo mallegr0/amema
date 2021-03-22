@@ -80,14 +80,15 @@ public class Cuenta extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("evento_imprimirPDF") != null) {
-			try { imprimirPDF(request, response); } 
-			catch (ApplicationException e) { e.printStackTrace(); }
-		}
 		if(request.getParameter("evento_todoPDF") != null) {
 			try {
 				imprimirExcel(request, response);
 			} catch (ApplicationException | ParseException e) { e.printStackTrace(); } 
+		}
+		if(request.getParameter("evento_detalle") != null) { 
+			try { 
+				completaTabla(request, response); }
+			catch (ApplicationException e) { e.printStackTrace(); }
 		}
 	}
 
@@ -159,7 +160,8 @@ public class Cuenta extends HttpServlet {
 	}
 	
 	private void buscarSocio(HttpServletRequest req, HttpServletResponse res) throws ApplicationException{
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");	
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String socio = req.getParameter("socio");
 		double saldo = 0.0;
 		Cliente c = new Cliente();
@@ -181,7 +183,7 @@ public class Cuenta extends HttpServlet {
 				CtacteGral r = new CtacteGral();
 				TpoComprobante tc = cTComprobante.consultaTComprobante(cta.getTCOMP());
 				r.setCODCLI(cta.getCODCLI());
-				r.setFMOV(format.format(cta.getFMOV()));
+				r.setFMOV(sdf.format(cta.getFMOV()));
 				r.setTMOV(tc.getDESCTIPO());
 				r.setNCOMP(cta.getNCOMP());
 				r.setHABER(cta.getHABER());
@@ -209,21 +211,25 @@ public class Cuenta extends HttpServlet {
 	private void completaTabla(HttpServletRequest req, HttpServletResponse res) throws ApplicationException {
 		
 		try { 
-			String[] dato = req.getParameterValues("evento_detalle");
+			
+			String dato = req.getParameter("evento_detalle");
 			String nro;
 			
-			if(dato[0].length() == 8) {
+			if(dato.length() == 8) {
 				CFactura = new  CtrlFactRec();
-				nro = CFactura.consultaNroComprobante(dato[0]);
+				nro = CFactura.consultaNroComprobante(dato);
 			}
 			else {
-				nro = dato[0].substring(4,12);
+				nro = dato.substring(4,12);
 			}
+			
+			System.out.println(nro);
 			req.getSession().setAttribute("movimiento", consultaVentasM(nro));
 			res.sendRedirect(urlCtacte); } 
 		catch (IOException e) { e.printStackTrace(); }
 	}
 	
+	/*
 	private void imprimirPDF(HttpServletRequest req, HttpServletResponse res) throws ApplicationException {
 		String dato = req.getParameter("printadherente");
 		String comprobante;
@@ -244,7 +250,7 @@ public class Cuenta extends HttpServlet {
 		detalle = null;
 		socio = null;
 		System.gc();
-	}
+	}*/
 	
 	private void imprimirExcel(HttpServletRequest req, HttpServletResponse res) throws ApplicationException, ParseException, IOException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
