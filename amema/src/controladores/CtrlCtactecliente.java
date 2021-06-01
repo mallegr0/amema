@@ -89,6 +89,11 @@ public class CtrlCtactecliente {
 		return dc.listarCtaCtePorSocioYFec(cod, fec);
 	}
 	
+	public ArrayList<Ctactecliente> listarAnteriorCtaCtePorSocioYFec(String cod) throws ApplicationException {
+		dc = new DataCtactecliente();
+		return dc.listarAnteriorCtaCtePorSocioYFec(cod);
+	}
+	
 	public ArrayList<Ctactecliente> listarCtaCtePorSocio(String cod) throws ApplicationException {
 		dc = new DataCtactecliente();
 		return dc.listarCtaCtePorSocio(cod);

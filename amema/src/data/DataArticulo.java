@@ -33,6 +33,26 @@ public class DataArticulo {
 	// metodos alta
 	// metodos baja
 	// metodos modificacion
+	public boolean actualizoStock(String cod, String scod, String art, double stock) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		boolean rta = false; 
+		String sql = "UPDATE articulo SET stock_1 = ? WHERE cgrupo = ? AND csubf = ? AND nroart = ?"; 
+		
+		try {
+			stmt = conn. prepareStatement(sql);
+			
+			stmt.setDouble(1, stock);
+			stmt.setString(2, cod);
+			stmt.setString(3, scod);
+			stmt.setString(4, art);
+			
+			if(stmt.executeUpdate() > 0) { rta = true; }
+		}
+		catch (SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, null); }
+		return rta; 
+	}
+	
 	// metodos consultar
 	public Articulo ConsultaArticulo(String cod, String scod, String art) throws ApplicationException{
 		PreparedStatement stmt = null;

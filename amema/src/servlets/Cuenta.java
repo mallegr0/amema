@@ -164,6 +164,8 @@ public class Cuenta extends HttpServlet {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String socio = req.getParameter("socio");
 		double saldo = 0.0;
+		double haber = 0.0; 
+		double debe = 0.0; 
 		Cliente c = new Cliente();
 		c = consultaCliente(socio.substring(0,4));
 		
@@ -172,12 +174,21 @@ public class Cuenta extends HttpServlet {
 		try {
 			Date fecha = format.parse(req.getParameter("fecha"));
 			ArrayList<Ctactecliente> lmov = new ArrayList<>();
+			ArrayList<Ctactecliente> movAnt = new ArrayList<>(); 
 			ArrayList<CtacteGral> mov = new ArrayList<>();
 			
 			cCuentas = new CtrlCtactecliente();
 			cTComprobante = new CtrlTpoComprobante();
 
 			lmov = cCuentas.listarCtaCtePorSocioYFecha(c.getCODCLI(), fecha);
+			movAnt = cCuentas.listarAnteriorCtaCtePorSocioYFec(c.getCODCLI()); 
+			
+			for(Ctactecliente ant: movAnt) {
+				debe = debe + ant.getDEBE();
+				haber = haber + ant.getHABER();
+			}
+			
+			saldo = haber - debe; 
 			
 			for(Ctactecliente cta : lmov) {
 				CtacteGral r = new CtacteGral();
@@ -189,7 +200,7 @@ public class Cuenta extends HttpServlet {
 				r.setHABER(cta.getHABER());
 				r.setDEBE(cta.getDEBE());
 				saldo = saldo +(cta.getHABER() - cta.getDEBE());
-				r.setSALDO(-1*saldo);
+				r.setSALDO(saldo);
 				mov.add(r);
 				r = null;
 			}
@@ -223,34 +234,12 @@ public class Cuenta extends HttpServlet {
 				nro = dato.substring(4,12);
 			}
 			
-			System.out.println(nro);
 			req.getSession().setAttribute("movimiento", consultaVentasM(nro));
 			res.sendRedirect(urlCtacte); } 
 		catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	/*
-	private void imprimirPDF(HttpServletRequest req, HttpServletResponse res) throws ApplicationException {
-		String dato = req.getParameter("printadherente");
-		String comprobante;
-		if(dato.length() == 8) { 
-			CFactura = new CtrlFactRec();
-			comprobante = CFactura.consultaNroComprobante(dato); 
-		}
-		else {
-			comprobante = req.getParameter("printadherente").substring(4);
-		}
-		cVentasM = new CtrlVentasM();
-		cCliente = new CtrlCliente();
-		VentasM detalle = cVentasM.consultaVentasM(comprobante);
-		Cliente socio = cCliente.consultaCliente(detalle.getCODCLI());
-		generaPDF(limpiarDatos(socio), detalle,req, res);
-		cVentasM = null;
-		cCliente = null;
-		detalle = null;
-		socio = null;
-		System.gc();
-	}*/
+	
 	
 	private void imprimirExcel(HttpServletRequest req, HttpServletResponse res) throws ApplicationException, ParseException, IOException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

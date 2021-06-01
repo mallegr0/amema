@@ -286,8 +286,6 @@ public class PagoSocio extends HttpServlet {
 		r.setNRECIBO(nro);
 		String tc = "1";
 		
-		System.out.println(comp.length);
-		
 		switch (comp.length) {
 		case 1:
 			r.setNFACT01(comp[0]);

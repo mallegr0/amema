@@ -5,9 +5,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Formatter;
+import java.util.logging.SimpleFormatter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,23 +34,30 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import controladores.CtrlActualizMasiva;
 import controladores.CtrlArticulo;
 import controladores.CtrlCliente;
 import controladores.CtrlConvenio;
 import controladores.CtrlCtactecliente;
 import controladores.CtrlFactRec;
 import controladores.CtrlGaranteMovFijo;
+import controladores.CtrlMov_Stoc;
+import controladores.CtrlParamUltNro;
+import controladores.CtrlParametros;
 import controladores.CtrlReferencia;
 import controladores.CtrlVenta;
 import controladores.CtrlVentasD;
 import controladores.CtrlVentasM;
+import entidades.ActualizMasivas;
 import entidades.AdherentesGral;
 import entidades.Articulo;
 import entidades.Cliente;
 import entidades.Ctactecliente;
 import entidades.FactRec;
 import entidades.GaranteMovFijo;
+import entidades.Mov_stoc;
 import entidades.MovimientoDetalleGral;
+import entidades.ParamUltNro;
 import entidades.Referencia;
 import entidades.Usuario;
 import entidades.Venta;
@@ -81,6 +92,10 @@ public class MovimientoFijo extends HttpServlet {
 	private CtrlCtactecliente cCtacte = null; 
 	private CtrlVentasD cVentasD = null; 
 	private CtrlFactRec cFactRec = null; 
+	private CtrlActualizMasiva cActualizM = null; 
+	private CtrlParamUltNro cParamUlt = null; 
+	private CtrlParametros cParametros = null; 
+	private CtrlMov_Stoc cMovStoc = null; 
 	
 	
     /**
@@ -546,18 +561,75 @@ public class MovimientoFijo extends HttpServlet {
 		
 		//inicializo las variables que voy a usar
 		cVentas = new CtrlVenta();
+		cVentasM = new CtrlVentasM();
+		cActualizM = new CtrlActualizMasiva(); 
 		ArrayList<Venta> lVentas = new ArrayList<>();
 		String msj = "";
+		int ultNro; 
+		Date fecha = new Date(); 
+		boolean r = false; 
 		
+		
+		//Recupero el ultimo nroactualiz para hacer la actualizacion masiva
+		ultNro = cVentasM.ultimoNroActualiz();
+		ultNro += 1;
+
+		
+		//Actualizo los datos en la tabla actualizMasivas
+		ActualizMasivas aMasivas = new ActualizMasivas(ultNro, fecha, fecIni, fecFin, "N");
+		if(cActualizM.altaActualizMasiva(aMasivas) == true) { r = true; }
 		
 		//recupero las ventas que se ajusten a los criterios que recupere en el formulario
-		if(modo.equals("A")) { lVentas = cVentas.listarVentasPorFechas(fecIni, fecFin); }
-		else { lVentas = cVentas.listarVentasPorFechasyModo(fecIni, fecFin, modo); }
-		
-		for(Venta v : lVentas) {
-			if( asignoVentasM(v) == true) { msj ="siActualiza"; }
-			else { msj = "noActualiza"; }
+		if( r == true) {
+			System.out.println("entra a las opciones");
+			//Primero recupero las opciones M o A, segun corresponda
+			if(modo.equals("A") || modo.equals("M")) { 
+				lVentas = cVentas.listarVentasPorFechasyModo(fecIni, fecFin, "M"); 
+				System.out.println("entra a la primera opcion");
+				//Recorro el array y guardo los datos correspondientes
+				for(Venta v: lVentas) {
+					if(asignoVentas(v, fecIni, fecFin) == true) { r = true; System.out.println("OK");}
+					else { 
+						r = false;
+						System.out.println("Falla");
+						break;
+					}
+					if(procactfactvta(v, 1) == true && r == true) { r = true; System.out.println("ok");}
+					else {
+						r = false;
+						System.out.println("falla2");
+						break;
+					}
+				}
+			}
+			
+			//Segundo recupero las opciones T o A, segun corresponda
+			if(modo.equals("A") || modo.equals("T")) { 
+				lVentas = cVentas.listarVentasPorFechasyModo(fecIni, fecFin, "T"); 
+				
+				//Recorro el array y guardo los datos correspondientes
+				for(Venta v: lVentas) {
+					if(asignoVentas(v, fecIni, fecFin) == true) { r = true; }
+					else { 
+						r = false;
+						break;
+					}
+					if(procactfactvta(v, 1) == true && r == true) { r = true; }
+					else {
+						r = false;
+						break;
+					}
+				}
+			}
 		}
+		
+		if(r == true) { msj = "siActualiza"; }
+		else { msj = "noActualiza"; }
+		
+		//Finalizo las variables que use y redirijo.
+		cVentas = null;
+		cVentasM = null;
+		cActualizM = null;
 		
 		req.getSession().setAttribute("msj", msj);
 		res.sendRedirect(urlAMovFijo);
@@ -1045,34 +1117,62 @@ public class MovimientoFijo extends HttpServlet {
 				res.sendRedirect(urlGMovFijo);
 			}
 	
-	private boolean asignoVentasM(Venta v) throws ApplicationException {
-		//asigno las variables que voy a usar
-		int cant = Integer.parseInt(v.getCODART().substring(3));
-		VentasM vm = null;
-		cVentasM = new CtrlVentasM();
-		Ctactecliente ccc = null; 
-		cCtacte = new CtrlCtactecliente();
-		double dolar = 3.18;
-		double saldo = v.getPRECIO()/cant;
-		double impDolar = saldo / dolar;
-		cArticulo = new CtrlArticulo();
-		Articulo art = cArticulo.consultarArticulo(v.getCODART().substring(0,2), v.getCODART().substring(2,3), v.getCODART().substring(3));
+	private boolean asignoVentas(Venta v, Date fecIni, Date fecFin) throws ApplicationException, ParseException {
+		//Declaro las variables que voy a usar.
+		//Variables
 		boolean r = false; 
-		cVentasD = new CtrlVentasD();
-		VentasD vd = null;
+		ParamUltNro p = null; 
+		String nroFact = null, nroPref = null, auxFecha; 
+		int cantDias = 0; 
+		int mes, año; 
+		Date fechaComp; 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		for(int j = 0; j < cant; j++) {
-			String ncomp = cVentasM.ultimoID();
-			vm = new VentasM("0001", calculoComprobante(ncomp, 1), v.getTCOMP(), v.getLETRA(), v.getCIA(), calculoFecha(v.getFCOMP(),j+1), v.getNFACC(), v.getCODCLI(), v.getCVTO(), 0.0, "N", "N", "-", "-", "-", "-", v.getREFERENCIA(), v.getDIRECTA(), v.getCOMI_DIFE(), v.getFVTO(), 0.0,0.0, v.getCCOND_1(), v.getCCOND_2(), v.getCCOND_3(), v.getCCOND_4(), v.getNVIAJ(), v.getLIQUIDA(), 0.0, 0.0, v.getNROPEDIDO(), v.getNROREMITO(), v.getNROPRESUP(), "-", "-", 0, saldo, saldo, 0, 0, 0, 0, 0, saldo, 0, 0, impDolar,dolar, 0, v.getTEXTLIB(), v.getVA_DTO(), "-", v.getCPERS1(), v.getCPERS2(), v.getCPERS3(), v.getANALISIS(), v.getNROMOV(),art.getDESART()+" ("+(j+1)+" de "+cant+")" , 0);
-			ccc = new Ctactecliente(v.getCODCLI(), calculoFecha(v.getFCOMP(), j+1), v.getCIA(), v.getLETRA(), "0001", v.getTCOMP(), calculoComprobante(ncomp, j+1), calculoFecha(v.getFCOMP(), j+1), v.getLETRA(), "0001", v.getTCOMP(), calculoComprobante(ncomp, j+1), saldo, 0.0);
-			vd = new VentasD("0001", calculoComprobante(ncomp, 1), v.getTCOMP(), v.getLETRA(), v.getCIA(), v.getCODART(), v.getUNIDADES(), 0.0, 0.0, saldo, "-", "-", 0.0);
-			if(cVentasM.altaVentasM(vm) == true && cCtacte.altaCtaCte(ccc) == true && cVentasD.altaVentasD(vd) == true) { r = true; }
-			else { 
-				r = false;
-				break;
-			}
+		//Controladores
+		cParamUlt = new CtrlParamUltNro();
+		cVentas = new CtrlVenta();
+		
+		//Recupero el ultimo nro segun las faturas 
+		p = cParamUlt.consultaUltimoNro("factvta", v.getLETRA());
+		
+		if(p != null) {
+			nroFact = String.format("%08d", p.getUltimonro());
+			nroPref = String.format("%01d", p.getPrefijo());
 		}
 		
+		//Calculo la cantidad de dias que pasaron para asignar las fechas correspondientes
+		/*
+		 * opc --> 1 - Dias
+		 * 		   2 - Meses
+		 *         3 - Año
+		 */
+		
+		cantDias = obtengoDiaMesAño(v.getFEC_DESDE(), 1); 
+		
+		//Valido que los dias sean mayores a la fecha de inicio
+		if(cantDias >= obtengoDiaMesAño(fecIni, 1)) {
+			mes = obtengoDiaMesAño(fecIni, 2); 
+			año = obtengoDiaMesAño(fecIni, 3);
+			auxFecha = año+"-"+mes+"-"+cantDias;
+		}
+		else {
+			mes = obtengoDiaMesAño(fecFin, 2); 
+			año = obtengoDiaMesAño(fecFin, 3);
+			auxFecha = año+"-"+mes+"-"+cantDias;
+		}
+		
+		fechaComp = sdf.parse(auxFecha);
+		
+		//Actualizo la venta
+		v.setFCOMP(fechaComp);
+		v.setNCOMP(nroFact);
+		v.setPORBONIF(Integer.parseInt(nroPref));
+		r = cVentas.modificaVenta(v);
+		
+		//Actualizo el ultimo nro
+		if(r == true) { r = actualizoUltNro("FACTVTA", v.getLETRA(), nroFact, nroPref); }
+		
+		//Finalizo las variables que uso y devuelvo r
 		return r; 
 	}
 	
@@ -1133,5 +1233,281 @@ public class MovimientoFijo extends HttpServlet {
 		
 		
 		return saldo;
+	}
+	
+	private int obtengoDiaMesAño(Date fecha, int opc) throws ApplicationException {
+		//Declaro las variables que voy a usar
+		int rta = 0; 
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); 
+		String[] arrayFecha = sdf.format(fecha).split("-"); 
+		String dia, mes, año; 
+		
+		//ASigno las partes de la fecha a cada variable
+		dia = arrayFecha[0]; 
+		mes = arrayFecha[1];
+		año = arrayFecha[2];
+		
+		//consulto la opcion para asignarla a rta
+		switch (opc) {
+		case 1:
+			rta = Integer.parseInt(dia);
+			break;
+		case 2: 
+			rta = Integer.parseInt(mes);
+			break; 
+		case 3:
+			rta = Integer.parseInt(año);
+		}
+		
+		//Devuelvo la respuesta
+		return rta; 
+	}
+	
+	private boolean actualizoUltNro(String desc, String letra, String nro, String prefijo) throws ApplicationException {
+		//Declaro las variables
+		boolean rta = false; 
+		int ultimoNro = 0, pref = 0; 
+		cParamUlt = new CtrlParamUltNro();
+		ParamUltNro p = new ParamUltNro();
+		
+		//Asigno las variables 
+		pref = Integer.parseInt(prefijo);
+		ultimoNro = Integer.parseInt(nro)+1;
+		p.setDescUltNro(desc);
+		p.setLetra(letra);
+		p.setUltimonro(ultimoNro);
+		p.setPrefijo(pref);
+		
+		if(letra != "9") { rta = cParamUlt.modificaParamUltNroMF1(p); }
+		else { rta = cParamUlt.modificaParamUltNroMF2(p); }
+		
+		
+		//Finalizo las variables y devuelvo rta
+		cParamUlt = null; 
+		p = null; 
+		return rta; 
+	}
+	
+	private boolean procactfactvta(Venta v, int varnrocuota) throws ApplicationException {
+		/*
+		 * PROCESO ACTUALIZACION FACTURA VENTAS
+		 */
+		//Declaro las variables que voy a usar
+		boolean rta = false; 
+		String codconcpingcompraalkard, varobserv;
+		double vsubtot, vimpiva, vregfact, vimpdolar, vcotdolar, vtasa, vpreccivapfacb; 
+		double vstockanter, vimptexto;
+		String vumedida, vcodcliactfactvta, cgrupo, csubf, nroart;
+		int ultNro; 
+		
+		//Controladores
+		cParametros = new CtrlParametros();
+		cVentasM = new CtrlVentasM();
+		cCtacte = new CtrlCtactecliente(); 
+		cVentasD = new CtrlVentasD();
+		cArticulo = new CtrlArticulo();
+		cMovStoc = new CtrlMov_Stoc();
+		
+		//variables
+		VentasM vm = null; 
+		Ctactecliente c = null; 
+		VentasD vd = null; 
+		Articulo a = null; 
+		Mov_stoc ms = null; 
+		
+		
+		// Inicializo las variables que voy a usar para actualizar las VentasM, VentasD y Ctacte
+		varobserv = "";
+		vsubtot = 0;
+		vimpiva = 0;
+		vimpdolar = 0;
+		vcotdolar = 0;
+		vtasa = v.getTASA();
+		if(v.getTEXTLIB() == null) { vimptexto = 0; }
+		else { vimptexto = v.getTEXTO(); }
+		vcodcliactfactvta = v.getCODCLI();
+		
+		
+		//Busco el parametros de las ventas Kardex
+		codconcpingcompraalkard = cParametros.consultaCompctaneto("CMEVENTA");
+		if(!codconcpingcompraalkard.equals(null)) { rta = true; }
+		
+		if(rta == true) {
+			// Obtengo la cotizacion del Dolar
+			vcotdolar = cParametros.consultaCotDolar("dolar"); 
+			if(vcotdolar == 0) { vcotdolar = 1; }
+			
+			// Asigno los datos a una variable para actualizar ventasM
+			vm = new VentasM();
+			vm.setNCOMP(v.getNCOMP());
+			vm.setTCOMP(v.getTCOMP());
+			vm.setLETRA(v.getLETRA());
+			vm.setCIA("1");
+			vm.setFMOV(v.getFCOMP());
+			vm.setNFACC("00000000");
+			vm.setCODCLI(v.getCODCLI());
+			vm.setCPERS1(v.getCPERS1());
+			vm.setCPERS2(v.getCPERS2());
+			vm.setCPERS3(v.getCPERS3());
+			vm.setNROREMITO(v.getNROREMITO());
+			vm.setNROPEDIDO(v.getNROPEDIDO());
+			vm.setNROPRESUP(v.getNROPRESUP());
+			vm.setNVIAJ(v.getNVIAJ());
+			vm.setDIRECTA(v.getDIRECTA());
+			vm.setREFERENCIA(v.getREFERENCIA());
+			vm.setLIQUIDA(v.getLIQUIDA());
+			vm.setCOMI_DIFE(v.getCOMI_DIFE());
+			vm.setFLETE(v.getFLETE());
+			vm.setCCOND_1(v.getCCOND_1());
+			vm.setPORDESCTO(0);
+			vm.setPREFIJO(Double.toString(v.getPORBONIF()));
+			vm.setVA_DTO(v.getVA_DTO());
+			vm.setTASA(v.getTASA());
+			vm.setPAGADO("N");
+			vm.setANULADO("N");
+			vm.setDOLAR(vcotdolar);
+			vm.setTEXTLIB(v.getTEXTLIB());
+			vm.setTEXTO(v.getTEXTO());
+			vm.setCVTO(v.getCVTO());
+			vm.setFECVTO(v.getFVTO());
+			vm.setANALISIS(v.getANALISIS());
+			vm.setNROMOVPLANIF(v.getNROMOV());
+			
+			if(cVentasM.altaVentasM(vm) == true) { rta = true; }
+		}
+		
+		if( rta == true) {
+			//Grabo registro en ctacte del cliente
+			c = new Ctactecliente();
+			c.setCODCLI(v.getCODCLI());
+			c.setFMOV(v.getFCOMP());
+			c.setTMOV("1");
+			c.setTCOMP(v.getTCOMP());
+			c.setLCOMP(v.getLETRA());
+			c.setPCOMP(String.format("%04d", (int) v.getPORBONIF()));
+			c.setNCOMP(String.format("%08d", Integer.parseInt(v.getNCOMP())));
+			c.setFCOMPORIG(v.getFCOMP());
+			c.setLCOMPORIG(v.getLETRA());
+			c.setPCOMPORIG(String.format("%04d", (int) v.getPORBONIF()));
+			c.setTCOMPORIG(v.getTCOMP());
+			c.setNCOMPORIG(String.format("%08d", Integer.parseInt(v.getNCOMP())));
+			c.setDEBE(0);
+			c.setHABER(0);
+			
+			if(cCtacte.altaCtaCte(c) == true) { rta = true; }
+		}
+		
+		if(rta == true) {
+			if(v.getCODART() != "" && v.getCODART() != null) {
+				// Grabo en VentasD
+				vd = new VentasD();
+				vd.setPREFIJO(String.format("%04d", (int) v.getPORBONIF()));
+				vd.setNCOMP(v.getNCOMP());
+				vd.setTCOMP(v.getTCOMP());
+				vd.setLETRA(v.getLETRA());
+				vd.setCIA("1");
+				vd.setCODART(v.getCODART());
+				vd.setUNIDADES(v.getUNIDADES());
+				vd.setPBONIF(v.getBONART());
+				vd.setPBONIF2(v.getBONART2());
+				vd.setPVENTA(v.getPRECIO());
+				
+				if(cVentasD.altaVentasD(vd) == true) { rta = true; }
+				
+				// Actualizo el Stock de los articulos
+				vstockanter = 0; 
+				cgrupo = v.getCODART().substring(0, 2);
+				csubf = v.getCODART().substring(2, 3);
+				nroart = v.getCODART().substring(3, 6);
+				
+				//Busco el articulo deseado
+				a = cArticulo.consultarArticulo(cgrupo, csubf, nroart);
+				
+				if( a != null) {
+					vstockanter = vstockanter + a.getSTOCK_1();
+					if(a.getDESART() == null) { varobserv ="-"; }
+					else { varobserv = a.getDESART(); }
+				}
+				
+				// resto las unidades vendidas al Stock 
+				vstockanter = vstockanter - v.getUNIDADES(); 
+				
+				// Actualizo el stock en articulos
+				if(cArticulo.actualizoStock(cgrupo, csubf, nroart, vstockanter) == true) { rta = true; }
+				
+				// Actualizo la tabla MOV_STOC
+				ms = new Mov_stoc();
+				ms.setCodart(v.getCODART());
+				ms.setCdep("01");
+				ms.setFmov(v.getFCOMP());
+				ms.setCconcepto(codconcpingcompraalkard);
+				ms.setCantidad(v.getUNIDADES());
+				ms.setNcomp(String.format("%04d",(int) v.getPORBONIF())+v.getNCOMP());
+				
+				if(cMovStoc.altaMovStoc(ms) == true) { rta = true; }
+				
+				// Actualizo IMPIVA1
+				a = cArticulo.consultarArticulo(cgrupo, csubf, nroart);
+				vumedida = "1"; 
+				if(a != null) {
+					vumedida = Double.toString(a.getUNIDAD()); 
+					varobserv = varobserv+" (Cuota "+varnrocuota+" de "+vumedida+")"; 
+				}
+				
+				switch (v.getLETRA()) {
+				case "A":
+					vregfact = (precioBonificado(v.getPRECIO(), v.getBONART(), v.getBONART2(),0)*v.getUNIDADES())/Double.parseDouble(vumedida);
+					vimpiva =+ vregfact; 
+					break;
+				case "B":
+					vpreccivapfacb = 0; 
+					vpreccivapfacb = v.getPRECIO() * (1+vtasa/100); 
+					vpreccivapfacb = vpreccivapfacb * Double.parseDouble(vumedida);
+					
+					vregfact = precioBonificado(vpreccivapfacb, v.getBONART(), v.getBONART2(), 0) * v.getUNIDADES();
+					vimpiva =+ vregfact; 
+					break;
+				}
+				
+			}
+			
+			if(v.getLETRA().equals("A")) {
+				vsubtot = vimpiva + vimpiva*v.getTASA()/100; 
+			}
+			else {
+				vsubtot = vimpiva; 
+				vimpiva = vimpiva / (1 + (v.getTASA() / 100));
+			}
+			
+			vimpdolar = vsubtot / vcotdolar; 
+			
+			// Actualizo totales de ventasM 
+			//Recupero el ultimo nroactualiz para hacer la actualizacion masiva
+			ultNro = cVentasM.ultimoNroActualiz();
+			ultNro += 1;
+			vm.setSUBTOTAL(vsubtot);
+			vm.setIMPIVA_1(vimpiva);
+			vm.setDOLAR(vimpdolar);
+			vm.setOBSERV(varobserv);
+			vm.setNROACTUALIZ(ultNro);
+			vm.setA_CUENTA(0);
+			
+			if(cVentasM.modificoVentaM(vm) == true) { rta = true; }
+		}
+		
+		
+		
+		//Finalizo las variables que uso y devuelvo rta
+		
+		return rta; 
+	}
+	
+	private double precioBonificado(double vprecf, double vbon1f, double vbon2f, double vbon3f) throws ApplicationException {
+		double b1, b2, b3, r;
+		b1 = 1-(vbon1f/100);
+		b2 = 1-(vbon2f/100);
+		b3 = 1-(vbon3f/100);
+		r = vprecf*b1*b2*b3; 
+		return r;
 	}
 }

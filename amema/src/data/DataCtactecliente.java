@@ -288,6 +288,45 @@ public class DataCtactecliente {
 		return lista;
 	}
 	
+	public ArrayList<Ctactecliente> listarAnteriorCtaCtePorSocioYFec(String cod) throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null;
+		Ctactecliente c = null; 
+		ArrayList<Ctactecliente> lista = new ArrayList<>();
+		String sql = "SELECT * FROM CTACTECLI WHERE CODCLI = ? AND FMOV <= DATE_SUB(NOW(),INTERVAL 2 YEAR) ORDER BY FMOV, NCOMP";
+		
+		try {
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, cod);
+			
+			rs = stmt.executeQuery();
+			if(rs != null) {
+				while(rs.next()) {
+					c = new Ctactecliente();
+					c.setCODCLI(rs.getString("CODCLI"));
+					c.setFMOV(rs.getDate("FMOV"));
+					c.setTMOV(rs.getString("TMOV"));
+					c.setLCOMP(rs.getString("LCOMP"));
+					c.setPCOMP(rs.getString("PCOMP"));
+					c.setTCOMP(rs.getString("TCOMP"));
+					c.setNCOMP(rs.getString("NCOMP"));
+					c.setFCOMPORIG(rs.getDate("FCOMPORIG"));
+					c.setLCOMPORIG(rs.getString("LCOMPORIG"));
+					c.setPCOMPORIG(rs.getString("PCOMPORIG"));
+					c.setTCOMPORIG(rs.getString("TCOMPORIG"));
+					c.setNCOMPORIG(rs.getString("NCOMPORIG"));
+					c.setDEBE(rs.getDouble("DEBE"));
+					c.setHABER(rs.getDouble("HABER"));
+					lista.add(c);
+				}
+			}
+		}
+		catch(SQLException e) {e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return lista;
+	}
+	
 	public ArrayList<Ctactecliente> listarCtaCtePorSocio(String cod) throws ApplicationException {
 		PreparedStatement stmt = null; 
 		ResultSet rs = null;

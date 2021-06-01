@@ -33,6 +33,11 @@ public class CtrlVentasM {
 		return dvm.modificaVentasMImporte(v);
 	}
 	
+	public boolean modificoVentaM(VentasM v) throws ApplicationException{
+		dvm = new DataVentasM();
+		return dvm.modificoVentaM(v);
+	}
+	
 	public VentasM consultaVentasM(String comp) throws ApplicationException {
 		dvm = new DataVentasM();
 		return dvm.consultaVentaM(comp);
@@ -106,6 +111,11 @@ public class CtrlVentasM {
 	public String ultimoID() throws ApplicationException {
 		dvm = new DataVentasM();
 		return dvm.ultimoID();
+	}
+	
+	public int ultimoNroActualiz() throws ApplicationException {
+		dvm = new DataVentasM();
+		return dvm.ultimoNroActualiz();
 	}
 
 }

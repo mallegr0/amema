@@ -39,6 +39,11 @@ public class CtrlVenta {
 		return dv.consultarClientePorNroMov(nro);
 	}
 	
+	public Venta consultarVentaActMF(Venta vta) throws ApplicationException {
+		dv = new DataVenta();
+		return dv.consultarVentaActMF(vta); 
+	}
+	
 	public ArrayList<Venta> listarVentaPorSocio(String cod) throws ApplicationException {
 		dv = new DataVenta();
 		return dv.listarVentaPorSocio(cod);
@@ -102,6 +107,11 @@ public class CtrlVenta {
 	public ArrayList<VentaReporte> listarEstadoTodasFlia(Date fd, Date fh,String estado) throws ApplicationException {
 		dv = new DataVenta(); 
 		return dv.listarEstadoTodasFlia(fd, fh, estado);
+	}
+	
+	public ArrayList<Venta> listarVentasActualizaMF(Date fecIni, Date fecFin, String modo) throws ApplicationException{
+		dv = new DataVenta();
+		return dv.listarVentasActualizaMF(fecIni, fecFin, modo);
 	}
 	
 	public int ultimoID() throws ApplicationException {

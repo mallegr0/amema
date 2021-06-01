@@ -16,7 +16,10 @@ public class CtrlArticulo {
 	
 	/* METODOS */
 	
-	
+	public boolean actualizoStock(String cod, String scod, String art, double stock) throws ApplicationException {
+		da = new DataArticulo(); 
+		return da.actualizoStock(cod, scod, art, stock);
+	}
 	
 	public Articulo consultarArticulo(String cod, String scod, String art) throws ApplicationException {
 		da = new DataArticulo();

@@ -194,6 +194,33 @@ public class DataVentasM {
 		finally { cerrar(stmt, null); }
 	}
 	
+	public boolean modificoVentaM(VentasM v) throws ApplicationException{
+		PreparedStatement stmt = null; 
+		boolean rta = false; 
+		String sql = "UPDATE ventasm SET subtotal = ? , impiva_1 = ?, tdolar = ?, observ = ?, "
+				+ "nroactualiz = ?, A_cuenta = ? WHERE ncomp = ? AND tcomp = ? AND letra = ? "
+				+ "AND prefijo = ?";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setDouble(1, v.getSUBTOTAL());
+			stmt.setDouble(2, v.getIMPIVA_1());
+			stmt.setDouble(3, v.getTDOLAR());
+			stmt.setString(4, v.getOBSERV());
+			stmt.setInt(5, v.getNROACTUALIZ());
+			stmt.setDouble(6, v.getA_CUENTA());
+			stmt.setString(7, v.getNCOMP());
+			stmt.setString(8, v.getTCOMP());
+			stmt.setString(9, v.getLETRA());
+			stmt.setString(10, v.getPREFIJO());
+			
+			if(stmt.executeUpdate() > 0) { rta = true; }
+			
+		} catch (SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, null); }
+		return rta; 
+	}
+	
 	// consulta
 	public VentasM consultaVentaM(String comp) throws ApplicationException {
 		PreparedStatement stmt = null;
@@ -997,6 +1024,28 @@ public class DataVentasM {
 			cerrar(stmt, rs);
 		}
 		return r;
+	}
+	
+	public int ultimoNroActualiz() throws ApplicationException {
+		PreparedStatement stmt = null; 
+		ResultSet rs = null; 
+		String sql = "SELECT nroactualiz FROM ventasm ORDER BY nroactualiz DESC LIMIT 1";
+		int r = 0; 
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs != null) {
+				while(rs.next()) {
+					r = rs.getInt("nroactualiz");
+				}
+			}
+		}
+		catch(SQLException e) { e.printStackTrace(); }
+		finally { cerrar(stmt, rs); }
+		return r; 
 	}
 	
 }
